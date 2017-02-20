@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="#7BB0ED"
+    android:paddingTop="0dp"
+    tools:context="kdc.reef.john.reefcaluclators.TankInhabitants">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tank Inhabitants"
+        android:textSize="45sp"
+        android:textColor="#555555"
+        android:textStyle="bold"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:background="@android:color/darker_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fish"
+        android:onClick="fishButton"
+        android:id="@+id/fishButton"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coral"
+        android:onClick="coralButton"
+        android:id="@+id/coralButton"
+        android:layout_below="@+id/invertsButton"
+        android:layout_alignLeft="@+id/invertsButton"
+        android:layout_alignStart="@+id/invertsButton"
+        android:layout_alignRight="@+id/invertsButton"
+        android:layout_alignEnd="@+id/invertsButton" />
+    <Button
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inverts"
+        android:onClick="invertsButton"
+        android:id="@+id/invertsButton"
+        android:layout_below="@+id/fishButton"
+        android:layout_alignLeft="@+id/fishButton"
+        android:layout_alignStart="@+id/fishButton"
+        android:layout_alignRight="@+id/fishButton"
+        android:layout_alignEnd="@+id/fishButton" />
+
+</RelativeLayout>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="kdc.reef.john.reefcaluclators.CoralSelected">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coral1imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:onClick="newImage"
+        android:longClickable="false"
+        android:adjustViewBounds="true"
+        android:maxHeight="120dp"
+        android:maxWidth="120dp"
+        android:outlineProvider="bounds" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textColor="#FFFFFF"
+        android:cursorVisible="false"
+        android:textSize="35sp"
+        android:id="@+id/coral1NametextView"
+        android:layout_alignBottom="@+id/coral1imageView"
+        android:layout_toRightOf="@+id/coral1imageView"
+        android:layout_toEndOf="@+id/coral1imageView"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Date Purchased:"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:id="@+id/coral1LabelDPtextView"
+        android:layout_below="@+id/coral1imageView"
+        android:layout_alignLeft="@+id/coral1imageView"
+        android:layout_alignStart="@+id/coral1imageView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:text="New Text"
+        android:id="@+id/coral1DPtextView"
+        android:layout_alignBottom="@+id/coral1LabelDPtextView"
+        android:layout_toRightOf="@+id/coral1LabelDPtextView"
+        android:layout_toEndOf="@+id/coral1LabelDPtextView"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost:"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:id="@+id/coral1LabelCosttextView"
+        android:layout_below="@+id/coral1LabelDPtextView"
+        android:layout_alignLeft="@+id/coral1LabelDPtextView"
+        android:layout_alignStart="@+id/coral1LabelDPtextView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="New Text"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/coral1CosttextView"
+        android:layout_alignBottom="@+id/coral1LabelCosttextView"
+        android:layout_toRightOf="@+id/coral1LabelCosttextView"
+        android:layout_toEndOf="@+id/coral1LabelCosttextView"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchased From:"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:id="@+id/coral1LabelPFtextView"
+        android:layout_below="@+id/coral1LabelCosttextView"
+        android:layout_alignLeft="@+id/coral1LabelCosttextView"
+        android:layout_alignStart="@+id/coral1LabelCosttextView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:background="@android:color/transparent"
+        android:text="Seller"
+        android:id="@+id/coral1PFtextView"
+        android:layout_alignBottom="@+id/coral1LabelPFtextView"
+        android:layout_alignLeft="@+id/coral1DPtextView"
+        android:layout_alignStart="@+id/coral1DPtextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Size:"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:id="@+id/coral1LabelSizetextView"
+        android:layout_below="@+id/coral1LabelPFtextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Size"
+        android:id="@+id/coral1SizetextView"
+        android:background="@android:color/transparent"
+        android:layout_alignBottom="@+id/coral1LabelSizetextView"
+        android:layout_alignLeft="@+id/coral1CosttextView"
+        android:layout_alignStart="@+id/coral1CosttextView" />
+</RelativeLayout>

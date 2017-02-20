@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Reef Caluclators</string>
+    <string name="title_activity_part_dosing">PartDosing</string>
+    <string name="title_activity_tank_inhabitants">TankInhabitants</string>
+    
+    <string-array name="measurements">
+        <item>dKH</item>
+        <item>meq/l</item>
+        <item>ppm</item>
+    </string-array>
+</resources>

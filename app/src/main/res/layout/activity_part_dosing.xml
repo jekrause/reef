@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="#7BB0ED"
+    android:paddingTop="0dp"
+    tools:context="kdc.reef.john.reefcaluclators.PartDosing">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 Part Dosing"
+        android:textSize="50sp"
+        android:textColor="#555555"
+        android:textStyle="bold"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="http://www.reefkeeping.com/issues/2006-02/rhf/"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:autoLink="web"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recipe #1"
+        android:id="@+id/checkBox1"
+        android:layout_below="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_marginTop="30dp"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recipe #2"
+        android:id="@+id/checkBox2"
+        android:layout_below="@+id/checkBox1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/checkBox1"
+        android:layout_alignStart="@+id/checkBox1"
+        android:checked="false" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Tank Size (Gallons)"
+        android:textSize="25sp"
+        android:id="@+id/editTextTankSize"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/checkBox2"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:id="@+id/resetDose"
+        android:onClick="resetDoseButton"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:onClick="calculateDoseButton"
+        android:id="@+id/calculateDose"
+        android:layout_alignTop="@+id/resetDose"
+        android:layout_alignRight="@+id/checkBoxSPS"
+        android:layout_alignEnd="@+id/checkBoxSPS" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fish Only with Live Rock"
+        android:id="@+id/checkBoxFO"
+        android:checked="false"
+        android:layout_below="@+id/editTextTankSize"
+        android:layout_alignLeft="@+id/editTextTankSize"
+        android:layout_alignStart="@+id/editTextTankSize" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Low Demand"
+        android:id="@+id/checkBoxLowDemand"
+        android:layout_below="@+id/checkBoxFO"
+        android:layout_alignLeft="@+id/checkBoxFO"
+        android:layout_alignStart="@+id/checkBoxFO"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mixed Reef"
+        android:id="@+id/checkBoxMixedReef"
+        android:layout_below="@+id/checkBoxLowDemand"
+        android:layout_alignLeft="@+id/checkBoxLowDemand"
+        android:layout_alignStart="@+id/checkBoxLowDemand"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High Demand (SPS)"
+        android:id="@+id/checkBoxSPS"
+        android:layout_below="@+id/checkBoxMixedReef"
+        android:layout_alignLeft="@+id/checkBoxMixedReef"
+        android:layout_alignStart="@+id/checkBoxMixedReef"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:text="Dosage (ml)"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:layout_below="@+id/checkBoxSPS"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp" />
+
+</RelativeLayout>

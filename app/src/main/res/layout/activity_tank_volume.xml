@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="#7BB0ED"
+    android:paddingTop="0dp"
+    tools:context="kdc.reef.john.reefcaluclators.tankVolume">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tank Volume"
+        android:textSize="50sp"
+        android:textColor="#555555"
+        android:textStyle="bold"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:id="@+id/resetTankSize"
+        android:onClick="resetButton"
+
+        android:layout_alignBottom="@+id/calculateTankSize" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:onClick="calculateButton"
+        android:id="@+id/calculateTankSize"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Length (inches)"
+        android:id="@+id/editLength"
+        android:inputType="numberDecimal"
+        android:textSize="25sp"
+        android:layout_marginTop="84dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Height (inches)"
+        android:id="@+id/editHeight"
+        android:inputType="numberDecimal"
+        android:textSize="25sp"
+        android:layout_below="@+id/editLength"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Width (inches)"
+        android:id="@+id/editWidth"
+        android:inputType="numberDecimal"
+        android:textSize="25sp"
+        android:layout_below="@+id/editHeight"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Volume (Gallons)"
+        android:id="@+id/textVolume"
+        android:layout_above="@+id/calculateTankSize"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp"
+        android:textSize="30sp"
+        />
+
+
+</RelativeLayout>
