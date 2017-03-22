@@ -101,7 +101,7 @@ public class CoralList extends AppCompatActivity {
             if(currentCoralProfile == null){
 
             }
-            else {
+            else{
                 name = currentCoralProfile.getName();
                 datePurchased = currentCoralProfile.getDatePurchased();
                 iconCoralId = currentCoralProfile.getIconCoralId();
@@ -113,17 +113,17 @@ public class CoralList extends AppCompatActivity {
                 //fill the view
                 ImageView imageView = (ImageView) coralView.findViewById(R.id.itemIcon);
 
-                if(photoChosen!=null){
-                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-                    imageView.setImageBitmap(yourSelectedImage);
-                }
-                else{
-                    //imageView.setBackground(iconCoralId);
-                    imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
-                }
+//                if(photoChosen!=null){
+//                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
+//                    imageView.setImageBitmap(yourSelectedImage);
+//                }
+//                else{
+//                    //imageView.setBackground(iconCoralId);
+//                    imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
+//                }
+                imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
 
-                //Image
-                ImageView imageView1 = (ImageView) coralView.findViewById(R.id.itemIcon);
+
                 //Name
                 TextView nameText = (TextView) coralView.findViewById(R.id.coralViewNameText);
                 nameText.setText(name);
