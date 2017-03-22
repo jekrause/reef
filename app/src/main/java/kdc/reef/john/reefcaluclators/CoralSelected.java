@@ -16,8 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,52 +38,44 @@ public class CoralSelected extends AppCompatActivity {
 
     private String name;
     private String datePurchased;
-    private int iconCoralId;
+    private Drawable iconCoralId;
     private double price;
     private double size;
     private String seller;
     private String photoChosen = "null";
     private Drawable defaultDrawable;
 
+    Boolean[] coralNumbers;
     private CoralProfile coralProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coral1);
-        defaultDrawable = getResources().getDrawable(R.drawable.coral);
 
-            Intent i = getIntent();
-            coralProfile = (CoralProfile) i.getSerializableExtra("coralObject");
-
-        if(coralProfile !=null) {
-            try {
-                FileInputStream fis = getApplicationContext().openFileInput("coralSaved1");
-                ObjectInputStream is = new ObjectInputStream(fis);
-                CoralProfile coralProfileInput = (CoralProfile) is.readObject();
-                is.close();
-                fis.close();
-                coralProfile = coralProfileInput;
-
-                name = coralProfile.getName();
-
-                datePurchased = coralProfile.getDatePurchased();
-                iconCoralId = coralProfile.getIconCoralId();
-                price = coralProfile.getPrice();
-                size = coralProfile.getSize();
-                seller = coralProfile.getPurchasedFrom();
-                photoChosen = coralProfile.getPhotoChosen();
-            } catch (Exception ex) {
-
-            }
+        //find coral profile
+        coralNumbers= CoralList.getCoralNumbers();
+        int i =0;
+        while(i<coralNumbers.length){
+            if(coralNumbers[i])break;
+            i++;
         }
 
+        coralProfile = CoralList.getCoralProfileArrayList().get(i);
+
+
+        name = coralProfile.getName();
+
+        datePurchased = coralProfile.getDatePurchased();
+        iconCoralId = getApplicationContext().getResources().getDrawable(coralProfile.getIconCoralId());
+        price = coralProfile.getPrice();
+        size = coralProfile.getSize();
+        seller = coralProfile.getPurchasedFrom();
+        photoChosen = coralProfile.getPhotoChosen();
 
 
 
-
-
-        if(!photoChosen.equals("null")){
+        if (!photoChosen.equals("null")) {
             Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
             coral1imageView.setImageBitmap(yourSelectedImage);
@@ -88,10 +84,9 @@ public class CoralSelected extends AppCompatActivity {
             //coral1imageView.setImageDrawable(d);
             //coral1imageView.setImageBitmap(yourSelectedImage);
 
-        }
-        else {
+        } else {
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            coral1imageView.setImageResource(iconCoralId);
+            coral1imageView.setBackground(iconCoralId);
         }
 
 //        coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
@@ -101,7 +96,7 @@ public class CoralSelected extends AppCompatActivity {
         coral1NametextView.setText(name);
 
         coral1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
-        coral1PricetextView.setText("$"+Double.toString(price));
+        coral1PricetextView.setText("$" + Double.toString(price));
 
         coral1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
         coral1DPtextView.setText(datePurchased);
@@ -115,44 +110,6 @@ public class CoralSelected extends AppCompatActivity {
 
     }
 
-    public void saveToFile(Context context){
-        try {
-            FileOutputStream fos = context.openFileOutput("coralSaved1", Context.MODE_PRIVATE);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(coralProfile);
-
-        }catch (IOException ex){
-
-        }
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        //name
-        if(!(coral1NametextView.getText().toString().equals(name))){
-            coralProfile.setName(coral1NametextView.getText().toString());
-        }
-        //price
-        if(!(coral1PricetextView.getText().toString().equals(price))){
-            coralProfile.setPrice(Double.parseDouble(coral1PricetextView.getText().toString().substring(1,coral1PricetextView.getText().toString().length())));
-        }
-        //datePurchased
-        if(!(coral1DPtextView.getText().toString().equals(datePurchased))){
-            coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
-        }
-        //seller
-        if(!(coral1PFtextView.getText().toString().equals(seller))){
-            coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
-        }
-        //size
-        if(!(coral1SizetextView.getText().toString().substring(1).equals(size))){
-            coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
-        }
-        saveToFile(getApplicationContext());
-
-        super.onBackPressed();
-    }
 
     public void newImage(View view){
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -187,5 +144,21 @@ public class CoralSelected extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Gson gson = new Gson();
+        String str = gson.toJson(CoralList.getCoralProfileArrayList());
+        //not sure on mode
+        File file = new File(getApplicationContext().getDir("data",0).getPath());
+        try{
+            FileWriter fw = new FileWriter(file);
+            fw.write(str);
+            Toast.makeText(this,"Data being saved", Toast.LENGTH_LONG).show();
+        }catch(Exception ex){
+
+        }
+
     }
 }
