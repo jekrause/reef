@@ -1,5 +1,9 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+
 import java.io.Serializable;
 
 /**
@@ -18,7 +22,15 @@ public class CoralProfile implements Serializable{
     private String purchasedFrom = "Seller";
     private double size = 0.0;
 
+    public CoralProfile(String name, String datePurchased, double price){
+        this.setName(name);
+        this.setDatePurchased(datePurchased);
+        this.price = price;
 
+        System.out.println("CoralProfile has been added");
+
+
+    }
 
     public String getName() {
         return name;
@@ -26,23 +38,11 @@ public class CoralProfile implements Serializable{
 
     public int getIconCoralId(){return iconCoralId;}
 
-
-
-
     public String getDatePurchased() {
         return datePurchased;
     }
 
-    public CoralProfile(String name, String datePurchased, int iconCoralId, double price){
-        this.setName(name);
-        this.setDatePurchased(datePurchased);
-        this.setIconCoralId(iconCoralId);
-        this.price = price;
 
-        System.out.println("CoralProfile has been added");
-
-
-    }
 
 
     public double getPrice() {
