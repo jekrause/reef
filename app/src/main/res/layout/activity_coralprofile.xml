@@ -7,6 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="kdc.reef.john.reefcaluclators.CoralSelected">
 
     <ImageView
@@ -26,7 +28,6 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:textColor="#FFFFFF"
-        android:cursorVisible="false"
         android:textSize="35sp"
         android:id="@+id/coral1NametextView"
         android:layout_alignBottom="@+id/coral1imageView"

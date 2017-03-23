@@ -1,8 +1,6 @@
 package kdc.reef.john.reefcaluclators;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import java.io.Serializable;
 
@@ -15,7 +13,7 @@ public class CoralProfile implements Serializable{
     private String name = "test";
     private String datePurchased = "null";
     private int iconCoralId = R.drawable.coral;
-    private String photoChosen = "null";
+    private Uri photoChosen;
     private double price = 00.00;
 
     //Non constructed variables
@@ -28,8 +26,6 @@ public class CoralProfile implements Serializable{
         this.price = price;
 
         System.out.println("CoralProfile has been added");
-
-
     }
 
     public String getName() {
@@ -81,11 +77,11 @@ public class CoralProfile implements Serializable{
         this.iconCoralId = iconCoralId;
     }
 
-    public String getPhotoChosen() {
+    public Uri getPhotoChosen() {
         return photoChosen;
     }
 
-    public void setPhotoChosen(String photoChosen) {
+    public void setPhotoChosen(Uri photoChosen) {
         this.photoChosen = photoChosen;
     }
 }

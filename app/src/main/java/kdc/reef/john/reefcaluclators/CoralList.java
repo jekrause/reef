@@ -1,10 +1,9 @@
 package kdc.reef.john.reefcaluclators;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,19 +21,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Scanner;
 
 public class CoralList extends AppCompatActivity {
 
@@ -51,7 +42,7 @@ public class CoralList extends AppCompatActivity {
     private double size;
     private String purchasedFrom;
     private CoralProfile coralProfile;
-    private String photoChosen;
+    private Uri photoChosen;
     static boolean firstTime = true;
 
     @Override
@@ -93,15 +84,11 @@ public class CoralList extends AppCompatActivity {
             buffreader.close();
             filein.close();
 
-           filein.close();
+
             if(!readString.isEmpty()){
-                //Log.d("MyApp",readString);
+                Log.d("MyApp",readString);
                 coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
-                Toast.makeText(this, "loaded ", Toast.LENGTH_SHORT).show();
                 coralArrayAdapter.notifyDataSetChanged();
-            }
-            else{
-                Toast.makeText(this, "No data to load ", Toast.LENGTH_SHORT).show();
             }
 
         }catch(Exception ex){
@@ -155,15 +142,15 @@ public class CoralList extends AppCompatActivity {
                 //fill the view
                 ImageView imageView = (ImageView) coralView.findViewById(R.id.itemIcon);
 
-//                if(photoChosen!=null){
-//                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-//                    imageView.setImageBitmap(yourSelectedImage);
-//                }
-//                else{
-//                    //imageView.setBackground(iconCoralId);
-//                    imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
-//                }
-                imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
+                if(photoChosen!=null){
+                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
+                    imageView.setImageURI(photoChosen);
+                }
+                else{
+                    //imageView.setBackground(iconCoralId);
+                    imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
+                }
+
 
                 //Image
                 ImageView imageView1 = (ImageView) coralView.findViewById(R.id.itemIcon);
@@ -198,7 +185,6 @@ public class CoralList extends AppCompatActivity {
         });
     }
 
-
     //Getters
     public static Boolean[] getCoralNumbers() {
         return coralNumbers;
@@ -209,6 +195,4 @@ public class CoralList extends AppCompatActivity {
     public static void setBool(int i){
         coralNumbers[i]=false;
     }
-
-
 }
