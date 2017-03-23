@@ -25,6 +25,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 
 public class CoralSelected extends AppCompatActivity {
     ImageView coral1imageView;
@@ -89,9 +91,6 @@ public class CoralSelected extends AppCompatActivity {
             coral1imageView.setBackground(iconCoralId);
         }
 
-//        coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
-//        coral1imageView.setImageResource(iconCoralId);
-
         coral1NametextView = (EditText) findViewById(R.id.coral1NametextView);
         coral1NametextView.setText(name);
 
@@ -133,14 +132,16 @@ public class CoralSelected extends AppCompatActivity {
                     String filepath = cursor.getString(columnIndex);
                     cursor.close();
 
+                    Toast.makeText(this, "holly is cute af", Toast.LENGTH_SHORT).show();
+
                     coralProfile.setPhotoChosen(filepath);
+                    photoChosen = filepath;
 
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filepath);
-//                    Drawable d = new BitmapDrawable(yourSelectedImage);
-
 
 
                     coral1imageView.setImageBitmap(yourSelectedImage);
+
                 }
                 break;
         }
@@ -148,17 +149,36 @@ public class CoralSelected extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
+
         Gson gson = new Gson();
         String str = gson.toJson(CoralList.getCoralProfileArrayList());
-        //not sure on mode
-        File file = new File(getApplicationContext().getDir("data",0).getPath());
-        try{
-            FileWriter fw = new FileWriter(file);
-            fw.write(str);
-            Toast.makeText(this,"Data being saved", Toast.LENGTH_LONG).show();
-        }catch(Exception ex){
 
+
+        try{
+            FileOutputStream fileout = openFileOutput("coralData.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+
+
+            Toast.makeText(this,"Data being saved", Toast.LENGTH_SHORT).show();
+        }catch(Exception ex){
+            Toast.makeText(this, "Failed .."+getAssets().getLocales()[0], Toast.LENGTH_SHORT).show();
         }
+        super.onBackPressed();
 
     }
+
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        if (!photoChosen.equals("null")) {
+//
+//            coral1imageView.setImageDrawable(null);
+//            Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
+//
+//
+//            coral1imageView.setImageBitmap(yourSelectedImage);
+//        }
+//    }
 }

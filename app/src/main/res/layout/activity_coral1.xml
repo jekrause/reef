@@ -10,8 +10,8 @@
     tools:context="kdc.reef.john.reefcaluclators.CoralSelected">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:id="@+id/coral1imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -19,8 +19,6 @@
         android:onClick="newImage"
         android:longClickable="false"
         android:adjustViewBounds="true"
-        android:maxHeight="120dp"
-        android:maxWidth="120dp"
         android:outlineProvider="bounds" />
 
     <EditText

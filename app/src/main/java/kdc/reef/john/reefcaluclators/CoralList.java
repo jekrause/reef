@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,10 +18,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Scanner;
 
 public class CoralList extends AppCompatActivity {
 
@@ -65,6 +79,33 @@ public class CoralList extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Gson gson = new Gson();
+        String datax = "";
+        try{
+            FileInputStream filein = openFileInput("coralData.txt");
+            InputStreamReader isr = new InputStreamReader ( filein ) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+            String readString = buffreader.readLine ( ) ;
+
+
+            isr.close ( ) ;
+            buffreader.close();
+            filein.close();
+
+           filein.close();
+            if(!readString.isEmpty()){
+                //Log.d("MyApp",readString);
+                coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
+                Toast.makeText(this, "loaded ", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "No data to load ", Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception ex){
+            Toast.makeText(this, "Failed ", Toast.LENGTH_SHORT).show();
+        }
         coralArrayAdapter.notifyDataSetChanged();
     }
 
