@@ -98,6 +98,7 @@ public class CoralList extends AppCompatActivity {
                 //Log.d("MyApp",readString);
                 coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
                 Toast.makeText(this, "loaded ", Toast.LENGTH_SHORT).show();
+                coralArrayAdapter.notifyDataSetChanged();
             }
             else{
                 Toast.makeText(this, "No data to load ", Toast.LENGTH_SHORT).show();
@@ -106,7 +107,7 @@ public class CoralList extends AppCompatActivity {
         }catch(Exception ex){
             Toast.makeText(this, "Failed ", Toast.LENGTH_SHORT).show();
         }
-        coralArrayAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -205,7 +206,9 @@ public class CoralList extends AppCompatActivity {
     public static List<CoralProfile> getCoralProfileArrayList() {
         return coralProfileArrayList;
     }
-
+    public static void setBool(int i){
+        coralNumbers[i]=false;
+    }
 
 
 }

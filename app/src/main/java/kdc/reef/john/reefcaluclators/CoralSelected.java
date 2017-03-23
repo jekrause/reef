@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,9 +60,14 @@ public class CoralSelected extends AppCompatActivity {
         coralNumbers= CoralList.getCoralNumbers();
         int i =0;
         while(i<coralNumbers.length){
-            if(coralNumbers[i])break;
+            if(coralNumbers[i]){
+                CoralList.setBool(i);
+                break;
+            }
             i++;
         }
+
+        Toast.makeText(this,"profile #"+i,Toast.LENGTH_SHORT).show();
 
         coralProfile = CoralList.getCoralProfileArrayList().get(i);
 
@@ -132,8 +138,6 @@ public class CoralSelected extends AppCompatActivity {
                     String filepath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    Toast.makeText(this, "holly is cute af", Toast.LENGTH_SHORT).show();
-
                     coralProfile.setPhotoChosen(filepath);
                     photoChosen = filepath;
 
@@ -159,6 +163,8 @@ public class CoralSelected extends AppCompatActivity {
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             outputWriter.write(str);
             outputWriter.close();
+
+            Log.d("MyApp",str);
 
 
             Toast.makeText(this,"Data being saved", Toast.LENGTH_SHORT).show();
