@@ -1,8 +1,9 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,9 +34,9 @@ public class CoralList extends AppCompatActivity {
 
 
     public static  List<CoralProfile> coralProfileArrayList = new ArrayList<>();
-    ArrayAdapter<CoralProfile> coralArrayAdapter;
+    static ArrayAdapter<CoralProfile> coralArrayAdapter;
 
-    public static Boolean[] coralNumbers = new Boolean[50];
+    public static List<Boolean> coralNumbers = new ArrayList<>();
     ListView list;
     private String name;
     private String datePurchased;
@@ -42,7 +45,7 @@ public class CoralList extends AppCompatActivity {
     private double size;
     private String purchasedFrom;
     private CoralProfile coralProfile;
-    private Uri photoChosen;
+    private String photoChosen;
     static boolean firstTime = true;
 
     @Override
@@ -52,20 +55,29 @@ public class CoralList extends AppCompatActivity {
 
 
         if(firstTime){
-            for(int i=coralProfileArrayList.size(); i<=50; i++){
-                coralProfileArrayList.add(new CoralProfile("CoralNumber #"+i, "date", 0.0));
-            }
+            coralProfileArrayList.add(new CoralProfile("CoralNumber #1", "Date", 0.0));
+
             firstTime=false;
+            populateListView();
         }
         else{
 
         }
-        populateListView();
+
 
         registerClickCallback();
 
     }
 
+    /*
+    add new profile to list
+     */
+    public void addButton(View view){
+        Toast.makeText(this,"click",Toast.LENGTH_SHORT).show();
+        coralProfileArrayList.add(new CoralProfile("New Coral","Date",0.0));
+        coralNumbers.add(Boolean.FALSE);
+        coralArrayAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onResume() {
@@ -73,6 +85,22 @@ public class CoralList extends AppCompatActivity {
         Gson gson = new Gson();
         String datax = "";
         try{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
             FileInputStream filein = openFileInput("coralData.txt");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
             BufferedReader buffreader = new BufferedReader ( isr ) ;
@@ -86,13 +114,17 @@ public class CoralList extends AppCompatActivity {
 
 
             if(!readString.isEmpty()){
-                Log.d("MyApp",readString);
+                Log.d("MyApp","start");
                 coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
+                Log.d("MyApp","read in");
+
                 coralArrayAdapter.notifyDataSetChanged();
+                Log.d("MyApp","finished");
             }
 
         }catch(Exception ex){
-            Toast.makeText(this, "Failed ", Toast.LENGTH_SHORT).show();
+            Log.d("MyApp","blown up");
+            Toast.makeText(this, "Failed load", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -104,6 +136,10 @@ public class CoralList extends AppCompatActivity {
 
         coralArrayAdapter = new MyListAdapter();
         list = (ListView) findViewById(R.id.coralListView);
+
+        list.setCacheColorHint(Color.TRANSPARENT); // not sure if this is required for you.
+        list.setFastScrollEnabled(true);
+        list.setScrollingCacheEnabled(false);
 
         list.setAdapter(coralArrayAdapter);
 
@@ -122,8 +158,7 @@ public class CoralList extends AppCompatActivity {
                 coralView = getLayoutInflater().inflate(R.layout.coral_view,parent,false);
             }
 
-            System.out.println(coralProfileArrayList.get(position));
-            //find coralProfile
+
 
             CoralProfile currentCoralProfile = coralProfileArrayList.get(position);
 
@@ -141,19 +176,22 @@ public class CoralList extends AppCompatActivity {
 
                 //fill the view
                 ImageView imageView = (ImageView) coralView.findViewById(R.id.itemIcon);
+                imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
 
                 if(photoChosen!=null){
-                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-                    imageView.setImageURI(photoChosen);
+                    Uri uri = Uri.parse(photoChosen);
+//                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
+                    imageView.setBackground(null);
+//                    imageView.setImageURI(Uri.parse(photoChosen));
+                    Log.d("myApp","glide, bb");
+                    Glide.with(this.getContext()).load(uri).into(imageView);
                 }
                 else{
-                    //imageView.setBackground(iconCoralId);
-                    imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
+                    //imageView.setImageURI(null);
+                    //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
                 }
 
 
-                //Image
-                ImageView imageView1 = (ImageView) coralView.findViewById(R.id.itemIcon);
                 //Name
                 TextView nameText = (TextView) coralView.findViewById(R.id.coralViewNameText);
                 nameText.setText(name);
@@ -178,7 +216,7 @@ public class CoralList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
 
-                coralNumbers[position]=true;
+                coralNumbers.set(position, true);
                 Intent i = new Intent(CoralList.this, CoralSelected.class);
                 startActivity(i);
             }
@@ -186,13 +224,11 @@ public class CoralList extends AppCompatActivity {
     }
 
     //Getters
-    public static Boolean[] getCoralNumbers() {
+    public static List<Boolean> getCoralNumbers() {
         return coralNumbers;
     }
     public static List<CoralProfile> getCoralProfileArrayList() {
         return coralProfileArrayList;
     }
-    public static void setBool(int i){
-        coralNumbers[i]=false;
-    }
+
 }

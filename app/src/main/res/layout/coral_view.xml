@@ -4,15 +4,13 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/itemIcon"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/coral"
-        android:maxHeight="80dp"
-        android:maxWidth="80dp"
         android:adjustViewBounds="true" />
 
     <TextView

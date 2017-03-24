@@ -1,13 +1,14 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 public class CoralSelected extends AppCompatActivity {
     ImageView coral1imageView;
@@ -34,10 +36,10 @@ public class CoralSelected extends AppCompatActivity {
     private double price;
     private double size;
     private String seller;
-    private Uri photoChosen;
+    private String photoChosen;
     private Drawable defaultDrawable;
 
-    Boolean[] coralNumbers;
+    List <Boolean> coralNumbers;
     private CoralProfile coralProfile;
     private int index;
 
@@ -48,10 +50,13 @@ public class CoralSelected extends AppCompatActivity {
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
+        Log.d("myApp",coralNumbers.size()+"");
         int index =0;
-        while(index<coralNumbers.length){
-            if(coralNumbers[index]){
-                CoralList.setBool(index);
+        while(index<coralNumbers.size()){
+            if(coralNumbers.get(index)){
+                //coralNumbers[index] = false;
+                coralNumbers.set(index,false);
+                Log.d("myApp", index+"");
                 break;
             }
             index++;
@@ -74,7 +79,7 @@ public class CoralSelected extends AppCompatActivity {
         if (photoChosen!=null) {
             //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            coral1imageView.setImageURI(photoChosen);
+            coral1imageView.setImageURI(Uri.parse(photoChosen));
 
 
         } else {
@@ -111,14 +116,18 @@ public class CoralSelected extends AppCompatActivity {
         switch (requestCode){
             case SELECTED_PICTURE:
                 if(resultCode==RESULT_OK){
-                    Uri uri = data.getData();
-                    coral1imageView.setImageURI(uri);
+                    String uri = data.getData().toString();
+                    //delete old image
+                    coral1imageView.setBackground(null);
+                    //set new image
+                    coral1imageView.setImageURI(Uri.parse(uri));
 //                    String []projection={MediaStore.Images.Media.DATA};
 //                    Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
 //                    cursor.moveToFirst();
 //                    int columnIndex = cursor.getColumnIndex(projection[0]);
 //                    URI filepath = cursor.getString(columnIndex);
 //                    cursor.close();
+
 
                     coralProfile.setPhotoChosen(uri);
                     photoChosen = uri;
@@ -139,6 +148,23 @@ public class CoralSelected extends AppCompatActivity {
         String str = gson.toJson(CoralList.getCoralProfileArrayList());
 
         try{
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
             FileOutputStream fileout = openFileOutput("coralData.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             outputWriter.write(str);
