@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.hardware.camera2.TotalCaptureResult;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,7 +36,7 @@ public class CoralList extends AppCompatActivity {
 
 
     public static  List<CoralProfile> coralProfileArrayList = new ArrayList<>();
-    static ArrayAdapter<CoralProfile> coralArrayAdapter;
+     ArrayAdapter<CoralProfile> coralArrayAdapter;
 
     public static List<Boolean> coralNumbers = new ArrayList<>();
     ListView list;
@@ -48,8 +50,12 @@ public class CoralList extends AppCompatActivity {
     private String photoChosen;
     static boolean firstTime = true;
 
+    final static int maxNumber = 10;
+    static int curNumber =1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MyApp","OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coral);
 
@@ -58,13 +64,68 @@ public class CoralList extends AppCompatActivity {
             coralProfileArrayList.add(new CoralProfile("CoralNumber #1", "Date", 0.0));
 
             firstTime=false;
-            populateListView();
+
         }
         else{
+            Gson gson = new Gson();
+        //String datax = "";
+            try{
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (shouldShowRequestPermissionRationale(
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        // Explain to the user why we need to read the contacts
+                    }
+
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                    // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                    // app-defined int constant that should be quite unique
+
+                    return;
+                }
+
+                FileInputStream filein = openFileInput("coralData.txt");
+                Log.d("MyApp","1");
+                InputStreamReader isr = new InputStreamReader ( filein ) ;
+                Log.d("MyApp","2");
+                BufferedReader buffreader = new BufferedReader ( isr ) ;
+                Log.d("MyApp","3");
+
+                String readString = buffreader.readLine ( ) ;
+                Log.d("MyApp","4");
+
+
+                isr.close ( ) ;
+                buffreader.close();
+                filein.close();
+
+
+                if(!readString.isEmpty()){
+                    Log.d("MyApp","start");
+                    coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
+                    Log.d("MyApp","read in " + readString);
+                    //coralArrayAdapter.notifyDataSetChanged();
+                    //populateListView();
+                    coralArrayAdapter.clear();
+                    populateListView();
+                    Log.d("MyApp","finished");
+                }
+                else{
+                    Log.d("MyApp", "readString is empty");
+                }
+
+            }catch(Exception ex){
+                Log.d("MyApp","blown up");
+                Toast.makeText(this, "Failed load", Toast.LENGTH_SHORT).show();
+            }
 
         }
 
 
+        populateListView();
         registerClickCallback();
 
     }
@@ -73,61 +134,81 @@ public class CoralList extends AppCompatActivity {
     add new profile to list
      */
     public void addButton(View view){
-        Toast.makeText(this,"click",Toast.LENGTH_SHORT).show();
-        coralProfileArrayList.add(new CoralProfile("New Coral","Date",0.0));
-        coralNumbers.add(Boolean.FALSE);
-        coralArrayAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Gson gson = new Gson();
-        String datax = "";
-        try{
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(
-                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    // Explain to the user why we need to read the contacts
-                }
-
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
-
-                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                // app-defined int constant that should be quite unique
-
-                return;
-            }
-            FileInputStream filein = openFileInput("coralData.txt");
-            InputStreamReader isr = new InputStreamReader ( filein ) ;
-            BufferedReader buffreader = new BufferedReader ( isr ) ;
-
-            String readString = buffreader.readLine ( ) ;
-
-
-            isr.close ( ) ;
-            buffreader.close();
-            filein.close();
-
-
-            if(!readString.isEmpty()){
-                Log.d("MyApp","start");
-                coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
-                Log.d("MyApp","read in");
-
-                coralArrayAdapter.notifyDataSetChanged();
-                Log.d("MyApp","finished");
-            }
-
-        }catch(Exception ex){
-            Log.d("MyApp","blown up");
-            Toast.makeText(this, "Failed load", Toast.LENGTH_SHORT).show();
+        if(curNumber<maxNumber){
+            curNumber++;
+            Toast.makeText(this,maxNumber-curNumber + " remaining",Toast.LENGTH_SHORT).show();
+            coralProfileArrayList.add(new CoralProfile("New Coral","Date",0.0));
+            coralNumbers.add(Boolean.FALSE);
+            coralArrayAdapter.notifyDataSetChanged();
         }
-
+        else{
+            Toast.makeText(this, "No more available. Give me your money!", Toast.LENGTH_SHORT).show();
+        }
     }
+
+//    @Override
+//    protected void onResume() {
+//        Log.d("MyApp","OnResume");
+//        super.onResume();
+//        if(firstTime)return;
+//        Gson gson = new Gson();
+//        //String datax = "";
+//        try{
+//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                // Should we show an explanation?
+//                if (shouldShowRequestPermissionRationale(
+//                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                    // Explain to the user why we need to read the contacts
+//                }
+//
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+//                // app-defined int constant that should be quite unique
+//
+//                return;
+//            }
+//
+//            FileInputStream filein = openFileInput("coralData.txt");
+//            Log.d("MyApp","1");
+//            InputStreamReader isr = new InputStreamReader ( filein ) ;
+//            Log.d("MyApp","2");
+//            BufferedReader buffreader = new BufferedReader ( isr ) ;
+//            Log.d("MyApp","3");
+//
+//            String readString = buffreader.readLine ( ) ;
+//            Log.d("MyApp","4");
+//
+//
+//            isr.close ( ) ;
+//            buffreader.close();
+//            filein.close();
+//
+//
+//            if(!readString.isEmpty()){
+//                Log.d("MyApp","start");
+//                coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
+//                Log.d("MyApp","read in " + readString);
+//                //coralArrayAdapter.notifyDataSetChanged();
+//                //populateListView();
+//                coralArrayAdapter.clear();
+//                populateListView();
+//                Log.d("MyApp","finished");
+//            }
+//            else{
+//                Log.d("MyApp", "readString is empty");
+//            }
+//
+//        }catch(Exception ex){
+//            Log.d("MyApp","blown up");
+//            Toast.makeText(this, "Failed load", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
+
 
 
 
