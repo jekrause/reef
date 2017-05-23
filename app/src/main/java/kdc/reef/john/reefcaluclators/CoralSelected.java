@@ -108,18 +108,18 @@ public class CoralSelected extends AppCompatActivity {
         coral1SizetextView.setText(Double.toString(size));
     }
 
-    public void newImageInList(View view){
-        if(numberOfImages<MAX_NUMBER_OF_IMAGES){
-            LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            ImageView temp = new ImageView(this);
-            temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
-
-            linearLayout1.addView(temp);
-            numberOfImages++;
-        }
-
-
-    }
+//    public void newImageInList(View view){
+//        if(numberOfImages<MAX_NUMBER_OF_IMAGES){
+//            LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
+//            ImageView temp = new ImageView(this);
+//            temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
+//
+//            linearLayout1.addView(temp);
+//            numberOfImages++;
+//        }
+//
+//
+//    }
 
     public void newImage(View view){
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
