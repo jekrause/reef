@@ -169,6 +169,19 @@
         android:text="Add"
         android:textSize="15sp" />
 
+    <org.lucasr.twowayview.TwoWayView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lvItems"
+        style="@style/TwoWayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="false"
+        tools:context=".MainActivity"
+        android:layout_below="@id/button3"
+        android:layout_above="@id/adView"/>
+
 
 
 

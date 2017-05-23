@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.lucasr.twowayview.TwoWayView;
+
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoralSelected extends AppCompatActivity {
@@ -110,11 +114,18 @@ public class CoralSelected extends AppCompatActivity {
 
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
-            LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            ImageView temp = new ImageView(this);
-            temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
+            //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
+            ArrayList<String> temp = coralProfile.getImageArrayList();
+            temp.add("placeholder");
+            //ImageView temp = new ImageView(this);
+            //temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
 
-            linearLayout1.addView(temp);
+            //linearLayout1.addView(temp);
+
+            ArrayAdapter<String> aItems = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, temp);
+            TwoWayView lvTest = (TwoWayView) findViewById(R.id.lvItems);
+            lvTest.setAdapter(aItems);
+
             numberOfImages++;
         }
 

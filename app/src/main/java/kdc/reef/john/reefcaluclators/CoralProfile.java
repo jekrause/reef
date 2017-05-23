@@ -1,6 +1,7 @@
 package kdc.reef.john.reefcaluclators;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by John on 5/6/2016.
@@ -14,16 +15,19 @@ public class CoralProfile implements Serializable{
     private String photoChosen; //uriString
     private double price = 00.00;
 
+
+
+    private ArrayList<String> imageArrayList;
+
     //Non constructed variables
     private String purchasedFrom = "Seller";
     private double size = 0.0;
 
     public CoralProfile(String name, String datePurchased, double price){
+        //imageArrayList = new ArrayList<>();
         this.setName(name);
         this.setDatePurchased(datePurchased);
         this.price = price;
-
-        System.out.println("CoralProfile has been added");
     }
 
     public String getName() {
@@ -81,5 +85,9 @@ public class CoralProfile implements Serializable{
 
     public void setPhotoChosen(String photoChosen) {
         this.photoChosen = photoChosen;
+    }
+
+    public ArrayList<String> getImageArrayList() {
+        return imageArrayList;
     }
 }
