@@ -24,12 +24,16 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class CoralList extends AppCompatActivity {
@@ -53,29 +57,33 @@ public class CoralList extends AppCompatActivity {
     final static int maxNumber = 10;
     static int curNumber =0;
 
+    TextView tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MyApp","OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coral);
+        tv = (TextView) findViewById(R.id.textView4);
 
 
-        if(firstTime){
-            coralProfileArrayList.add(new CoralProfile("CoralNumber #1", "Date", 0.0));
-            coralNumbers.add(Boolean.FALSE);
-            curNumber++;
-
-            firstTime=false;
-
-        }
-        else {
-            refreshListings();
-        }
-
-
+//        if(firstTime){
+//            Toast.makeText(this,"First time", Toast.LENGTH_SHORT).show();
+//            coralProfileArrayList.add(new CoralProfile("CoralNumber #1", "Date", 0.0));
+//            coralNumbers.add(Boolean.FALSE);
+//            curNumber++;
+//
+//            firstTime=false;
+//
+//        }
+//        else {
+//            refreshListings();
+//        }
+        refreshListings();
         populateListView();
         registerClickCallback();
 
+        tv.setText(curNumber+ " of 10");
     }
 
     /*
@@ -85,9 +93,12 @@ public class CoralList extends AppCompatActivity {
         if(curNumber<maxNumber){
             curNumber++;
             Toast.makeText(this,maxNumber-curNumber + " remaining",Toast.LENGTH_SHORT).show();
-            coralProfileArrayList.add(new CoralProfile("New Coral","Date",0.0));
+            coralProfileArrayList.add(new CoralProfile("New Coral",todaysDate(),0.0));
             coralNumbers.add(Boolean.FALSE);
             coralArrayAdapter.notifyDataSetChanged();
+
+
+            tv.setText(curNumber+ " of 10");
         }
         else{
             Toast.makeText(this, "No more available. Give me your money!", Toast.LENGTH_SHORT).show();
@@ -96,13 +107,17 @@ public class CoralList extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        tv.setText(curNumber+ " of 10");
         coralArrayAdapter.notifyDataSetChanged();
         super.onResume();
 
 
     }
 
-
+    private String todaysDate(){
+        String x = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
+        return x;
+    }
     public void populateListView(){
 
         coralArrayAdapter = new MyListAdapter();
@@ -173,7 +188,7 @@ public class CoralList extends AppCompatActivity {
 
                 //price
                 TextView priceText = (TextView) coralView.findViewById(R.id.coralViewPriceText);
-                priceText.setText("$" + Double.toString(price));
+                priceText.setText("$" + String.format("%.2f",price));
             }
 
             return coralView;
@@ -234,6 +249,7 @@ public class CoralList extends AppCompatActivity {
 
         }catch(Exception ex){
             Log.d("MyApp","blown up");
+            Log.d("MyApp", ex.getLocalizedMessage());
 
             Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }

@@ -27,7 +27,8 @@
         android:text="Add"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:onClick="addButton"/>
+        android:onClick="addButton"
+        android:id="@+id/button2" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -42,4 +43,16 @@
         android:persistentDrawingCache="scrolling"
         android:scrollingCache="false"
         android:choiceMode="singleChoice" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 of 10"
+        android:textSize="25sp"
+        android:paddingLeft="10sp"
+        android:textColor="@android:color/holo_green_light"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

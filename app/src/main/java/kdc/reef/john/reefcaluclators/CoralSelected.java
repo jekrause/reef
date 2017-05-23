@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,6 +39,9 @@ public class CoralSelected extends AppCompatActivity {
     private String seller;
     private String photoChosen;
     private Drawable defaultDrawable;
+
+    static private int numberOfImages = 1;
+    final static private int MAX_NUMBER_OF_IMAGES = 3;
 
     List <Boolean> coralNumbers;
     private CoralProfile coralProfile;
@@ -92,7 +96,7 @@ public class CoralSelected extends AppCompatActivity {
         coral1NametextView.setText(name);
 
         coral1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
-        coral1PricetextView.setText("$" + Double.toString(price));
+        coral1PricetextView.setText("$" + String.format("%.2f",price));
 
         coral1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
         coral1DPtextView.setText(datePurchased);
@@ -102,6 +106,19 @@ public class CoralSelected extends AppCompatActivity {
 
         coral1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
         coral1SizetextView.setText(Double.toString(size));
+    }
+
+    public void newImageInList(View view){
+        if(numberOfImages<MAX_NUMBER_OF_IMAGES){
+            LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
+            ImageView temp = new ImageView(this);
+            temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
+
+            linearLayout1.addView(temp);
+            numberOfImages++;
+        }
+
+
     }
 
     public void newImage(View view){
@@ -179,9 +196,9 @@ public class CoralSelected extends AppCompatActivity {
     public void saveFields(){
         coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
         coralProfile.setName(coral1NametextView.getText().toString());
-        //coralProfile.setPrice(Double.parseDouble(coral1PricetextView.getText().toString()));
+        coralProfile.setPrice(Double.parseDouble(coral1PricetextView.getText().toString().substring(1)));
         coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
-        //coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
+        coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
         //photo chosen is already set
 
     }
