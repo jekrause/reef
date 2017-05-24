@@ -40,6 +40,7 @@ public class CoralSelected extends AppCompatActivity {
     EditText coral1DPtextView;
     EditText coral1PFtextView;
     EditText coral1SizetextView;
+    TextView tv;
 
     private static final int SELECTED_PICTURE =1;
 
@@ -52,7 +53,7 @@ public class CoralSelected extends AppCompatActivity {
     private String photoChosen;
     private Drawable defaultDrawable;
 
-    static private int numberOfImages = 1;
+    static private int numberOfImages = 0;
     final static private int MAX_NUMBER_OF_IMAGES = 3;
 
     UsersAdapter adapter;
@@ -85,6 +86,11 @@ public class CoralSelected extends AppCompatActivity {
         coralProfile = CoralList.getCoralProfileArrayList().get(index);
 
         imageListList = coralProfile.getImageArrayList();
+        tv = (TextView) findViewById(R.id.textView6);
+
+        //set image number count
+        numberOfImages = imageListList.size();
+        updateCounter();
 
         // Create the adapter to convert the array to views
         adapter = new UsersAdapter(this, imageListList);
@@ -134,13 +140,21 @@ public class CoralSelected extends AppCompatActivity {
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            imageListList.add( new ImageList(getApplicationContext().getDrawable(R.drawable.coral)));
+            imageListList.add( new ImageList("drawable://"+R.drawable.coral));
 
             numberOfImages++;
+            updateCounter();
             adapter.notifyDataSetChanged();
         }
 
 
+    }
+
+    private void updateCounter(){
+        tv.setText(numberOfImages+ " of 3");
+        if(numberOfImages==MAX_NUMBER_OF_IMAGES){
+            tv.setTextColor(Color.RED);
+        }
     }
 
     public void newImage(View view){
@@ -160,21 +174,9 @@ public class CoralSelected extends AppCompatActivity {
                     coral1imageView.setBackground(null);
                     //set new image
                     coral1imageView.setImageURI(Uri.parse(uri));
-//                    String []projection={MediaStore.Images.Media.DATA};
-//                    Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
-//                    cursor.moveToFirst();
-//                    int columnIndex = cursor.getColumnIndex(projection[0]);
-//                    URI filepath = cursor.getString(columnIndex);
-//                    cursor.close();
-
 
                     coralProfile.setPhotoChosen(uri);
                     photoChosen = uri;
-
-//                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filepath);
-//
-//                    coral1imageView.setImageBitmap(yourSelectedImage);
-
                 }
                 break;
         }

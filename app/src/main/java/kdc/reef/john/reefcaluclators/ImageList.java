@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable;
  */
 
 public class ImageList {
-    Drawable d;
-    public ImageList(Drawable x){
-        d = x;
+    String imageURI;
+    public ImageList(String x){
+        imageURI = x;
     }
 }
