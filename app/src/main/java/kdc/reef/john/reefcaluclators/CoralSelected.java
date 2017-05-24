@@ -1,6 +1,7 @@
 package kdc.reef.john.reefcaluclators;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,11 +12,15 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -51,6 +56,7 @@ public class CoralSelected extends AppCompatActivity {
     final static private int MAX_NUMBER_OF_IMAGES = 3;
 
     List <Boolean> coralNumbers;
+    List<CoralProfile> coralProfileArrayList;
     private CoralProfile coralProfile;
     private int index;
 
@@ -118,28 +124,14 @@ public class CoralSelected extends AppCompatActivity {
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            ArrayList<String> temp = coralProfile.getImageArrayList();
-            temp.add("placeholder");
-            //ImageView temp = new ImageView(this);
-            //temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
+            coralProfileArrayList = CoralList.getCoralProfileArrayList();
 
-            //linearLayout1.addView(temp);
-            ArrayList<Image> imageList = new ArrayList<>();
 
-            for(String i:temp){
-                Image im;
-                if(i.equals("placeholder")){
-
-                }
-                else{
-                    //TODO
-                }
-                //imageList.add(im);
-            }
-
-            ArrayAdapter<Image> aItems = new ArrayAdapter<Image>(this, R.layout.simple_list_item_1, imageList);
-            TwoWayView lvTest = (TwoWayView) findViewById(R.id.lvItems);
-            lvTest.setAdapter(aItems);
+            // Create the adapter to convert the array to views
+            UsersAdapter adapter = new UsersAdapter(this, coralProfileArrayList);
+            // Attach the adapter to a ListView
+            TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
+            listView.setAdapter(adapter);
 
             numberOfImages++;
         }
@@ -227,6 +219,29 @@ public class CoralSelected extends AppCompatActivity {
         coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
         //photo chosen is already set
 
+    }
+
+    public class UsersAdapter extends ArrayAdapter<CoralProfile> {
+        public UsersAdapter(Context context, List<CoralProfile> corals) {
+            super(context, 0, corals);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            CoralProfile user = getItem(position);
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_list_item_1, parent, false);
+            }
+            // Lookup view for data population
+            ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
+            // Populate the data into the template view using the data object
+            //TODO
+            tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
+            // Return the completed view to render on screen
+            return convertView;
+        }
     }
 
 //    @Override

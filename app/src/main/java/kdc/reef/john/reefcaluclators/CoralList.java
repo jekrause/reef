@@ -174,8 +174,6 @@ public class CoralList extends AppCompatActivity {
                     //imageView.setImageURI(null);
                     //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
                 }
-
-
                 //Name
                 TextView nameText = (TextView) coralView.findViewById(R.id.coralViewNameText);
                 nameText.setText(name);
