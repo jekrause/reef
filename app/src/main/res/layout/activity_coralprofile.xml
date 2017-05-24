@@ -140,12 +140,12 @@
         android:text="Photos" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/coralProfileImageCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="0 of 3"
-        android:textColor="#FFFFFF"
+        android:textColor="@android:color/white"
         android:layout_alignBottom="@+id/textView5"
         android:layout_alignEnd="@+id/coral1CosttextView"
         android:layout_marginEnd="12dp" />

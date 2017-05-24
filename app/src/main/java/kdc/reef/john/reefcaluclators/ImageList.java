@@ -11,4 +11,7 @@ public class ImageList {
     public ImageList(String x){
         imageURI = x;
     }
+    public void set(String x){
+        imageURI =x;
+    }
 }

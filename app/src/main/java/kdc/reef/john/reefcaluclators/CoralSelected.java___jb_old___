@@ -43,7 +43,6 @@ public class CoralSelected extends AppCompatActivity {
     TextView tv;
 
     private static final int SELECTED_PICTURE =1;
-    private static final int SELECTED_PICTURE_SCROLL = 2;
 
     private String name;
     private String datePurchased;
@@ -63,7 +62,6 @@ public class CoralSelected extends AppCompatActivity {
     List<ImageList> imageListList;
     private CoralProfile coralProfile;
     private int index;
-    private String tempURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,11 +168,6 @@ public class CoralSelected extends AppCompatActivity {
         startActivityForResult(i, SELECTED_PICTURE);
     }
 
-    public void newImageScroll(View view){
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,11 +183,6 @@ public class CoralSelected extends AppCompatActivity {
 
                     coralProfile.setPhotoChosen(uri);
                     photoChosen = uri;
-                }
-                break;
-            case SELECTED_PICTURE_SCROLL:
-                if(resultCode==RESULT_OK){
-                    tempURI = data.getData().toString();
                 }
                 break;
 
@@ -272,15 +260,13 @@ public class CoralSelected extends AppCompatActivity {
     //click listeners
     private void registerClickCallback(){
         TwoWayView twv = (TwoWayView) findViewById(R.id.lvItems);
-
-        twv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        twv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                newImageScroll(view);
-                ImageList imtemp = imageListList.get(position);
-                imtemp.set(tempURI);
+            public void onClick(View v) {
+
             }
         });
+
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {

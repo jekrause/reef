@@ -1,11 +1,14 @@
 package kdc.reef.john.reefcaluclators;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.camera2.TotalCaptureResult;
 import android.net.Uri;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,6 +111,9 @@ public class CoralList extends AppCompatActivity {
         tv.setText(curNumber+ " of 10");
         if(curNumber==maxNumber){
             tv.setTextColor(Color.RED);
+        }
+        else{
+            tv.setTextColor(Color.WHITE);
         }
     }
 
@@ -272,6 +278,49 @@ public class CoralList extends AppCompatActivity {
                 coralNumbers.set(position, true);
                 Intent i = new Intent(CoralList.this, CoralSelected.class);
                 startActivity(i);
+            }
+        });
+
+        //long click listener
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(CoralList.this);
+
+                builder.setTitle("Confirm Deletion");
+                builder.setMessage("Are you sure you want to delete this profile?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                        Log.d("MyApp","yes");
+                        coralNumbers.remove(position);
+                        coralProfileArrayList.remove(position);
+                        curNumber--;
+                        updateCounter();
+                        refreshListings();
+
+
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("MyApp","no");
+
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
             }
         });
     }
