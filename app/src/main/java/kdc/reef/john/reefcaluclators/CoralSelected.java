@@ -3,7 +3,9 @@ package kdc.reef.john.reefcaluclators;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import org.lucasr.twowayview.TwoWayView;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,8 +124,20 @@ public class CoralSelected extends AppCompatActivity {
             //temp.setImageDrawable(getResources().getDrawable(R.drawable.coral));
 
             //linearLayout1.addView(temp);
+            ArrayList<Image> imageList = new ArrayList<>();
 
-            ArrayAdapter<String> aItems = new ArrayAdapter<String>(this, R.layout.simple_list_item_1, temp);
+            for(String i:temp){
+                Image im;
+                if(i.equals("placeholder")){
+
+                }
+                else{
+                    //TODO
+                }
+                //imageList.add(im);
+            }
+
+            ArrayAdapter<Image> aItems = new ArrayAdapter<Image>(this, R.layout.simple_list_item_1, imageList);
             TwoWayView lvTest = (TwoWayView) findViewById(R.id.lvItems);
             lvTest.setAdapter(aItems);
 

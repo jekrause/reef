@@ -24,7 +24,7 @@ public class CoralProfile implements Serializable{
     private double size = 0.0;
 
     public CoralProfile(String name, String datePurchased, double price){
-        //imageArrayList = new ArrayList<>();
+        imageArrayList = new ArrayList<>();
         this.setName(name);
         this.setDatePurchased(datePurchased);
         this.price = price;
