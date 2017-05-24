@@ -55,8 +55,10 @@ public class CoralSelected extends AppCompatActivity {
     static private int numberOfImages = 1;
     final static private int MAX_NUMBER_OF_IMAGES = 3;
 
+    UsersAdapter adapter;
+
     List <Boolean> coralNumbers;
-    List<CoralProfile> coralProfileArrayList;
+    List<ImageList> imageList;
     private CoralProfile coralProfile;
     private int index;
 
@@ -64,6 +66,14 @@ public class CoralSelected extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coralprofile);
+
+        imageList = coralProfile.getImageArrayList();
+
+        // Create the adapter to convert the array to views
+        adapter = new UsersAdapter(this, imageList);
+        // Attach the adapter to a ListView
+        TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
+        listView.setAdapter(adapter);
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
@@ -124,16 +134,9 @@ public class CoralSelected extends AppCompatActivity {
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            coralProfileArrayList = CoralList.getCoralProfileArrayList();
-
-
-            // Create the adapter to convert the array to views
-            UsersAdapter adapter = new UsersAdapter(this, coralProfileArrayList);
-            // Attach the adapter to a ListView
-            TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
-            listView.setAdapter(adapter);
 
             numberOfImages++;
+            adapter.notifyDataSetChanged();
         }
 
 
@@ -221,15 +224,15 @@ public class CoralSelected extends AppCompatActivity {
 
     }
 
-    public class UsersAdapter extends ArrayAdapter<CoralProfile> {
-        public UsersAdapter(Context context, List<CoralProfile> corals) {
+    public class UsersAdapter extends ArrayAdapter<ImageList> {
+        public UsersAdapter(Context context, List<ImageList> corals) {
             super(context, 0, corals);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            CoralProfile user = getItem(position);
+            ImageList user = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_list_item_1, parent, false);

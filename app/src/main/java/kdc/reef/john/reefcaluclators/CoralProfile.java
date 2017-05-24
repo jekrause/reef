@@ -17,7 +17,7 @@ public class CoralProfile implements Serializable{
 
 
 
-    private ArrayList<String> imageArrayList;
+    private ArrayList<ImageList> imageArrayList;
 
     //Non constructed variables
     private String purchasedFrom = "Seller";
@@ -87,7 +87,7 @@ public class CoralProfile implements Serializable{
         this.photoChosen = photoChosen;
     }
 
-    public ArrayList<String> getImageArrayList() {
+    public ArrayList<ImageList> getImageArrayList() {
         return imageArrayList;
     }
 }
