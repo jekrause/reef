@@ -58,22 +58,15 @@ public class CoralSelected extends AppCompatActivity {
     UsersAdapter adapter;
 
     List <Boolean> coralNumbers;
-    List<ImageList> imageList;
+    List<ImageList> imageListList;
     private CoralProfile coralProfile;
     private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MyApp","OnCreate in CoralSelected");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coralprofile);
-
-        imageList = coralProfile.getImageArrayList();
-
-        // Create the adapter to convert the array to views
-        adapter = new UsersAdapter(this, imageList);
-        // Attach the adapter to a ListView
-        TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
-        listView.setAdapter(adapter);
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
@@ -91,6 +84,13 @@ public class CoralSelected extends AppCompatActivity {
 
         coralProfile = CoralList.getCoralProfileArrayList().get(index);
 
+        imageListList = coralProfile.getImageArrayList();
+
+        // Create the adapter to convert the array to views
+        adapter = new UsersAdapter(this, imageListList);
+        // Attach the adapter to a ListView
+        TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
+        listView.setAdapter(adapter);
 
         name = coralProfile.getName();
 
@@ -134,6 +134,7 @@ public class CoralSelected extends AppCompatActivity {
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
+            imageListList.add( new ImageList(getApplicationContext().getDrawable(R.drawable.coral)));
 
             numberOfImages++;
             adapter.notifyDataSetChanged();
