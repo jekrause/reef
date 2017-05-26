@@ -145,7 +145,8 @@ public class CoralSelected extends AppCompatActivity {
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            imageListList.add( new ImageList("drawable://"+R.drawable.coral));
+            //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
+            imageListList.add(new ImageList("default"));
             Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
             updateCounter();
@@ -255,7 +256,8 @@ public class CoralSelected extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            ImageList user = getItem(position);
+            ImageList user = imageListList.get(position);
+
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_list_item_1, parent, false);
@@ -263,13 +265,21 @@ public class CoralSelected extends AppCompatActivity {
             // Lookup view for data population
             ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
             // Populate the data into the template view using the data object
-            if(user.get()!=null){
+//            if(user.get()!=null){
+//                tempImage.setImageURI(null);
+//                tempImage.setImageURI(Uri.parse(user.get()));
+//            }
+            //TODO
+
+            //else{
+                //tempImage.setImageDrawable(null);
+                tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
+            Log.d("MyApp", user.get()+" x");
+            if(user.get()!=null && !user.get().equals("default")){
+                tempImage.setImageDrawable(null);
                 tempImage.setImageURI(Uri.parse(user.get()));
             }
-            //TODO
-            else{
-                tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
-            }
+            //}
 
             // Return the completed view to render on screen
             return convertView;
@@ -284,8 +294,10 @@ public class CoralSelected extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 newImageScroll(view);
-                ImageList imtemp = imageListList.get(position);
-                imtemp.set(tempURI);
+//                ImageList imtemp = imageListList.get(position);
+//                imtemp.set(tempURI);
+
+                imageListList.get(position).set(tempURI);
                 adapter.notifyDataSetChanged();
             }
         });
