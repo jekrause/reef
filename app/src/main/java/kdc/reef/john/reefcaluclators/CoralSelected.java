@@ -146,7 +146,7 @@ public class CoralSelected extends AppCompatActivity {
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
             imageListList.add( new ImageList("drawable://"+R.drawable.coral));
-
+            Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
             updateCounter();
             adapter.notifyDataSetChanged();
@@ -195,6 +195,7 @@ public class CoralSelected extends AppCompatActivity {
             case SELECTED_PICTURE_SCROLL:
                 if(resultCode==RESULT_OK){
                     tempURI = data.getData().toString();
+                    Log.d("MyApp", tempURI);
                 }
                 break;
 
@@ -262,8 +263,14 @@ public class CoralSelected extends AppCompatActivity {
             // Lookup view for data population
             ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
             // Populate the data into the template view using the data object
+            if(user.get()!=null){
+                tempImage.setImageURI(Uri.parse(user.get()));
+            }
             //TODO
-            tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
+            else{
+                tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
+            }
+
             // Return the completed view to render on screen
             return convertView;
         }
@@ -279,6 +286,7 @@ public class CoralSelected extends AppCompatActivity {
                 newImageScroll(view);
                 ImageList imtemp = imageListList.get(position);
                 imtemp.set(tempURI);
+                adapter.notifyDataSetChanged();
             }
         });
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
