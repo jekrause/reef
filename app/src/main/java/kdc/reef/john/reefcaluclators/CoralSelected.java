@@ -63,7 +63,7 @@ public class CoralSelected extends AppCompatActivity {
     List<ImageList> imageListList;
     private CoralProfile coralProfile;
     private int index;
-    private String tempURI;
+    private String tempURI = "drawable";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +149,7 @@ public class CoralSelected extends AppCompatActivity {
             imageListList.add(new ImageList("default"));
             Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
+            Toast.makeText(this, imageListList.get(numberOfImages-1).get(), Toast.LENGTH_SHORT).show();
             updateCounter();
             adapter.notifyDataSetChanged();
         }
@@ -274,9 +275,12 @@ public class CoralSelected extends AppCompatActivity {
             //else{
                 //tempImage.setImageDrawable(null);
                 tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
-            Log.d("MyApp", user.get()+" x");
+
+
+
             if(user.get()!=null && !user.get().equals("default")){
-                tempImage.setImageDrawable(null);
+                //tempImage.setImageDrawable(null);
+                tempImage.invalidate();
                 tempImage.setImageURI(Uri.parse(user.get()));
             }
             //}
@@ -296,8 +300,14 @@ public class CoralSelected extends AppCompatActivity {
                 newImageScroll(view);
 //                ImageList imtemp = imageListList.get(position);
 //                imtemp.set(tempURI);
+                Log.d("ImageList", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
                 imageListList.get(position).set(tempURI);
+                tempURI = "default";
+                for(int i =0; i<imageListList.size(); i++){
+                    ImageList il = imageListList.get(i);
+                    Log.d("ImageList", il.get() +" ");
+                }
                 adapter.notifyDataSetChanged();
             }
         });
