@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.lucasr.twowayview.TwoWayView;
@@ -72,7 +73,7 @@ public class CoralSelected extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MyApp","OnCreate in CoralSelected");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coralprofile);
+        setContentView(R.layout.activity_coralprofile_test);
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
@@ -290,9 +291,11 @@ public class CoralSelected extends AppCompatActivity {
             if(user.get()!=null && !user.get().equals("default")){
                 //tempImage.setImageDrawable(null);
                 //tempImage.invalidate();
-                tempImage.setImageURI(null);
-                tempImage.setImageURI(Uri.parse(user.get()));
-                tempImage.invalidate();
+                //tempImage.setImageURI(null); below
+                Glide.with(this.getContext()).load(Uri.parse(user.get())).into(tempImage);
+
+                //tempImage.setImageURI(Uri.parse(user.get())); //below
+                //tempImage.invalidate(); this line was used when it was working before Glide
                 adapter.notifyDataSetChanged();
             }
             //}
