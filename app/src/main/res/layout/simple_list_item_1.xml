@@ -4,6 +4,7 @@
     android:id="@+id/imageSimp"
     android:layout_width="150sp"
     android:layout_height="150sp"
+    android:paddingStart="10dp"
     android:gravity="center_vertical"
     app:srcCompat="@drawable/coral" />
 
