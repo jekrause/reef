@@ -279,7 +279,7 @@ public class CoralSelected extends AppCompatActivity {
 //                tempImage.setImageURI(null);
 //                tempImage.setImageURI(Uri.parse(user.get()));
 //            }
-            //TODO
+
 
             //else{
                 //tempImage.setImageDrawable(null);
