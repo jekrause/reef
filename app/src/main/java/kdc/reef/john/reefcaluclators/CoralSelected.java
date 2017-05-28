@@ -35,12 +35,15 @@ import static kdc.reef.john.reefcaluclators.CoralList.coralProfileArrayList;
 
 public class CoralSelected extends AppCompatActivity {
     ImageView coral1imageView;
+    //ImageView temporaryScrollImage;
+    ImageList temporaryScrollImageList;
     EditText coral1NametextView;
     EditText coral1PricetextView;
     EditText coral1DPtextView;
     EditText coral1PFtextView;
     EditText coral1SizetextView;
     TextView tv;
+    TwoWayView twv;
 
     private static final int SELECTED_PICTURE =1;
     private static final int SELECTED_PICTURE_SCROLL = 2;
@@ -97,8 +100,8 @@ public class CoralSelected extends AppCompatActivity {
         // Create the adapter to convert the array to views
         adapter = new UsersAdapter(this, imageListList);
         // Attach the adapter to a ListView
-        TwoWayView listView = (TwoWayView) findViewById(R.id.lvItems);
-        listView.setAdapter(adapter);
+        twv = (TwoWayView) findViewById(R.id.lvItems);
+        twv.setAdapter(adapter);
         //click listeners
         registerClickCallback();
 
@@ -172,10 +175,10 @@ public class CoralSelected extends AppCompatActivity {
         startActivityForResult(i, SELECTED_PICTURE);
     }
 
-    public void newImageScroll(View view){
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-    }
+//    public void newImageScroll(View view, ){
+//        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,7 +200,12 @@ public class CoralSelected extends AppCompatActivity {
             case SELECTED_PICTURE_SCROLL:
                 if(resultCode==RESULT_OK){
                     tempURI = data.getData().toString();
-                    Log.d("MyApp", tempURI);
+                    temporaryScrollImageList.set(tempURI);
+                    tempURI = "default";
+//                    Log.d("MyApp", tempURI);
+//                    temporaryScrollImage.setImageURI(null);
+//                    temporaryScrollImage.setImageURI(Uri.parse(tempURI));
+                    adapter.notifyDataSetChanged();
                 }
                 break;
 
@@ -274,14 +282,18 @@ public class CoralSelected extends AppCompatActivity {
 
             //else{
                 //tempImage.setImageDrawable(null);
+                tempImage.setImageDrawable(null);
                 tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
 
 
 
             if(user.get()!=null && !user.get().equals("default")){
                 //tempImage.setImageDrawable(null);
-                tempImage.invalidate();
+                //tempImage.invalidate();
+                tempImage.setImageURI(null);
                 tempImage.setImageURI(Uri.parse(user.get()));
+                tempImage.invalidate();
+                adapter.notifyDataSetChanged();
             }
             //}
 
@@ -292,22 +304,22 @@ public class CoralSelected extends AppCompatActivity {
 
     //click listeners
     private void registerClickCallback(){
-        TwoWayView twv = (TwoWayView) findViewById(R.id.lvItems);
 
         twv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                newImageScroll(view);
-//                ImageList imtemp = imageListList.get(position);
-//                imtemp.set(tempURI);
-                Log.d("ImageList", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+//                newImageScroll(view);
+                temporaryScrollImageList = imageListList.get(position);
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, SELECTED_PICTURE_SCROLL);
 
-                imageListList.get(position).set(tempURI);
-                tempURI = "default";
-                for(int i =0; i<imageListList.size(); i++){
-                    ImageList il = imageListList.get(i);
-                    Log.d("ImageList", il.get() +" ");
-                }
+
+
+//                imtemp.set(tempURI);
+               // Log.d("ImageList", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+               // imageListList.get(position).set(tempURI);
+               // tempURI = "default";
+
                 adapter.notifyDataSetChanged();
             }
         });
