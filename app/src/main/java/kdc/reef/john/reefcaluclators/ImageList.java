@@ -8,11 +8,21 @@ import android.support.v4.app.AppLaunchChecker;
  */
 
 public class ImageList {
-    String imageURI;
+    private String imageURI;
+    private String dateOfImage;
 
-    public ImageList(String x){
+    public ImageList(String x, String y){
         imageURI = x;
+        dateOfImage = y;
     }
+
+    public  void setDateOfImage(String x){
+        dateOfImage = x;
+    }
+    public String getDateOfImage(){
+        return dateOfImage;
+    }
+
     public void set(String x){
         imageURI =x;
     }

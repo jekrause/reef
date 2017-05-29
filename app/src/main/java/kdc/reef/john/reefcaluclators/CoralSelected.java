@@ -30,6 +30,8 @@ import org.lucasr.twowayview.TwoWayView;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static kdc.reef.john.reefcaluclators.CoralList.coralProfileArrayList;
@@ -150,7 +152,7 @@ public class CoralSelected extends AppCompatActivity {
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
             //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
-            imageListList.add(new ImageList("default"));
+            imageListList.add(new ImageList("default", todaysDate()));
             Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
             Toast.makeText(this, imageListList.get(numberOfImages-1).get(), Toast.LENGTH_SHORT).show();
@@ -256,6 +258,8 @@ public class CoralSelected extends AppCompatActivity {
         coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
         //photo chosen is already set
 
+
+
     }
 
     public class UsersAdapter extends ArrayAdapter<ImageList> {
@@ -274,12 +278,19 @@ public class CoralSelected extends AppCompatActivity {
             }
             // Lookup view for data population
             ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
+            EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
             // Populate the data into the template view using the data object
 //            if(user.get()!=null){
 //                tempImage.setImageURI(null);
 //                tempImage.setImageURI(Uri.parse(user.get()));
 //            }
-
+            String tempDate = user.getDateOfImage();
+            if(tempDate == null){
+                edt.setText("NO DATE");
+            }
+            else{
+                edt.setText(user.getDateOfImage());
+            }
 
             //else{
                 //tempImage.setImageDrawable(null);
@@ -368,6 +379,11 @@ public class CoralSelected extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private String todaysDate(){
+        String x = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
+        return x;
     }
 
 //    @Override

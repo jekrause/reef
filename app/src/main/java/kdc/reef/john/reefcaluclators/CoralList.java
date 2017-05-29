@@ -86,6 +86,8 @@ public class CoralList extends AppCompatActivity {
             coralProfileArrayList.add(new CoralProfile("New Coral",todaysDate(),0.0));
             coralNumbers.add(Boolean.FALSE);
             coralArrayAdapter.notifyDataSetChanged();
+            //refreshListings();
+            populateListView();
 
 
             updateCounter();
@@ -149,7 +151,6 @@ public class CoralList extends AppCompatActivity {
             }
 
 
-
             CoralProfile currentCoralProfile = coralProfileArrayList.get(position);
 
             if(currentCoralProfile == null){
@@ -166,7 +167,9 @@ public class CoralList extends AppCompatActivity {
 
                 //fill the view
                 ImageView imageView = (ImageView) coralView.findViewById(R.id.itemIcon);
-                imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
+                //imageView.setBackground(null);
+                Glide.with(this.getContext()).load(R.drawable.coral).into(imageView);
+                //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
 
                 if(photoChosen!=null){
                     Uri uri = Uri.parse(photoChosen);
