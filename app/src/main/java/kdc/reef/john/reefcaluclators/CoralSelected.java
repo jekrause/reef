@@ -251,11 +251,33 @@ public class CoralSelected extends AppCompatActivity {
     }
 
     public void saveFields(){
+        String temp;
         coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
         coralProfile.setName(coral1NametextView.getText().toString());
-        coralProfile.setPrice(Double.parseDouble(coral1PricetextView.getText().toString().substring(1)));
+        temp = coral1PricetextView.getText().toString();
+        if(temp.length()>0){
+            Character c = temp.charAt(0);
+            if(!Character.isDigit(c)){
+                temp = temp.substring(1);
+                coralProfile.setPrice(Double.parseDouble(temp));
+            }
+            else{
+                coralProfile.setPrice(Double.parseDouble(temp));
+            }
+        }
+        else{
+            coralProfile.setPrice(0);
+        }
+
+
         coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
-        coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
+        temp = coral1SizetextView.getText().toString();
+        if(temp.equals("")){
+            coralProfile.setSize(0);
+        }
+        else{
+            coralProfile.setSize(Double.parseDouble(temp));
+        }
         //photo chosen is already set
 
         for(int i=0; i<numberOfImages; i++){
