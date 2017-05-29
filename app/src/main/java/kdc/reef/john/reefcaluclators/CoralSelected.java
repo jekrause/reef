@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -257,8 +258,12 @@ public class CoralSelected extends AppCompatActivity {
         coralProfile.setSize(Double.parseDouble(coral1SizetextView.getText().toString()));
         //photo chosen is already set
 
+        for(int i=0; i<numberOfImages; i++){
+            ImageList o =  (ImageList) twv.getItemAtPosition(i);
 
-
+            EditText ed = (EditText) twv.getChildAt(i).findViewById(R.id.scrollImageDate);
+            o.setDateOfImage(ed.getText().toString() );
+        }
     }
 
     public class UsersAdapter extends ArrayAdapter<ImageList> {
@@ -402,7 +407,6 @@ public class CoralSelected extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("MyApp","no");
-
                         // Do nothing
                         dialog.dismiss();
                     }
