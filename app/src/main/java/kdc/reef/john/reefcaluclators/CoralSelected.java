@@ -155,7 +155,6 @@ public class CoralSelected extends AppCompatActivity {
             imageListList.add(new ImageList("default", todaysDate()));
             Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
-            Toast.makeText(this, imageListList.get(numberOfImages-1).get(), Toast.LENGTH_SHORT).show();
             updateCounter();
             adapter.notifyDataSetChanged();
         }
@@ -270,14 +269,67 @@ public class CoralSelected extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            ImageList user = imageListList.get(position);
+            final ImageList user = imageListList.get(position);
 
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.simple_list_item_1, parent, false);
             }
             // Lookup view for data population
-            ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
+            final ImageView tempImage = (ImageView) convertView.findViewById(R.id.imageSimp);
+            tempImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO
+                    temporaryScrollImageList = user;
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, SELECTED_PICTURE_SCROLL);
+                }
+            });
+
+            tempImage.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
+
+                    builder.setTitle("Confirm Deletion");
+                    builder.setMessage("Are you sure you want to delete this profile image?");
+
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing but close the dialog
+                            Log.d("MyApp","yes");
+                            imageListList.remove(user);
+                            coralProfileArrayList.remove(user);
+                            numberOfImages--;
+                            updateCounter();
+                            //refreshListings();
+                            adapter.notifyDataSetChanged();
+
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("MyApp","no");
+
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    return true;
+                }
+            });
+
             EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
             // Populate the data into the template view using the data object
 //            if(user.get()!=null){
@@ -319,28 +371,10 @@ public class CoralSelected extends AppCompatActivity {
     //click listeners
     private void registerClickCallback(){
 
-        twv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                newImageScroll(view);
-                temporaryScrollImageList = imageListList.get(position);
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-
-
-
-//                imtemp.set(tempURI);
-               // Log.d("ImageList", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-               // imageListList.get(position).set(tempURI);
-               // tempURI = "default";
-
-                adapter.notifyDataSetChanged();
-            }
-        });
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
+                Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
 
                 builder.setTitle("Confirm Deletion");
@@ -386,16 +420,4 @@ public class CoralSelected extends AppCompatActivity {
         return x;
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        if (!photoChosen.equals("null")) {
-//
-//            coral1imageView.setImageDrawable(null);
-//            Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-//
-//
-//            coral1imageView.setImageBitmap(yourSelectedImage);
-//        }
-//    }
 }
