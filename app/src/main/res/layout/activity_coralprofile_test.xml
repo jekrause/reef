@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--Picture and Title-->
     <LinearLayout
@@ -37,131 +39,228 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.81">
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="#FFFFFF"
-                android:text="Name:"
-                android:layout_alignParentTop="true"
-                android:id="@+id/coral1NametextView1"
-                android:layout_alignStart="@+id/coral1LabelDPtextView" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Name:"
+                    android:textSize="25sp"
+                    autofit:minTextSize="20sp"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/coral1NametextView1"
+                    android:layout_alignStart="@+id/coral1LabelDPtextView" />
 
-            <EditText
+
+
+            </me.grantland.widget.AutofitLayout>
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="name"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:id="@+id/coral1NametextView"
-                android:layout_marginLeft="10dp"
-                android:layout_alignBaseline="@+id/coral1NametextView1"
-                android:layout_alignBottom="@+id/coral1NametextView1"
-                android:layout_toEndOf="@+id/coral1NametextView1" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+
+                <EditText
+                    android:id="@+id/coral1NametextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="name"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    autofit:minTextSize="16sp" />
+            </me.grantland.widget.AutofitLayout>
 
 
-            <TextView
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date Purchased:"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelDPtextView"
-                android:layout_marginStart="34dp"
-                android:layout_below="@+id/coral1NametextView1"
-                android:layout_alignParentStart="true" />
+                android:layout_height="wrap_content">
 
-            <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date Purchased:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    autofit:minTextSize="20sp"
+                    android:id="@+id/coral1LabelDPtextView"
+                    android:layout_marginStart="34dp"
+                    android:layout_below="@+id/coral1NametextView1"
+                    android:layout_alignParentStart="true" />
+            </me.grantland.widget.AutofitLayout>
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:text="New Text"
-                android:id="@+id/coral1DPtextView"
-                android:inputType="date"
-                android:layout_alignBottom="@+id/coral1LabelDPtextView"
-                android:layout_toRightOf="@+id/coral1LabelDPtextView"
-                android:layout_toEndOf="@+id/coral1LabelDPtextView"
-                android:background="@android:color/transparent"/>
+                android:layout_height="wrap_content">
 
-            <TextView
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="100sp"
+                    autofit:minTextSize="16sp"
+                    android:layout_marginLeft="10dp"
+                    android:text="New Text"
+                    android:id="@+id/coral1DPtextView"
+                    android:inputType="date"
+                    android:layout_alignBottom="@+id/coral1LabelDPtextView"
+                    android:layout_toRightOf="@+id/coral1LabelDPtextView"
+                    android:layout_toEndOf="@+id/coral1LabelDPtextView"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+            </me.grantland.widget.AutofitLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cost:"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelCosttextView"
-                android:layout_below="@+id/coral1LabelDPtextView"
-                android:layout_alignLeft="@+id/coral1LabelDPtextView"
-                android:layout_alignStart="@+id/coral1LabelDPtextView" />
+                android:layout_height="wrap_content">
 
-            <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cost:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:id="@+id/coral1LabelCosttextView"
+                    android:layout_below="@+id/coral1LabelDPtextView"
+                    android:layout_alignLeft="@+id/coral1LabelDPtextView"
+                    android:layout_alignStart="@+id/coral1LabelDPtextView" />
+            </me.grantland.widget.AutofitLayout>
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="New Text"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/coral1CosttextView"
-                android:layout_alignBottom="@+id/coral1LabelCosttextView"
-                android:layout_toRightOf="@+id/coral1LabelCosttextView"
-                android:layout_toEndOf="@+id/coral1LabelCosttextView"
-                android:background="@android:color/transparent"/>
+                android:layout_height="wrap_content">
 
-            <TextView
+                <EditText
+                    android:id="@+id/coral1CosttextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/coral1LabelCosttextView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/coral1LabelCosttextView"
+                    android:layout_toRightOf="@+id/coral1LabelCosttextView"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:text="New Text"
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+            </me.grantland.widget.AutofitLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Purchased From:"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelPFtextView"
-                android:layout_below="@+id/coral1LabelCosttextView"
-                android:layout_alignLeft="@+id/coral1LabelCosttextView"
-                android:layout_alignStart="@+id/coral1LabelCosttextView" />
+                android:layout_height="wrap_content">
 
-            <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Purchased From:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:id="@+id/coral1LabelPFtextView"
+                    android:layout_below="@+id/coral1LabelCosttextView"
+                    android:layout_alignLeft="@+id/coral1LabelCosttextView"
+                    android:layout_alignStart="@+id/coral1LabelCosttextView" />
+            </me.grantland.widget.AutofitLayout>
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"
-                android:text="Seller"
-                android:id="@+id/coral1PFtextView"
-                android:layout_alignBottom="@+id/coral1LabelPFtextView"
-                android:layout_alignLeft="@+id/coral1DPtextView"
-                android:layout_alignStart="@+id/coral1DPtextView" />
+                android:layout_height="wrap_content">
 
-            <TextView
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:text="Seller"
+                    android:id="@+id/coral1PFtextView"
+                    android:layout_alignBottom="@+id/coral1LabelPFtextView"
+                    android:layout_alignLeft="@+id/coral1DPtextView"
+                    android:layout_alignStart="@+id/coral1DPtextView"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+            </me.grantland.widget.AutofitLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Size:"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelSizetextView"
-                android:layout_below="@+id/coral1LabelPFtextView"
-                android:layout_alignStart="@+id/coral1LabelPFtextView" />
+                android:layout_height="wrap_content">
 
-            <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Size:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:id="@+id/coral1LabelSizetextView"
+                    android:layout_below="@+id/coral1LabelPFtextView"
+                    android:layout_alignStart="@+id/coral1LabelPFtextView" />
+            </me.grantland.widget.AutofitLayout>
+
+            <me.grantland.widget.AutofitLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Size"
-                android:id="@+id/coral1SizetextView"
-                android:background="@android:color/transparent"
-                android:layout_alignBottom="@+id/coral1LabelSizetextView"
-                android:layout_alignLeft="@+id/coral1CosttextView"
-                android:layout_alignStart="@+id/coral1CosttextView" />
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/coral1SizetextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/coral1LabelSizetextView"
+                    android:layout_alignLeft="@+id/coral1CosttextView"
+                    android:layout_alignStart="@+id/coral1CosttextView"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:text="Size"
+                    android:textSize="20sp"
+                    android:singleLine="true"/>
+            </me.grantland.widget.AutofitLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <!--Photo Scroll-->
@@ -216,7 +315,8 @@
                 android:layout_height="match_parent"
                 android:drawSelectorOnTop="false"
                 tools:context=".MainActivity"
-                android:layout_below="@id/button3"/>
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/button3" />
 
         </RelativeLayout>
     </LinearLayout>
