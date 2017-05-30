@@ -111,7 +111,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/coral1LabelPFtextView"
-                android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/costLabel"
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal"
@@ -169,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:text="label"
                 android:textColor="#FFFFFF"
+                android:layout_marginLeft="10dp"
                 android:textSize="20sp"
                 android:layout_above="@+id/coral1LabelPFtextView"
                 android:layout_toEndOf="@+id/coral1LabelCosttextView" />
