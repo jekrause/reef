@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.lucasr.twowayview.TwoWayView;
+import org.w3c.dom.Text;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -46,6 +47,8 @@ public class CoralSelected extends AppCompatActivity {
     EditText coral1DPtextView;
     EditText coral1PFtextView;
     EditText coral1SizetextView;
+    TextView costLabel;
+    TextView sizeLabel;
     TextView tv;
     TwoWayView twv;
 
@@ -137,7 +140,7 @@ public class CoralSelected extends AppCompatActivity {
         coral1NametextView.setText(name);
 
         coral1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
-        coral1PricetextView.setText("$" + String.format("%.2f",price));
+        coral1PricetextView.setText(String.format("%.2f",price));
 
         coral1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
         coral1DPtextView.setText(datePurchased);
@@ -147,6 +150,12 @@ public class CoralSelected extends AppCompatActivity {
 
         coral1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
         coral1SizetextView.setText(Double.toString(size));
+
+        costLabel = (TextView) findViewById(R.id.sizeLabel);
+        costLabel.setText(ChangeDefaults.measurement);
+
+        sizeLabel = (TextView) findViewById(R.id.costLabel);
+        sizeLabel.setText(ChangeDefaults.currency);
     }
 
     public void newImageInList(View view){
@@ -256,14 +265,15 @@ public class CoralSelected extends AppCompatActivity {
         coralProfile.setName(coral1NametextView.getText().toString());
         temp = coral1PricetextView.getText().toString();
         if(temp.length()>0){
-            Character c = temp.charAt(0);
-            if(!Character.isDigit(c)){
-                temp = temp.substring(1);
-                coralProfile.setPrice(Double.parseDouble(temp));
-            }
-            else{
-                coralProfile.setPrice(Double.parseDouble(temp));
-            }
+//            Character c = temp.charAt(0);
+//            if(!Character.isDigit(c)){
+//                temp = temp.substring(1);
+//                coralProfile.setPrice(Double.parseDouble(temp));
+//            }
+//            else{
+//                coralProfile.setPrice(Double.parseDouble(temp));
+//            }
+            coralProfile.setPrice(Double.parseDouble(temp));
         }
         else{
             coralProfile.setPrice(0);
@@ -278,6 +288,14 @@ public class CoralSelected extends AppCompatActivity {
         else{
             coralProfile.setSize(Double.parseDouble(temp));
         }
+//        else{
+//            if(temp.charAt(temp.length()-1)=='m'){
+//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-2)));
+//            }
+//            else{
+//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-1)));
+//            }
+//        }
         //photo chosen is already set
 
         for(int i=0; i<numberOfImages; i++){

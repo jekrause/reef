@@ -13,8 +13,10 @@ import android.widget.Toast;
  */
 
 public class ChangeDefaults extends AppCompatActivity {
-    public static String currency;
-    public static String measurement;
+    public static String currency = "$";
+    private static int curPos =0;
+    public static String measurement = "\"";
+    private  static int measPos =0;
 
 
     ArrayAdapter<CharSequence> measurementAdapter;
@@ -26,16 +28,19 @@ public class ChangeDefaults extends AppCompatActivity {
         setContentView(R.layout.activity_change_defaults);
 
         Spinner currencySpinner = (Spinner) findViewById(R.id.spinner_currency);
-        Spinner measurementSpinner = (Spinner) findViewById(R.id.spinner2);
+        Spinner measurementSpinner = (Spinner) findViewById(R.id.spinner_measurement);
         String temp;
+
+        currencySpinner.setSelection(curPos);
+        measurementSpinner.setSelection(measPos);
 
         measurementAdapter = ArrayAdapter.createFromResource(this, R.array.measurements, android.R.layout.simple_spinner_item);
         measurementAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         measurementSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0) {measurement = "\"";}
-                else if(position ==1) {measurement = "cm";}
+                if(position ==0) {measurement = "\""; measPos = position;}
+                else if(position ==1) {measurement = "cm"; measPos = position;}
             }
 
             @Override
@@ -49,10 +54,10 @@ public class ChangeDefaults extends AppCompatActivity {
         currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0) {currency = "$";}
-                else if(position ==1) {currency = "€";}
-                else if(position ==2) {currency = "£";}
-                else if(position ==3) {currency = "¥";}
+                if(position ==0) {currency = "$"; curPos = position;}
+                else if(position ==1) {currency = "€"; curPos = position;}
+                else if(position ==2) {currency = "£"; curPos = position;}
+                else if(position ==3) {currency = "¥"; curPos = position;}
             }
 
             @Override
@@ -62,9 +67,4 @@ public class ChangeDefaults extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed(){
-        Toast.makeText(this, currency + "    " + measurement, Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
-    }
 }

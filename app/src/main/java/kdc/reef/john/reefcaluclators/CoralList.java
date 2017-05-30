@@ -193,7 +193,7 @@ public class CoralList extends AppCompatActivity {
 
                 //price
                 TextView priceText = (TextView) coralView.findViewById(R.id.coralViewPriceText);
-                priceText.setText("$" + String.format("%.2f",price));
+                priceText.setText(ChangeDefaults.currency + String.format("%.2f",price));
             }
 
             return coralView;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--Picture and Title-->
@@ -106,16 +107,16 @@
                 android:layout_alignStart="@+id/coral1LabelDPtextView" />
 
             <EditText
+                android:id="@+id/coral1CosttextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="New Text"
+                android:layout_above="@+id/coral1LabelPFtextView"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/coral1CosttextView"
-                android:layout_alignBottom="@+id/coral1LabelCosttextView"
-                android:layout_toRightOf="@+id/coral1LabelCosttextView"
-                android:layout_toEndOf="@+id/coral1LabelCosttextView"
-                android:background="@android:color/transparent"/>
+                android:layout_toEndOf="@+id/costLabel"
+                android:background="@android:color/transparent"
+                android:inputType="numberDecimal"
+                android:text="New Text"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -151,15 +152,38 @@
                 android:layout_alignStart="@+id/coral1LabelPFtextView" />
 
             <EditText
+                android:id="@+id/coral1SizetextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Size"
-                android:id="@+id/coral1SizetextView"
-                android:background="@android:color/transparent"
+                android:layout_alignBaseline="@+id/coral1LabelSizetextView"
                 android:layout_alignBottom="@+id/coral1LabelSizetextView"
-                android:layout_alignLeft="@+id/coral1CosttextView"
-                android:layout_alignStart="@+id/coral1CosttextView" />
+                android:layout_toEndOf="@+id/coral1LabelCosttextView"
+                android:background="@android:color/transparent"
+                android:inputType="numberDecimal"
+                android:text="Size"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/costLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="label"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:layout_above="@+id/coral1LabelPFtextView"
+                android:layout_toEndOf="@+id/coral1LabelCosttextView" />
+
+            <TextView
+                android:id="@+id/sizeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@+id/coral1SizetextView"
+                android:layout_toEndOf="@+id/coral1SizetextView"
+                android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                tools:text="label" />
 
         </RelativeLayout>
     </LinearLayout>
