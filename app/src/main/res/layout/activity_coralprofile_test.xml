@@ -38,21 +38,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.81">
+        android:layout_weight="2">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/coral1NametextView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="#FFFFFF"
-                android:text="Name:"
                 android:layout_alignParentTop="true"
-                android:id="@+id/coral1NametextView1"
-                android:layout_alignStart="@+id/coral1LabelDPtextView" />
+                android:layout_alignStart="@+id/coral1LabelDPtextView"
+                android:text="Name:"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
 
             <!--This dummy edit text gains autofocus instead of the actual editText-->
             <EditText
@@ -60,56 +60,56 @@
                 android:layout_height="0dp" />
 
             <EditText
+                android:id="@+id/coral1NametextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:id="@+id/coral1NametextView"
-                android:layout_marginLeft="10dp"
                 android:layout_alignBaseline="@+id/coral1NametextView1"
                 android:layout_alignBottom="@+id/coral1NametextView1"
+                android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/coral1NametextView1"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="name"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
 
 
             <TextView
+                android:id="@+id/coral1LabelDPtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/coral1NametextView1"
+                android:layout_marginStart="34dp"
                 android:text="Date Purchased:"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelDPtextView"
-                android:layout_marginStart="34dp"
-                android:layout_below="@+id/coral1NametextView1"
-                android:layout_alignParentStart="true" />
+                android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/coral1DPtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:text="New Text"
-                android:id="@+id/coral1DPtextView"
-                android:inputType="date"
                 android:layout_alignBottom="@+id/coral1LabelDPtextView"
-                android:layout_toRightOf="@+id/coral1LabelDPtextView"
+                android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/coral1LabelDPtextView"
+                android:layout_toRightOf="@+id/coral1LabelDPtextView"
                 android:background="@android:color/transparent"
+                android:inputType="date"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="New Text"
+                android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/coral1LabelCosttextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/coral1LabelDPtextView"
+                android:layout_alignStart="@+id/coral1LabelDPtextView"
+                android:layout_below="@+id/coral1LabelDPtextView"
                 android:text="Cost:"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelCosttextView"
-                android:layout_below="@+id/coral1LabelDPtextView"
-                android:layout_alignLeft="@+id/coral1LabelDPtextView"
-                android:layout_alignStart="@+id/coral1LabelDPtextView" />
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/coral1CosttextView"
@@ -119,45 +119,45 @@
                 android:layout_toEndOf="@+id/costLabel"
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal"
-                android:text="New Text"
-                android:textSize="20sp"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="New Text"
+                android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/coral1LabelPFtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/coral1LabelCosttextView"
+                android:layout_alignStart="@+id/coral1LabelCosttextView"
+                android:layout_below="@+id/coral1LabelCosttextView"
                 android:text="Purchased From:"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelPFtextView"
-                android:layout_below="@+id/coral1LabelCosttextView"
-                android:layout_alignLeft="@+id/coral1LabelCosttextView"
-                android:layout_alignStart="@+id/coral1LabelCosttextView" />
+                android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/coral1PFtextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"
-                android:text="Seller"
-                android:id="@+id/coral1PFtextView"
                 android:layout_alignBottom="@+id/coral1LabelPFtextView"
                 android:layout_alignLeft="@+id/coral1DPtextView"
                 android:layout_alignStart="@+id/coral1DPtextView"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="Seller"
+                android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/coral1LabelSizetextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/coral1LabelPFtextView"
+                android:layout_below="@+id/coral1LabelPFtextView"
                 android:text="Size:"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:id="@+id/coral1LabelSizetextView"
-                android:layout_below="@+id/coral1LabelPFtextView"
-                android:layout_alignStart="@+id/coral1LabelPFtextView" />
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/coral1SizetextView"
@@ -168,21 +168,21 @@
                 android:layout_toEndOf="@+id/coral1LabelCosttextView"
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal"
-                android:text="Size"
-                android:textSize="20sp"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="Size"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/costLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/coral1LabelPFtextView"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/coral1LabelCosttextView"
                 android:text="label"
                 android:textColor="#FFFFFF"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:layout_above="@+id/coral1LabelPFtextView"
-                android:layout_toEndOf="@+id/coral1LabelCosttextView" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/sizeLabel"

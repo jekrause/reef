@@ -10,15 +10,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:text="Change Defaults"
         android:textColor="#555555"
         android:textSize="50sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"/>
+        android:textStyle="bold" />
 
 
         <TextView

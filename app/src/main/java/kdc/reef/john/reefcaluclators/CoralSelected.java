@@ -261,8 +261,22 @@ public class CoralSelected extends AppCompatActivity {
 
     public void saveFields(){
         String temp;
-        coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
-        coralProfile.setName(coral1NametextView.getText().toString());
+        temp = coral1DPtextView.getText().toString();
+        if(temp.length()==0){
+            coralProfile.setDatePurchased(todaysDate());
+        }
+        else {
+            coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
+        }
+
+        temp = coral1NametextView.getText().toString();
+        if(temp.length()==0){
+            coralProfile.setName("Coral Name");
+        }
+        else{
+            coralProfile.setName(coral1NametextView.getText().toString());
+        }
+
         temp = coral1PricetextView.getText().toString();
         if(temp.length()>0){
 //            Character c = temp.charAt(0);
@@ -279,8 +293,14 @@ public class CoralSelected extends AppCompatActivity {
             coralProfile.setPrice(0);
         }
 
+        temp = coral1PFtextView.getText().toString();
+        if(temp.length()==0){
+            coralProfile.setPurchasedFrom("Seller");
+        }
+        else{
+            coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
+        }
 
-        coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
         temp = coral1SizetextView.getText().toString();
         if(temp.equals("")){
             coralProfile.setSize(0);
