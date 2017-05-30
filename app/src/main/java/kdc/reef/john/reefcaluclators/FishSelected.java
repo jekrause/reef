@@ -1,5 +1,7 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,11 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.lucasr.twowayview.TwoWayView;
-import org.w3c.dom.Text;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -36,17 +34,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static kdc.reef.john.reefcaluclators.CoralList.coralProfileArrayList;
 
-public class CoralSelected extends AppCompatActivity {
-    ImageView coral1imageView;
+public class FishSelected extends AppCompatActivity {
+
+    ImageView fish1imageView;
     //ImageView temporaryScrollImage;
     ImageList temporaryScrollImageList;
-    EditText coral1NametextView;
-    EditText coral1PricetextView;
-    EditText coral1DPtextView;
-    EditText coral1PFtextView;
-    EditText coral1SizetextView;
+    EditText fish1NametextView;
+    EditText fish1PricetextView;
+    EditText fish1DPtextView;
+    EditText fish1PFtextView;
+    EditText fish1SizetextView;
     TextView costLabel;
     TextView sizeLabel;
     TextView tv;
@@ -57,7 +55,7 @@ public class CoralSelected extends AppCompatActivity {
 
     private String name;
     private String datePurchased;
-    private Drawable iconCoralId;
+    private Drawable fishCoralId;
     private double price;
     private double size;
     private String seller;
@@ -69,35 +67,35 @@ public class CoralSelected extends AppCompatActivity {
 
     UsersAdapter adapter;
 
-    List <Boolean> coralNumbers;
+    List <Boolean> fishNumbers;
     List<ImageList> imageListList;
-    private CoralProfile coralProfile;
+
+    private FishProfile fishProfile;
     private int index;
     private String tempURI = "drawable";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("MyApp","OnCreate in CoralSelected");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coralprofile_test);
+        setContentView(R.layout.activity_fish_selected);
 
         //find coral profile
-        coralNumbers= CoralList.getCoralNumbers();
-        Log.d("myApp",coralNumbers.size()+"");
+        fishNumbers = FishList.getFishNumbers();
+        Log.d("myApp", fishNumbers.size()+"");
         int index =0;
-        while(index<coralNumbers.size()){
-            if(coralNumbers.get(index)){
+        while(index< fishNumbers.size()){
+            if(fishNumbers.get(index)){
                 //fishNumbers[index] = false;
-                coralNumbers.set(index,false);
+                fishNumbers.set(index,false);
                 Log.d("myApp", index+"");
                 break;
             }
             index++;
         }
 
-        coralProfile = CoralList.getCoralProfileArrayList().get(index);
+        fishProfile = FishList.getFishProfileArrayList().get(index);
 
-        imageListList = coralProfile.getImageArrayList();
+        imageListList = fishProfile.getImageArrayList();
         tv = (TextView) findViewById(R.id.coralProfileImageCounter);
 
         //set image number count
@@ -113,43 +111,43 @@ public class CoralSelected extends AppCompatActivity {
         registerClickCallback();
 
 
-        name = coralProfile.getName();
+        name = fishProfile.getName();
 
-        datePurchased = coralProfile.getDatePurchased();
-        iconCoralId = getApplicationContext().getResources().getDrawable(coralProfile.getIconCoralId());
-        price = coralProfile.getPrice();
-        size = coralProfile.getSize();
-        seller = coralProfile.getPurchasedFrom();
-        photoChosen = coralProfile.getPhotoChosen();
+        datePurchased = fishProfile.getDatePurchased();
+        fishCoralId = getApplicationContext().getResources().getDrawable(fishProfile.getIconCoralId());
+        price = fishProfile.getPrice();
+        size = fishProfile.getSize();
+        seller = fishProfile.getPurchasedFrom();
+        photoChosen = fishProfile.getPhotoChosen();
 
 
 
         if (photoChosen!=null) {
             //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-            coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            coral1imageView.setImageURI(Uri.parse(photoChosen));
+            fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
+            fish1imageView.setImageURI(Uri.parse(photoChosen));
 
 
         } else {
-            coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            coral1imageView.setBackground(iconCoralId);
+            fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
+            fish1imageView.setBackground(fishCoralId);
         }
 
-        coral1NametextView = (EditText) findViewById(R.id.coral1NametextView);
+        fish1NametextView = (EditText) findViewById(R.id.coral1NametextView);
 
-        coral1NametextView.setText(name);
+        fish1NametextView.setText(name);
 
-        coral1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
-        coral1PricetextView.setText(String.format("%.2f",price));
+        fish1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
+        fish1PricetextView.setText(String.format("%.2f",price));
 
-        coral1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
-        coral1DPtextView.setText(datePurchased);
+        fish1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
+        fish1DPtextView.setText(datePurchased);
 
-        coral1PFtextView = (EditText) findViewById(R.id.coral1PFtextView);
-        coral1PFtextView.setText(seller);
+        fish1PFtextView = (EditText) findViewById(R.id.coral1PFtextView);
+        fish1PFtextView.setText(seller);
 
-        coral1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
-        coral1SizetextView.setText(Double.toString(size));
+        fish1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
+        fish1SizetextView.setText(Double.toString(size));
 
         costLabel = (TextView) findViewById(R.id.sizeLabel);
         costLabel.setText(ChangeDefaults.measurement);
@@ -163,7 +161,6 @@ public class CoralSelected extends AppCompatActivity {
             //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
             //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
             imageListList.add(new ImageList("default", todaysDate()));
-            Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
             updateCounter();
             adapter.notifyDataSetChanged();
@@ -201,11 +198,11 @@ public class CoralSelected extends AppCompatActivity {
                 if(resultCode==RESULT_OK){
                     String uri = data.getData().toString();
                     //delete old image
-                    coral1imageView.setBackground(null);
+                    fish1imageView.setBackground(null);
                     //set new image
-                    coral1imageView.setImageURI(Uri.parse(uri));
+                    fish1imageView.setImageURI(Uri.parse(uri));
 
-                    coralProfile.setPhotoChosen(uri);
+                    fishProfile.setPhotoChosen(uri);
                     photoChosen = uri;
                 }
                 break;
@@ -248,7 +245,7 @@ public class CoralSelected extends AppCompatActivity {
 
                 return;
             }
-            FileOutputStream fileout = openFileOutput("coralData.txt", MODE_PRIVATE);
+            FileOutputStream fileout = openFileOutput("fishData.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             outputWriter.write(str);
             outputWriter.close();
@@ -261,23 +258,23 @@ public class CoralSelected extends AppCompatActivity {
 
     public void saveFields(){
         String temp;
-        temp = coral1DPtextView.getText().toString();
+        temp = fish1DPtextView.getText().toString();
         if(temp.length()==0){
-            coralProfile.setDatePurchased(todaysDate());
+            fishProfile.setDatePurchased(todaysDate());
         }
         else {
-            coralProfile.setDatePurchased(coral1DPtextView.getText().toString());
+            fishProfile.setDatePurchased(fish1DPtextView.getText().toString());
         }
 
-        temp = coral1NametextView.getText().toString();
+        temp = fish1NametextView.getText().toString();
         if(temp.length()==0){
-            coralProfile.setName("Coral Name");
+            fishProfile.setName("Fish Name");
         }
         else{
-            coralProfile.setName(coral1NametextView.getText().toString());
+            fishProfile.setName(fish1NametextView.getText().toString());
         }
 
-        temp = coral1PricetextView.getText().toString();
+        temp = fish1PricetextView.getText().toString();
         if(temp.length()>0){
 //            Character c = temp.charAt(0);
 //            if(!Character.isDigit(c)){
@@ -287,26 +284,26 @@ public class CoralSelected extends AppCompatActivity {
 //            else{
 //                coralProfile.setPrice(Double.parseDouble(temp));
 //            }
-            coralProfile.setPrice(Double.parseDouble(temp));
+            fishProfile.setPrice(Double.parseDouble(temp));
         }
         else{
-            coralProfile.setPrice(0);
+            fishProfile.setPrice(0);
         }
 
-        temp = coral1PFtextView.getText().toString();
+        temp = fish1PFtextView.getText().toString();
         if(temp.length()==0){
-            coralProfile.setPurchasedFrom("Seller");
+            fishProfile.setPurchasedFrom("Seller");
         }
         else{
-            coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
+            fishProfile.setPurchasedFrom(fish1PFtextView.getText().toString());
         }
 
-        temp = coral1SizetextView.getText().toString();
+        temp = fish1SizetextView.getText().toString();
         if(temp.equals("")){
-            coralProfile.setSize(0);
+            fishProfile.setSize(0);
         }
         else{
-            coralProfile.setSize(Double.parseDouble(temp));
+            fishProfile.setSize(Double.parseDouble(temp));
         }
 //        else{
 //            if(temp.charAt(temp.length()-1)=='m'){
@@ -355,8 +352,7 @@ public class CoralSelected extends AppCompatActivity {
             tempImage.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FishSelected.this);
 
                     builder.setTitle("Confirm Deletion");
                     builder.setMessage("Are you sure you want to delete this profile image?");
@@ -367,7 +363,8 @@ public class CoralSelected extends AppCompatActivity {
                             // Do nothing but close the dialog
                             Log.d("MyApp","yes");
                             imageListList.remove(user);
-                            coralProfileArrayList.remove(user);
+                            //fishProfileArrayList.remove(user);
+                            FishList.getFishProfileArrayList().remove(user);
                             numberOfImages--;
                             updateCounter();
                             //refreshListings();
@@ -410,9 +407,9 @@ public class CoralSelected extends AppCompatActivity {
             }
 
             //else{
-                //tempImage.setImageDrawable(null);
-                tempImage.setImageDrawable(null);
-                tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
+            //tempImage.setImageDrawable(null);
+            tempImage.setImageDrawable(null);
+            tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.fish));
 
 
 
@@ -439,8 +436,7 @@ public class CoralSelected extends AppCompatActivity {
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(FishSelected.this);
 
                 builder.setTitle("Confirm Deletion");
                 builder.setMessage("Are you sure you want to delete this profile image?");
@@ -451,7 +447,8 @@ public class CoralSelected extends AppCompatActivity {
                         // Do nothing but close the dialog
                         Log.d("MyApp","yes");
                         imageListList.remove(position);
-                        coralProfileArrayList.remove(position);
+                        //fishProfileArrayList.remove(position);
+                        FishList.getFishProfileArrayList().remove(position);
                         numberOfImages--;
                         updateCounter();
                         //refreshListings();
@@ -483,5 +480,4 @@ public class CoralSelected extends AppCompatActivity {
         String x = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
         return x;
     }
-
 }
