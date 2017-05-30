@@ -2,10 +2,22 @@
     <string name="app_name">Reef Caluclators</string>
     <string name="title_activity_part_dosing">PartDosing</string>
     <string name="title_activity_tank_inhabitants">TankInhabitants</string>
-    
+    <string name="currency_prompt">Choose Default Currency</string>
+    <string name="length_prompt">Choose Default Measurement</string>
     <string-array name="measurements">
         <item>dKH</item>
         <item>meq/l</item>
         <item>ppm</item>
     </string-array>
+    <string-array name="currency">
+        <item>Dollar ($)</item>
+        <item>Euro (€)</item>
+        <item>Pound (£)</item>
+        <item>Yen/Yuan (¥)</item>
+    </string-array>
+    <string-array name="length">
+        <item>inches (\")</item>
+        <item>centimeters (cm)</item>
+    </string-array>
+
 </resources>

@@ -32,7 +32,9 @@
         <activity android:name=".InvertsList" />
         <activity android:name=".CoralSelected" />
         <activity android:name=".Alkalinity" />
-        <activity android:name=".Calcium"></activity>
+        <activity android:name=".Calcium">
+        </activity>
+        <activity android:name=".ChangeDefaults"></activity>
     </application>
 
 </manifest>

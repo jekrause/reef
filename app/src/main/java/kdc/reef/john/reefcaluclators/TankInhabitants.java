@@ -27,4 +27,9 @@ public class TankInhabitants extends AppCompatActivity {
         Intent intent = new Intent(TankInhabitants.this, InvertsList.class);
         startActivity(intent);
     }
+
+    public void changeDefaultsButton(View view){
+        Intent intent = new Intent(TankInhabitants.this, ChangeDefaults.class);
+        startActivity(intent);
+    }
 }
