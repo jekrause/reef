@@ -38,4 +38,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.anjlab.android.iab.v3:library:1.0.+'
     testCompile 'junit:junit:4.12'
+
 }

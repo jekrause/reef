@@ -41,7 +41,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class CoralList extends AppCompatActivity {
+
+    @Inject
+    Preferences preferences;
+
 
 
     public static  List<CoralProfile> coralProfileArrayList = new ArrayList<>();
@@ -65,6 +71,8 @@ public class CoralList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ObjectGraph
+
         if(ChangeDefaults.purchasedUpgrade){
             maxNumber = Integer.MAX_VALUE;
         }

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by John on 5/31/2017.
  */
 
-public class Defaults implements Serializable{
+public class Defaults{
 
     private static String currency = "$";
     private static int curPos =0;
