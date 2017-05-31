@@ -65,7 +65,7 @@ public class CoralSelected extends AppCompatActivity {
     private Drawable defaultDrawable;
 
     static private int numberOfImages = 0;
-    final static private int MAX_NUMBER_OF_IMAGES = 3 ;
+    static private int MAX_NUMBER_OF_IMAGES = 3 ;
 
     UsersAdapter adapter;
 
@@ -78,6 +78,9 @@ public class CoralSelected extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MyApp","OnCreate in CoralSelected");
+        if(ChangeDefaults.purchasedUpgrade){
+            MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coralprofile_test);
 
@@ -87,7 +90,7 @@ public class CoralSelected extends AppCompatActivity {
         int index =0;
         while(index<coralNumbers.size()){
             if(coralNumbers.get(index)){
-                //fishNumbers[index] = false;
+                //invertsNumbers[index] = false;
                 coralNumbers.set(index,false);
                 Log.d("myApp", index+"");
                 break;

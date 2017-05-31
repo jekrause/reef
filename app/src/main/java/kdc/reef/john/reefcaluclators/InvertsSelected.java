@@ -34,17 +34,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+public class InvertsSelected extends AppCompatActivity {
 
-public class FishSelected extends AppCompatActivity {
-
-    ImageView fish1imageView;
+    ImageView inverts1imageView;
     //ImageView temporaryScrollImage;
     ImageList temporaryScrollImageList;
-    EditText fish1NametextView;
-    EditText fish1PricetextView;
-    EditText fish1DPtextView;
-    EditText fish1PFtextView;
-    EditText fish1SizetextView;
+    EditText inverts1NametextView;
+    EditText inverts1PricetextView;
+    EditText inverts1DPtextView;
+    EditText inverts1PFtextView;
+    EditText inverts1SizetextView;
     TextView costLabel;
     TextView sizeLabel;
     TextView tv;
@@ -55,7 +54,7 @@ public class FishSelected extends AppCompatActivity {
 
     private String name;
     private String datePurchased;
-    private Drawable fishCoralId;
+    private Drawable invertsCoralId;
     private double price;
     private double size;
     private String seller;
@@ -67,39 +66,39 @@ public class FishSelected extends AppCompatActivity {
 
     UsersAdapter adapter;
 
-    List <Boolean> fishNumbers;
+    List <Boolean> invertsNumbers;
     List<ImageList> imageListList;
 
-    private FishProfile fishProfile;
+    private InvertsProfile invertsProfile;
     private int index;
     private String tempURI = "drawable";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fish_selected);
+        setContentView(R.layout.activity_inverts_selected);
 
         if(ChangeDefaults.purchasedUpgrade){
             MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
         }
 
         //find coral profile
-        fishNumbers = FishList.getFishNumbers();
-        Log.d("myApp", fishNumbers.size()+"");
+        invertsNumbers = InvertsList.getInvertsNumbers();
+        Log.d("myApp", invertsNumbers.size()+"");
         int index =0;
-        while(index< fishNumbers.size()){
-            if(fishNumbers.get(index)){
+        while(index< invertsNumbers.size()){
+            if(invertsNumbers.get(index)){
                 //invertsNumbers[index] = false;
-                fishNumbers.set(index,false);
+                invertsNumbers.set(index,false);
                 Log.d("myApp", index+"");
                 break;
             }
             index++;
         }
 
-        fishProfile = FishList.getFishProfileArrayList().get(index);
+        invertsProfile = InvertsList.getInvertsProfileArrayList().get(index);
 
-        imageListList = fishProfile.getImageArrayList();
+        imageListList = invertsProfile.getImageArrayList();
         tv = (TextView) findViewById(R.id.coralProfileImageCounter);
 
         //set image number count
@@ -115,43 +114,43 @@ public class FishSelected extends AppCompatActivity {
         registerClickCallback();
 
 
-        name = fishProfile.getName();
+        name = invertsProfile.getName();
 
-        datePurchased = fishProfile.getDatePurchased();
-        fishCoralId = getApplicationContext().getResources().getDrawable(fishProfile.getIconCoralId());
-        price = fishProfile.getPrice();
-        size = fishProfile.getSize();
-        seller = fishProfile.getPurchasedFrom();
-        photoChosen = fishProfile.getPhotoChosen();
+        datePurchased = invertsProfile.getDatePurchased();
+        invertsCoralId = getApplicationContext().getResources().getDrawable(invertsProfile.getIconCoralId());
+        price = invertsProfile.getPrice();
+        size = invertsProfile.getSize();
+        seller = invertsProfile.getPurchasedFrom();
+        photoChosen = invertsProfile.getPhotoChosen();
 
 
 
         if (photoChosen!=null) {
             //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
-            fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            fish1imageView.setImageURI(Uri.parse(photoChosen));
+            inverts1imageView = (ImageView) findViewById(R.id.coral1imageView);
+            inverts1imageView.setImageURI(Uri.parse(photoChosen));
 
 
         } else {
-            fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
-            fish1imageView.setBackground(fishCoralId);
+            inverts1imageView = (ImageView) findViewById(R.id.coral1imageView);
+            inverts1imageView.setBackground(invertsCoralId);
         }
 
-        fish1NametextView = (EditText) findViewById(R.id.coral1NametextView);
+        inverts1NametextView = (EditText) findViewById(R.id.coral1NametextView);
 
-        fish1NametextView.setText(name);
+        inverts1NametextView.setText(name);
 
-        fish1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
-        fish1PricetextView.setText(String.format("%.2f",price));
+        inverts1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
+        inverts1PricetextView.setText(String.format("%.2f",price));
 
-        fish1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
-        fish1DPtextView.setText(datePurchased);
+        inverts1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
+        inverts1DPtextView.setText(datePurchased);
 
-        fish1PFtextView = (EditText) findViewById(R.id.coral1PFtextView);
-        fish1PFtextView.setText(seller);
+        inverts1PFtextView = (EditText) findViewById(R.id.coral1PFtextView);
+        inverts1PFtextView.setText(seller);
 
-        fish1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
-        fish1SizetextView.setText(Double.toString(size));
+        inverts1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
+        inverts1SizetextView.setText(Double.toString(size));
 
         costLabel = (TextView) findViewById(R.id.sizeLabel);
         costLabel.setText(ChangeDefaults.measurement);
@@ -202,11 +201,11 @@ public class FishSelected extends AppCompatActivity {
                 if(resultCode==RESULT_OK){
                     String uri = data.getData().toString();
                     //delete old image
-                    fish1imageView.setBackground(null);
+                    inverts1imageView.setBackground(null);
                     //set new image
-                    fish1imageView.setImageURI(Uri.parse(uri));
+                    inverts1imageView.setImageURI(Uri.parse(uri));
 
-                    fishProfile.setPhotoChosen(uri);
+                    invertsProfile.setPhotoChosen(uri);
                     photoChosen = uri;
                 }
                 break;
@@ -249,7 +248,7 @@ public class FishSelected extends AppCompatActivity {
 
                 return;
             }
-            FileOutputStream fileout = openFileOutput("fishData.txt", MODE_PRIVATE);
+            FileOutputStream fileout = openFileOutput("invertsData.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
             outputWriter.write(str);
             outputWriter.close();
@@ -262,23 +261,23 @@ public class FishSelected extends AppCompatActivity {
 
     public void saveFields(){
         String temp;
-        temp = fish1DPtextView.getText().toString();
+        temp = inverts1DPtextView.getText().toString();
         if(temp.length()==0){
-            fishProfile.setDatePurchased(todaysDate());
+            invertsProfile.setDatePurchased(todaysDate());
         }
         else {
-            fishProfile.setDatePurchased(fish1DPtextView.getText().toString());
+            invertsProfile.setDatePurchased(inverts1DPtextView.getText().toString());
         }
 
-        temp = fish1NametextView.getText().toString();
+        temp = inverts1NametextView.getText().toString();
         if(temp.length()==0){
-            fishProfile.setName("Fish Name");
+            invertsProfile.setName("Inverts Name");
         }
         else{
-            fishProfile.setName(fish1NametextView.getText().toString());
+            invertsProfile.setName(inverts1NametextView.getText().toString());
         }
 
-        temp = fish1PricetextView.getText().toString();
+        temp = inverts1PricetextView.getText().toString();
         if(temp.length()>0){
 //            Character c = temp.charAt(0);
 //            if(!Character.isDigit(c)){
@@ -288,26 +287,26 @@ public class FishSelected extends AppCompatActivity {
 //            else{
 //                coralProfile.setPrice(Double.parseDouble(temp));
 //            }
-            fishProfile.setPrice(Double.parseDouble(temp));
+            invertsProfile.setPrice(Double.parseDouble(temp));
         }
         else{
-            fishProfile.setPrice(0);
+            invertsProfile.setPrice(0);
         }
 
-        temp = fish1PFtextView.getText().toString();
+        temp = inverts1PFtextView.getText().toString();
         if(temp.length()==0){
-            fishProfile.setPurchasedFrom("Seller");
+            invertsProfile.setPurchasedFrom("Seller");
         }
         else{
-            fishProfile.setPurchasedFrom(fish1PFtextView.getText().toString());
+            invertsProfile.setPurchasedFrom(inverts1PFtextView.getText().toString());
         }
 
-        temp = fish1SizetextView.getText().toString();
+        temp = inverts1SizetextView.getText().toString();
         if(temp.equals("")){
-            fishProfile.setSize(0);
+            invertsProfile.setSize(0);
         }
         else{
-            fishProfile.setSize(Double.parseDouble(temp));
+            invertsProfile.setSize(Double.parseDouble(temp));
         }
 //        else{
 //            if(temp.charAt(temp.length()-1)=='m'){
@@ -356,7 +355,7 @@ public class FishSelected extends AppCompatActivity {
             tempImage.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(FishSelected.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(InvertsSelected.this);
 
                     builder.setTitle("Confirm Deletion");
                     builder.setMessage("Are you sure you want to delete this profile image?");
@@ -413,7 +412,7 @@ public class FishSelected extends AppCompatActivity {
             //else{
             //tempImage.setImageDrawable(null);
             tempImage.setImageDrawable(null);
-            tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.fish));
+            tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.invert));
 
 
 
@@ -440,7 +439,7 @@ public class FishSelected extends AppCompatActivity {
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(FishSelected.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(InvertsSelected.this);
 
                 builder.setTitle("Confirm Deletion");
                 builder.setMessage("Are you sure you want to delete this profile image?");

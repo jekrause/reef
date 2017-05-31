@@ -28,6 +28,11 @@ public class TankInhabitants extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void upgradeClick(View view){
+        Intent intent = new Intent(TankInhabitants.this, Upgrade.class);
+        startActivity(intent);
+    }
+
     public void changeDefaultsButton(View view){
         Intent intent = new Intent(TankInhabitants.this, ChangeDefaults.class);
         startActivity(intent);

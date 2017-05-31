@@ -64,11 +64,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="UPGRADE"
+        android:onClick="upgradeClick"
+        android:background="@android:color/darker_gray"
+        android:layout_above="@+id/button5"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:background="@android:color/darker_gray"
         android:onClick="changeDefaultsButton"
-        android:text="Change Defaults" />
+        android:text="Change Defaults"
+        android:id="@+id/button5" />
 
 </RelativeLayout>

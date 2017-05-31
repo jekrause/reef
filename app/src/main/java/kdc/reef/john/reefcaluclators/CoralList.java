@@ -58,13 +58,16 @@ public class CoralList extends AppCompatActivity {
     private CoralProfile coralProfile;
     private String photoChosen;
 
-    final static int maxNumber = 10;
+    static int maxNumber = 10;
     static int curNumber =0;
 
     TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(ChangeDefaults.purchasedUpgrade){
+            maxNumber = Integer.MAX_VALUE;
+        }
         Log.d("MyApp","OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coral);

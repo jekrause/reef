@@ -54,7 +54,7 @@ public class FishList extends AppCompatActivity {
     private FishProfile fishProfile;
     private String photoChosen;
 
-    final static int maxNumber = 10;
+    static int maxNumber = 10;
     static int curNumber =0;
 
     TextView tv;
@@ -63,6 +63,10 @@ public class FishList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish);
+
+        if(ChangeDefaults.purchasedUpgrade){
+            maxNumber = Integer.MAX_VALUE;
+        }
 
         tv = (TextView) findViewById(R.id.textView4);
 

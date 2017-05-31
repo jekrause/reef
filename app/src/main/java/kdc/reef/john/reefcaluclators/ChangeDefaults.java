@@ -17,6 +17,7 @@ public class ChangeDefaults extends AppCompatActivity {
     private static int curPos =0;
     public static String measurement = "\"";
     private  static int measPos =0;
+    public static boolean purchasedUpgrade = false;
 
 
     ArrayAdapter<CharSequence> measurementAdapter;
@@ -66,5 +67,4 @@ public class ChangeDefaults extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#7BB0ED"
+    android:layout_height="match_parent"
+    tools:context="kdc.reef.john.reefcaluclators.Upgrade">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Upgrade"
+        android:textColor="#555555"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="-2dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp"
+        android:text="\tUpgrading permanently unlocks all features including unlimited inhabitant profiles and unlimited photos in each inhabitant profile. Additionally, all future features will be unlocked." />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Do Upgrade"
+        android:onClick="doUpgradeClick"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
