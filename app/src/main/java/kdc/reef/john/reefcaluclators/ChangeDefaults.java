@@ -14,7 +14,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /**
@@ -36,6 +39,64 @@ public class ChangeDefaults extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Gson gson = new Gson();
+        try{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+
+            FileInputStream filein = openFileInput("defaultData.txt");
+            Log.d("MyApp","1");
+            InputStreamReader isr = new InputStreamReader ( filein ) ;
+            Log.d("MyApp","2");
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+            Log.d("MyApp","3");
+
+            String readString = buffreader.readLine ( ) ;
+            Log.d("MyApp","4");
+
+
+            isr.close ( ) ;
+            buffreader.close();
+            filein.close();
+
+
+            if(!readString.isEmpty()){
+                d  = gson.fromJson(readString, Defaults.class);
+
+                Log.d("MyApp", readString+ " defaults!!!");
+
+                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
+
+                Log.d("MyApp","read in " + readString);
+
+                Log.d("MyApp","finished");
+            }
+            else{
+                Log.d("MyApp", "readString is empty");
+                d = new Defaults();
+            }
+
+        }catch(Exception ex){
+            d = new Defaults();
+            Log.d("MyApp","blown up");
+            Log.d("MyApp", ex.getLocalizedMessage());
+
+        }
         super.onCreate(savedInstanceState);
         currency = d.getCurrency();
         curPos = d.getCurPos();

@@ -10,50 +10,50 @@ import java.io.Serializable;
 
 public class Defaults implements Serializable{
 
-    private static String currency = "$";
-    private static int curPos =0;
-    private static String measurement = "\"";
-    private static int measPos =0;
-    private static boolean purchasedUpgrade = false;
+    private String currency = "$";
+    private int curPos =0;
+    private String measurement = "\"";
+    private int measPos =0;
+    private boolean purchasedUpgrade = false;
 
-    public static String getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public static void setCurrency(String currency) {
-        Defaults.currency = currency;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public static int getCurPos() {
+    public int getCurPos() {
         return curPos;
     }
 
-    public static void setCurPos(int curPos) {
-        Defaults.curPos = curPos;
+    public void setCurPos(int curPos) {
+        this.curPos = curPos;
     }
 
-    public static String getMeasurement() {
+    public String getMeasurement() {
         return measurement;
     }
 
-    public static void setMeasurement(String measurement) {
-        Defaults.measurement = measurement;
+    public void setMeasurement(String measurement) {
+        this.measurement = measurement;
     }
 
-    public static int getMeasPos() {
+    public int getMeasPos() {
         return measPos;
     }
 
-    public static void setMeasPos(int measPos) {
-        Defaults.measPos = measPos;
+    public void setMeasPos(int measPos) {
+        this.measPos = measPos;
     }
 
-    public static boolean isPurchasedUpgrade() {
+    public boolean isPurchasedUpgrade() {
         return purchasedUpgrade;
     }
 
-    public static void setPurchasedUpgrade(boolean purchasedUpgrade) {
-        Defaults.purchasedUpgrade = purchasedUpgrade;
+    public void setPurchasedUpgrade(boolean purchasedUpgrade) {
+        this.purchasedUpgrade = purchasedUpgrade;
     }
 
 }

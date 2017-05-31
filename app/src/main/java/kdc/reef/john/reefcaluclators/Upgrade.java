@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +13,10 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class Upgrade extends AppCompatActivity implements BillingProcessor.IBillingHandler{
@@ -34,10 +38,68 @@ public class Upgrade extends AppCompatActivity implements BillingProcessor.IBill
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
         Toast.makeText(this, "You made the purchase. Thank you!", Toast.LENGTH_SHORT).show();
-        Defaults d = new Defaults();
+        Gson gson = new Gson();
+        Defaults d;
+
+        try{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+
+            FileInputStream filein = openFileInput("defaultData.txt");
+            Log.d("MyApp","1");
+            InputStreamReader isr = new InputStreamReader ( filein ) ;
+            Log.d("MyApp","2");
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+            Log.d("MyApp","3");
+
+            String readString = buffreader.readLine ( ) ;
+            Log.d("MyApp","4");
+
+
+            isr.close ( ) ;
+            buffreader.close();
+            filein.close();
+
+
+            if(!readString.isEmpty()){
+                d  = gson.fromJson(readString, Defaults.class);
+
+                Log.d("MyApp", readString+ " defaults!!!");
+
+                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
+
+                Log.d("MyApp","read in " + readString);
+
+                Log.d("MyApp","finished");
+            }
+            else{
+                Log.d("MyApp", "readString is empty");
+                d = new Defaults();
+            }
+
+        }catch(Exception ex){
+            d = new Defaults();
+            Log.d("MyApp","blown up");
+            Log.d("MyApp", ex.getLocalizedMessage());
+
+        }
         d.setPurchasedUpgrade(true);
 
-        Gson gson = new Gson();
+
         String temp = gson.toJson(d);
         try{
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)

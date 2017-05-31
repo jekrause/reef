@@ -30,7 +30,10 @@ import com.google.gson.Gson;
 import org.lucasr.twowayview.TwoWayView;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,15 +77,76 @@ public class CoralSelected extends AppCompatActivity {
     private CoralProfile coralProfile;
     private int index;
     private String tempURI = "drawable";
+    Defaults d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MyApp","OnCreate in CoralSelected");
-        if(ChangeDefaults.purchasedUpgrade){
-            MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
-        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coralprofile_test);
+
+        Gson gson = new Gson();
+        try{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+
+            FileInputStream filein = openFileInput("defaultData.txt");
+            Log.d("MyApp","1");
+            InputStreamReader isr = new InputStreamReader ( filein ) ;
+            Log.d("MyApp","2");
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+            Log.d("MyApp","3");
+
+            String readString = buffreader.readLine ( ) ;
+            Log.d("MyApp","4");
+
+
+            isr.close ( ) ;
+            buffreader.close();
+            filein.close();
+
+
+            if(!readString.isEmpty()){
+                d  = gson.fromJson(readString, Defaults.class);
+
+                Log.d("MyApp", readString+ " defaults!!!");
+
+                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
+
+                Log.d("MyApp","read in " + readString);
+
+                Log.d("MyApp","finished");
+            }
+            else{
+                Log.d("MyApp", "readString is empty");
+                d = new Defaults();
+            }
+
+        }catch(Exception ex){
+            d = new Defaults();
+            Log.d("MyApp","blown up");
+            Log.d("MyApp", ex.getLocalizedMessage());
+
+        }
+
+        if(d.isPurchasedUpgrade()){
+            MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
+        }
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
@@ -176,7 +240,13 @@ public class CoralSelected extends AppCompatActivity {
     }
 
     private void updateCounter(){
-        tv.setText(numberOfImages+ " of 3");
+        if(MAX_NUMBER_OF_IMAGES==3){
+            tv.setText(numberOfImages+ " of 10");
+        }
+        else{
+            tv.setText(numberOfImages+"");
+        }
+
         if(numberOfImages==MAX_NUMBER_OF_IMAGES){
             tv.setTextColor(Color.RED);
         }
