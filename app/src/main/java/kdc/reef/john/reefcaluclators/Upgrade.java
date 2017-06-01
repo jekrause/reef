@@ -60,15 +60,10 @@ public class Upgrade extends AppCompatActivity implements BillingProcessor.IBill
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
@@ -77,28 +72,15 @@ public class Upgrade extends AppCompatActivity implements BillingProcessor.IBill
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
         d.setPurchasedUpgrade(true);
-
 
         String temp = gson.toJson(d);
         try{

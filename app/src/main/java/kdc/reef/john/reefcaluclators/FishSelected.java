@@ -104,58 +104,36 @@ public class FishSelected extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
             filein.close();
 
-
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
             MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
         }
 
-
         //find coral profile
         fishNumbers = FishList.getFishNumbers();
-        Log.d("myApp", fishNumbers.size()+"");
         int index =0;
         while(index< fishNumbers.size()){
             if(fishNumbers.get(index)){
-                //invertsNumbers[index] = false;
                 fishNumbers.set(index,false);
-                Log.d("myApp", index+"");
                 break;
             }
             index++;
@@ -178,7 +156,6 @@ public class FishSelected extends AppCompatActivity {
         //click listeners
         registerClickCallback();
 
-
         name = fishProfile.getName();
 
         datePurchased = fishProfile.getDatePurchased();
@@ -188,14 +165,10 @@ public class FishSelected extends AppCompatActivity {
         seller = fishProfile.getPurchasedFrom();
         photoChosen = fishProfile.getPhotoChosen();
 
-
-
         if (photoChosen!=null) {
             //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
             fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
             fish1imageView.setImageURI(Uri.parse(photoChosen));
-
-
         } else {
             fish1imageView = (ImageView) findViewById(R.id.coral1imageView);
             fish1imageView.setBackground(fishCoralId);
@@ -226,15 +199,11 @@ public class FishSelected extends AppCompatActivity {
 
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
-            //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
             imageListList.add(new ImageList("default", todaysDate()));
             numberOfImages++;
             updateCounter();
             adapter.notifyDataSetChanged();
         }
-
-
     }
 
     private void updateCounter(){
@@ -258,11 +227,6 @@ public class FishSelected extends AppCompatActivity {
         startActivityForResult(i, SELECTED_PICTURE);
     }
 
-//    public void newImageScroll(View view, ){
-//        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -285,13 +249,9 @@ public class FishSelected extends AppCompatActivity {
                     tempURI = data.getData().toString();
                     temporaryScrollImageList.set(tempURI);
                     tempURI = "default";
-//                    Log.d("MyApp", tempURI);
-//                    temporaryScrollImage.setImageURI(null);
-//                    temporaryScrollImage.setImageURI(Uri.parse(tempURI));
                     adapter.notifyDataSetChanged();
                 }
                 break;
-
         }
     }
 
@@ -308,7 +268,6 @@ public class FishSelected extends AppCompatActivity {
                 // Should we show an explanation?
                 if (shouldShowRequestPermissionRationale(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
                     // Explain to the user why we need to read the contacts
                 }
 
@@ -324,7 +283,7 @@ public class FishSelected extends AppCompatActivity {
             outputWriter.write(str);
             outputWriter.close();
         }catch(Exception ex){
-            Toast.makeText(this, "Failed ..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
         }
         super.onBackPressed();
 
@@ -350,14 +309,6 @@ public class FishSelected extends AppCompatActivity {
 
         temp = fish1PricetextView.getText().toString();
         if(temp.length()>0){
-//            Character c = temp.charAt(0);
-//            if(!Character.isDigit(c)){
-//                temp = temp.substring(1);
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
-//            else{
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
             fishProfile.setPrice(Double.parseDouble(temp));
         }
         else{
@@ -379,15 +330,6 @@ public class FishSelected extends AppCompatActivity {
         else{
             fishProfile.setSize(Double.parseDouble(temp));
         }
-//        else{
-//            if(temp.charAt(temp.length()-1)=='m'){
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-2)));
-//            }
-//            else{
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-1)));
-//            }
-//        }
-        //photo chosen is already set
 
         for(int i=0; i<numberOfImages; i++){
             ImageList o =  (ImageList) twv.getItemAtPosition(i);
@@ -435,7 +377,6 @@ public class FishSelected extends AppCompatActivity {
 
                         public void onClick(DialogInterface dialog, int which) {
                             // Do nothing but close the dialog
-                            Log.d("MyApp","yes");
                             imageListList.remove(user);
                             //fishProfileArrayList.remove(user);
                             FishList.getFishProfileArrayList().remove(user);
@@ -453,8 +394,6 @@ public class FishSelected extends AppCompatActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("MyApp","no");
-
                             // Do nothing
                             dialog.dismiss();
                         }
@@ -479,25 +418,13 @@ public class FishSelected extends AppCompatActivity {
             else{
                 edt.setText(user.getDateOfImage());
             }
-
-            //else{
-            //tempImage.setImageDrawable(null);
             tempImage.setImageDrawable(null);
             tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.fish));
 
-
-
             if(user.get()!=null && !user.get().equals("default")){
-                //tempImage.setImageDrawable(null);
-                //tempImage.invalidate();
-                //tempImage.setImageURI(null); below
                 Glide.with(this.getContext()).load(Uri.parse(user.get())).into(tempImage);
-
-                //tempImage.setImageURI(Uri.parse(user.get())); //below
-                //tempImage.invalidate(); this line was used when it was working before Glide
                 adapter.notifyDataSetChanged();
             }
-            //}
 
             // Return the completed view to render on screen
             return convertView;
@@ -519,7 +446,6 @@ public class FishSelected extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         imageListList.remove(position);
                         //fishProfileArrayList.remove(position);
                         FishList.getFishProfileArrayList().remove(position);
@@ -537,7 +463,6 @@ public class FishSelected extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("MyApp","no");
                         // Do nothing
                         dialog.dismiss();
                     }

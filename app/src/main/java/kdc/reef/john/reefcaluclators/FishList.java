@@ -62,7 +62,6 @@ public class FishList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fish);
 
@@ -86,15 +85,10 @@ public class FishList extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
@@ -103,25 +97,13 @@ public class FishList extends AppCompatActivity {
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
@@ -149,24 +131,19 @@ public class FishList extends AppCompatActivity {
             //refreshListings();
             populateListView();
 
-
             updateCounter();
-
         }
         else{
-            Toast.makeText(this, "No more available. Please consider upgrading \uD83D\uDE1F \uD83D\uDD2B \uD83E\uDD11", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No more available. Please consider upgrading.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onResume() {
-
         updateCounter();
         fishArrayAdapter.notifyDataSetChanged();
         refreshListings();
         super.onResume();
-
-
     }
 
     private void updateCounter(){
@@ -176,7 +153,6 @@ public class FishList extends AppCompatActivity {
         else{
             tv.setText(curNumber+"");
         }
-
         if(curNumber==maxNumber){
             tv.setTextColor(Color.RED);
         }
@@ -190,7 +166,6 @@ public class FishList extends AppCompatActivity {
         return x;
     }
     public void populateListView(){
-
         fishArrayAdapter = new MyListAdapter();
         list = (ListView) findViewById(R.id.coralListView);
         curNumber = fishProfileArrayList.size();
@@ -200,7 +175,6 @@ public class FishList extends AppCompatActivity {
         list.setScrollingCacheEnabled(false);
 
         list.setAdapter(fishArrayAdapter);
-
     }
 
     public class MyListAdapter extends ArrayAdapter<FishProfile>{
@@ -215,7 +189,6 @@ public class FishList extends AppCompatActivity {
             if(fishView == null){
                 fishView = getLayoutInflater().inflate(R.layout.coral_view,parent,false);
             }
-
 
             FishProfile currentFishProfile = fishProfileArrayList.get(position);
 
@@ -233,21 +206,12 @@ public class FishList extends AppCompatActivity {
 
                 //fill the view
                 ImageView imageView = (ImageView) fishView.findViewById(R.id.itemIcon);
-                //imageView.setBackground(null);
                 Glide.with(this.getContext()).load(R.drawable.fish).into(imageView);
-                //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
 
                 if(photoChosen!=null){
                     Uri uri = Uri.parse(photoChosen);
-//                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
                     imageView.setBackground(null);
-//                    imageView.setImageURI(Uri.parse(photoChosen));
-                    Log.d("myApp","glide, bb");
                     Glide.with(this.getContext()).load(uri).into(imageView);
-                }
-                else{
-                    //imageView.setImageURI(null);
-                    //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
                 }
                 //Name
                 TextView nameText = (TextView) fishView.findViewById(R.id.coralViewNameText);
@@ -273,7 +237,6 @@ public class FishList extends AppCompatActivity {
         }
         else{
             Gson gson = new Gson();
-            //String datax = "";
             try{
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -293,42 +256,25 @@ public class FishList extends AppCompatActivity {
                 }
 
                 FileInputStream filein = openFileInput("fishData.txt");
-                Log.d("MyApp","1");
                 InputStreamReader isr = new InputStreamReader ( filein ) ;
-                Log.d("MyApp","2");
                 BufferedReader buffreader = new BufferedReader ( isr ) ;
-                Log.d("MyApp","3");
 
                 String readString = buffreader.readLine ( ) ;
-                Log.d("MyApp","4");
-
 
                 isr.close ( ) ;
                 buffreader.close();
                 filein.close();
 
-
                 if(!readString.isEmpty()){
-                    Log.d("MyApp","start");
                     fishProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<FishProfile>>(){}.getType());
                     for(FishProfile cp : fishProfileArrayList){
                         fishNumbers.add(Boolean.FALSE);
                     }
-                    Log.d("MyApp","read in " + readString);
-                    //coralArrayAdapter.notifyDataSetChanged();
-                    //populateListView();
 
                     populateListView();
-                    Log.d("MyApp","finished");
-                }
-                else{
-                    Log.d("MyApp", "readString is empty");
                 }
 
             }catch(Exception ex){
-                Log.d("MyApp","blown up");
-                Log.d("MyApp", ex.getLocalizedMessage());
-
                 Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
@@ -364,14 +310,11 @@ public class FishList extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         fishNumbers.remove(position);
                         fishProfileArrayList.remove(position);
                         curNumber--;
                         updateCounter();
                         refreshListings();
-
-
                         dialog.dismiss();
                     }
                 });
@@ -380,13 +323,10 @@ public class FishList extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("MyApp","no");
-
                         // Do nothing
                         dialog.dismiss();
                     }
                 });
-
                 AlertDialog alert = builder.create();
                 alert.show();
                 return true;
@@ -433,6 +373,5 @@ public class FishList extends AppCompatActivity {
             Toast.makeText(this, "Failed ..", Toast.LENGTH_SHORT).show();
         }
         super.onBackPressed();
-
     }
 }

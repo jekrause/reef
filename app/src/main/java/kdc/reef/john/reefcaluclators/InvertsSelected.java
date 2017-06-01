@@ -102,15 +102,10 @@ public class InvertsSelected extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
@@ -119,25 +114,13 @@ public class InvertsSelected extends AppCompatActivity {
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
@@ -146,13 +129,10 @@ public class InvertsSelected extends AppCompatActivity {
 
         //find coral profile
         invertsNumbers = InvertsList.getInvertsNumbers();
-        Log.d("myApp", invertsNumbers.size()+"");
         int index =0;
         while(index< invertsNumbers.size()){
             if(invertsNumbers.get(index)){
-                //invertsNumbers[index] = false;
                 invertsNumbers.set(index,false);
-                Log.d("myApp", index+"");
                 break;
             }
             index++;
@@ -175,9 +155,7 @@ public class InvertsSelected extends AppCompatActivity {
         //click listeners
         registerClickCallback();
 
-
         name = invertsProfile.getName();
-
         datePurchased = invertsProfile.getDatePurchased();
         invertsCoralId = getApplicationContext().getResources().getDrawable(invertsProfile.getIconCoralId());
         price = invertsProfile.getPrice();
@@ -185,10 +163,7 @@ public class InvertsSelected extends AppCompatActivity {
         seller = invertsProfile.getPurchasedFrom();
         photoChosen = invertsProfile.getPhotoChosen();
 
-
-
         if (photoChosen!=null) {
-            //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
             inverts1imageView = (ImageView) findViewById(R.id.coral1imageView);
             inverts1imageView.setImageURI(Uri.parse(photoChosen));
 
@@ -223,15 +198,11 @@ public class InvertsSelected extends AppCompatActivity {
 
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
-            //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
             imageListList.add(new ImageList("default", todaysDate()));
             numberOfImages++;
             updateCounter();
             adapter.notifyDataSetChanged();
         }
-
-
     }
 
     private void updateCounter(){
@@ -282,9 +253,6 @@ public class InvertsSelected extends AppCompatActivity {
                     tempURI = data.getData().toString();
                     temporaryScrollImageList.set(tempURI);
                     tempURI = "default";
-//                    Log.d("MyApp", tempURI);
-//                    temporaryScrollImage.setImageURI(null);
-//                    temporaryScrollImage.setImageURI(Uri.parse(tempURI));
                     adapter.notifyDataSetChanged();
                 }
                 break;
@@ -347,14 +315,6 @@ public class InvertsSelected extends AppCompatActivity {
 
         temp = inverts1PricetextView.getText().toString();
         if(temp.length()>0){
-//            Character c = temp.charAt(0);
-//            if(!Character.isDigit(c)){
-//                temp = temp.substring(1);
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
-//            else{
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
             invertsProfile.setPrice(Double.parseDouble(temp));
         }
         else{
@@ -376,15 +336,6 @@ public class InvertsSelected extends AppCompatActivity {
         else{
             invertsProfile.setSize(Double.parseDouble(temp));
         }
-//        else{
-//            if(temp.charAt(temp.length()-1)=='m'){
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-2)));
-//            }
-//            else{
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-1)));
-//            }
-//        }
-        //photo chosen is already set
 
         for(int i=0; i<numberOfImages; i++){
             ImageList o =  (ImageList) twv.getItemAtPosition(i);
@@ -432,7 +383,6 @@ public class InvertsSelected extends AppCompatActivity {
 
                         public void onClick(DialogInterface dialog, int which) {
                             // Do nothing but close the dialog
-                            Log.d("MyApp","yes");
                             imageListList.remove(user);
                             //fishProfileArrayList.remove(user);
                             FishList.getFishProfileArrayList().remove(user);
@@ -450,8 +400,6 @@ public class InvertsSelected extends AppCompatActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("MyApp","no");
-
                             // Do nothing
                             dialog.dismiss();
                         }
@@ -465,10 +413,6 @@ public class InvertsSelected extends AppCompatActivity {
 
             EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
             // Populate the data into the template view using the data object
-//            if(user.get()!=null){
-//                tempImage.setImageURI(null);
-//                tempImage.setImageURI(Uri.parse(user.get()));
-//            }
             String tempDate = user.getDateOfImage();
             if(tempDate == null){
                 edt.setText("NO DATE");
@@ -476,26 +420,13 @@ public class InvertsSelected extends AppCompatActivity {
             else{
                 edt.setText(user.getDateOfImage());
             }
-
-            //else{
-            //tempImage.setImageDrawable(null);
             tempImage.setImageDrawable(null);
             tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.invert));
 
-
-
             if(user.get()!=null && !user.get().equals("default")){
-                //tempImage.setImageDrawable(null);
-                //tempImage.invalidate();
-                //tempImage.setImageURI(null); below
                 Glide.with(this.getContext()).load(Uri.parse(user.get())).into(tempImage);
-
-                //tempImage.setImageURI(Uri.parse(user.get())); //below
-                //tempImage.invalidate(); this line was used when it was working before Glide
                 adapter.notifyDataSetChanged();
             }
-            //}
-
             // Return the completed view to render on screen
             return convertView;
         }
@@ -516,7 +447,6 @@ public class InvertsSelected extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         imageListList.remove(position);
                         //fishProfileArrayList.remove(position);
                         FishList.getFishProfileArrayList().remove(position);
@@ -524,7 +454,6 @@ public class InvertsSelected extends AppCompatActivity {
                         updateCounter();
                         //refreshListings();
                         adapter.notifyDataSetChanged();
-
 
                         dialog.dismiss();
                     }
@@ -534,7 +463,6 @@ public class InvertsSelected extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("MyApp","no");
                         // Do nothing
                         dialog.dismiss();
                     }

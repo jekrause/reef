@@ -60,15 +60,9 @@ public class ChangeDefaults extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
-
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
@@ -77,25 +71,13 @@ public class ChangeDefaults extends AppCompatActivity {
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
         super.onCreate(savedInstanceState);
         currency = d.getCurrency();
@@ -124,7 +106,7 @@ public class ChangeDefaults extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //Do Nothing
             }
         });
 
@@ -141,7 +123,7 @@ public class ChangeDefaults extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //Do Nothing
             }
         });
     }
@@ -155,10 +137,7 @@ public class ChangeDefaults extends AppCompatActivity {
         d.setMeasurement(measurement);
 
         Gson gson = new Gson();
-        Log.d("MyApp", "pre gson");
         String temp = gson.toJson(d);
-        Log.d("MyApp", "post gson");
-        Log.d("MyApp", "Out string: " + temp);
         try{
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -166,15 +145,11 @@ public class ChangeDefaults extends AppCompatActivity {
                 // Should we show an explanation?
                 if (shouldShowRequestPermissionRationale(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
                     // Explain to the user why we need to read the contacts
                 }
-
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
-
                 // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
                 // app-defined int constant that should be quite unique
-
                 return;
             }
             FileOutputStream fileout = openFileOutput("defaultData.txt", MODE_PRIVATE);
@@ -182,9 +157,8 @@ public class ChangeDefaults extends AppCompatActivity {
             outputWriter.write(temp);
             outputWriter.close();
         }catch(Exception ex){
-            Toast.makeText(this, "Failed ..", Toast.LENGTH_SHORT).show();
+            Log.d("MyApp", "Could not save data");
         }
-
         super.onBackPressed();
     }
 }

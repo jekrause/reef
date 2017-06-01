@@ -83,8 +83,6 @@ public class CoralSelected extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("MyApp","OnCreate in CoralSelected");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coralprofile_test);
 
@@ -113,11 +111,9 @@ public class CoralSelected extends AppCompatActivity {
 
             String readString = buffreader.readLine ( ) ;
 
-
             isr.close ( ) ;
             buffreader.close();
             filein.close();
-
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
@@ -128,7 +124,6 @@ public class CoralSelected extends AppCompatActivity {
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp", ex.getLocalizedMessage());
         }
 
         if(d.isPurchasedUpgrade()){
@@ -140,7 +135,6 @@ public class CoralSelected extends AppCompatActivity {
         int index =0;
         while(index<coralNumbers.size()){
             if(coralNumbers.get(index)){
-                //invertsNumbers[index] = false;
                 coralNumbers.set(index,false);
                 break;
             }
@@ -164,7 +158,6 @@ public class CoralSelected extends AppCompatActivity {
         //click listeners
         registerClickCallback();
 
-
         name = coralProfile.getName();
 
         datePurchased = coralProfile.getDatePurchased();
@@ -174,14 +167,10 @@ public class CoralSelected extends AppCompatActivity {
         seller = coralProfile.getPurchasedFrom();
         photoChosen = coralProfile.getPhotoChosen();
 
-
-
         if (photoChosen!=null) {
             //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
             coral1imageView.setImageURI(Uri.parse(photoChosen));
-
-
         } else {
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
             coral1imageView.setBackground(iconCoralId);
@@ -212,16 +201,11 @@ public class CoralSelected extends AppCompatActivity {
 
     public void newImageInList(View view){
         if(numberOfImages<MAX_NUMBER_OF_IMAGES){
-            //LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.pictureLinear);
-            //imageListList.add( new ImageList("drawable://"+R.drawable.coral));
             imageListList.add(new ImageList("default", todaysDate()));
-            Log.d("MyApp", "drawable://"+R.drawable.coral);
             numberOfImages++;
             updateCounter();
             adapter.notifyDataSetChanged();
         }
-
-
     }
 
     private void updateCounter(){
@@ -245,11 +229,6 @@ public class CoralSelected extends AppCompatActivity {
         startActivityForResult(i, SELECTED_PICTURE);
     }
 
-//    public void newImageScroll(View view, ){
-//        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -272,9 +251,6 @@ public class CoralSelected extends AppCompatActivity {
                     tempURI = data.getData().toString();
                     temporaryScrollImageList.set(tempURI);
                     tempURI = "default";
-//                    Log.d("MyApp", tempURI);
-//                    temporaryScrollImage.setImageURI(null);
-//                    temporaryScrollImage.setImageURI(Uri.parse(tempURI));
                     adapter.notifyDataSetChanged();
                 }
                 break;
@@ -337,14 +313,6 @@ public class CoralSelected extends AppCompatActivity {
 
         temp = coral1PricetextView.getText().toString();
         if(temp.length()>0){
-//            Character c = temp.charAt(0);
-//            if(!Character.isDigit(c)){
-//                temp = temp.substring(1);
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
-//            else{
-//                coralProfile.setPrice(Double.parseDouble(temp));
-//            }
             coralProfile.setPrice(Double.parseDouble(temp));
         }
         else{
@@ -366,31 +334,6 @@ public class CoralSelected extends AppCompatActivity {
         else{
             coralProfile.setSize(Double.parseDouble(temp));
         }
-//        else{
-//            if(temp.charAt(temp.length()-1)=='m'){
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-2)));
-//            }
-//            else{
-//                coralProfile.setSize(Double.parseDouble(temp.substring(0,temp.length()-1)));
-//            }
-//        }
-        //photo chosen is already set
-
-//        for(int i=0; i<numberOfImages; i++){
-//            ImageList o =  (ImageList) twv.getItemAtPosition(i);
-//
-//            Log.d("MyApp", i + " image number");
-//
-//            if(twv.getChildAt(i)!=null){
-//                EditText ed = (EditText) twv.getChildAt(i).findViewById(R.id.scrollImageDate);
-//                o.setDateOfImage(ed.getText().toString() );
-//            }
-//            else{
-//                Log.d("MyApp","no child");
-//            }
-//
-//
-//        }
     }
 
     public class UsersAdapter extends ArrayAdapter<ImageList> {
@@ -422,7 +365,6 @@ public class CoralSelected extends AppCompatActivity {
             tempImage.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
 
                     builder.setTitle("Confirm Deletion");
@@ -463,11 +405,6 @@ public class CoralSelected extends AppCompatActivity {
             });
 
             EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
-            // Populate the data into the template view using the data object
-//            if(user.get()!=null){
-//                tempImage.setImageURI(null);
-//                tempImage.setImageURI(Uri.parse(user.get()));
-//            }
             String tempDate = user.getDateOfImage();
             if(tempDate == null){
                 edt.setText("NO DATE");
@@ -492,27 +429,13 @@ public class CoralSelected extends AppCompatActivity {
                     user.setDateOfImage(s.toString());
                 }
             });
-
-            //else{
-                //tempImage.setImageDrawable(null);
                 tempImage.setImageDrawable(null);
                 tempImage.setImageDrawable(getApplicationContext().getDrawable(R.drawable.coral));
 
-
-
             if(user.get()!=null && !user.get().equals("default")){
-                //tempImage.setImageDrawable(null);
-                //tempImage.invalidate();
-                //tempImage.setImageURI(null); below
                 Glide.with(this.getContext()).load(Uri.parse(user.get())).into(tempImage);
-
-                //tempImage.setImageURI(Uri.parse(user.get())); //below
-                //tempImage.invalidate(); this line was used when it was working before Glide
                 adapter.notifyDataSetChanged();
             }
-            //}
-
-            // Return the completed view to render on screen
             return convertView;
         }
     }
@@ -523,7 +446,6 @@ public class CoralSelected extends AppCompatActivity {
         twv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                Toast.makeText(CoralSelected.this, "long click registered", Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
 
                 builder.setTitle("Confirm Deletion");
@@ -533,12 +455,10 @@ public class CoralSelected extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         imageListList.remove(position);
                         coralProfileArrayList.remove(position);
                         numberOfImages--;
                         updateCounter();
-                        //refreshListings();
                         adapter.notifyDataSetChanged();
 
 

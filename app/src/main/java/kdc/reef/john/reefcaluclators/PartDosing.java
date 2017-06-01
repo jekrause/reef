@@ -21,7 +21,6 @@ public class PartDosing extends AppCompatActivity {
     CheckBox cbSPS;
     boolean tankType;
 
-
     TextView editText2;
 
     @Override

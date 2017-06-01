@@ -87,48 +87,28 @@ public class CoralList extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
-
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
             filein.close();
 
-
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
             maxNumber = Integer.MAX_VALUE;
         }
-        Log.d("MyApp","OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coral);
         tv = (TextView) findViewById(R.id.textView4);
@@ -149,27 +129,21 @@ public class CoralList extends AppCompatActivity {
             coralProfileArrayList.add(new CoralProfile("New Coral",todaysDate(),0.0));
             coralNumbers.add(Boolean.FALSE);
             coralArrayAdapter.notifyDataSetChanged();
-            //refreshListings();
             populateListView();
-
-
             updateCounter();
 
         }
         else{
-            Toast.makeText(this, "No more available. Give me your money!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please Consider Purchasing Upgrade", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onResume() {
-
         updateCounter();
         coralArrayAdapter.notifyDataSetChanged();
         refreshListings();
         super.onResume();
-
-
     }
 
     private void updateCounter(){
@@ -193,7 +167,6 @@ public class CoralList extends AppCompatActivity {
         return x;
     }
     public void populateListView(){
-
         coralArrayAdapter = new MyListAdapter();
         list = (ListView) findViewById(R.id.coralListView);
         curNumber = coralProfileArrayList.size();
@@ -218,8 +191,6 @@ public class CoralList extends AppCompatActivity {
             if(coralView == null){
                 coralView = getLayoutInflater().inflate(R.layout.coral_view,parent,false);
             }
-
-
             CoralProfile currentCoralProfile = coralProfileArrayList.get(position);
 
             if(currentCoralProfile == null){
@@ -236,21 +207,13 @@ public class CoralList extends AppCompatActivity {
 
                 //fill the view
                 ImageView imageView = (ImageView) coralView.findViewById(R.id.itemIcon);
-                //imageView.setBackground(null);
                 Glide.with(this.getContext()).load(R.drawable.coral).into(imageView);
-                //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
-
                 if(photoChosen!=null){
                     Uri uri = Uri.parse(photoChosen);
-//                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
                     imageView.setBackground(null);
-//                    imageView.setImageURI(Uri.parse(photoChosen));
-                    Log.d("myApp","glide, bb");
                     Glide.with(this.getContext()).load(uri).into(imageView);
                 }
                 else{
-                    //imageView.setImageURI(null);
-                    //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
                 }
                 //Name
                 TextView nameText = (TextView) coralView.findViewById(R.id.coralViewNameText);
@@ -276,7 +239,6 @@ public class CoralList extends AppCompatActivity {
         }
         else{
             Gson gson = new Gson();
-            //String datax = "";
             try{
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -296,48 +258,28 @@ public class CoralList extends AppCompatActivity {
                 }
 
                 FileInputStream filein = openFileInput("coralData.txt");
-                Log.d("MyApp","1");
                 InputStreamReader isr = new InputStreamReader ( filein ) ;
-                Log.d("MyApp","2");
                 BufferedReader buffreader = new BufferedReader ( isr ) ;
-                Log.d("MyApp","3");
-
                 String readString = buffreader.readLine ( ) ;
-                Log.d("MyApp","4");
-
 
                 isr.close ( ) ;
                 buffreader.close();
                 filein.close();
 
-
                 if(!readString.isEmpty()){
-                    Log.d("MyApp","start");
                     coralProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<CoralProfile>>(){}.getType());
                     for(CoralProfile cp : coralProfileArrayList){
                         coralNumbers.add(Boolean.FALSE);
                     }
-                    Log.d("MyApp","read in " + readString);
-                    //coralArrayAdapter.notifyDataSetChanged();
-                    //populateListView();
-
                     populateListView();
-                    Log.d("MyApp","finished");
                 }
                 else{
-                    Log.d("MyApp", "readString is empty");
                 }
 
             }catch(Exception ex){
-                Log.d("MyApp","blown up");
-                Log.d("MyApp", ex.getLocalizedMessage());
-
-                Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Log.d("MyApp","failed to output");
             }
         }
-
-
-
     }
 
 
@@ -346,7 +288,6 @@ public class CoralList extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-
                 coralNumbers.set(position, true);
                 Intent i = new Intent(CoralList.this, CoralSelected.class);
                 startActivity(i);
@@ -359,7 +300,6 @@ public class CoralList extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(CoralList.this);
-
                 builder.setTitle("Confirm Deletion");
                 builder.setMessage("Are you sure you want to delete this profile?");
 
@@ -367,14 +307,11 @@ public class CoralList extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         coralNumbers.remove(position);
                         coralProfileArrayList.remove(position);
                         curNumber--;
                         updateCounter();
                         refreshListings();
-
-
                         dialog.dismiss();
                     }
                 });
@@ -383,8 +320,6 @@ public class CoralList extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("MyApp","no");
-
                         // Do nothing
                         dialog.dismiss();
                     }
@@ -433,7 +368,7 @@ public class CoralList extends AppCompatActivity {
             outputWriter.write(str);
             outputWriter.close();
         }catch(Exception ex){
-            Toast.makeText(this, "Failed ..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show();
         }
         super.onBackPressed();
 

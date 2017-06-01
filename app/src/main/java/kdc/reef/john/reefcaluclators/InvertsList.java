@@ -73,7 +73,6 @@ public class InvertsList extends AppCompatActivity {
                 }
 
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
-
                 // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
                 // app-defined int constant that should be quite unique
 
@@ -81,42 +80,24 @@ public class InvertsList extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
-
 
             isr.close ( ) ;
             buffreader.close();
             filein.close();
 
-
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
-            Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
@@ -145,9 +126,7 @@ public class InvertsList extends AppCompatActivity {
             //refreshListings();
             populateListView();
 
-
             updateCounter();
-
         }
         else{
             Toast.makeText(this, "No more available. Please consider upgrading", Toast.LENGTH_SHORT).show();
@@ -156,13 +135,10 @@ public class InvertsList extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         updateCounter();
         invertsArrayAdapter.notifyDataSetChanged();
         refreshListings();
         super.onResume();
-
-
     }
 
     private void updateCounter(){
@@ -186,7 +162,6 @@ public class InvertsList extends AppCompatActivity {
         return x;
     }
     public void populateListView(){
-
         invertsArrayAdapter = new MyListAdapter();
         list = (ListView) findViewById(R.id.coralListView);
         curNumber = invertsProfileArrayList.size();
@@ -212,13 +187,9 @@ public class InvertsList extends AppCompatActivity {
                 fishView = getLayoutInflater().inflate(R.layout.coral_view,parent,false);
             }
 
-
             InvertsProfile currentFishProfile = invertsProfileArrayList.get(position);
 
-            if(currentFishProfile == null){
-
-            }
-            else{
+            if(currentFishProfile != null){
                 name = currentFishProfile.getName();
                 datePurchased = currentFishProfile.getDatePurchased();
                 iconCoralId = currentFishProfile.getIconCoralId();
@@ -229,22 +200,14 @@ public class InvertsList extends AppCompatActivity {
 
                 //fill the view
                 ImageView imageView = (ImageView) fishView.findViewById(R.id.itemIcon);
-                //imageView.setBackground(null);
                 Glide.with(this.getContext()).load(R.drawable.invert).into(imageView);
-                //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
 
                 if(photoChosen!=null){
                     Uri uri = Uri.parse(photoChosen);
-//                    //Bitmap yourSelectedImage = BitmapFactory.decodeFile(photoChosen);
                     imageView.setBackground(null);
-//                    imageView.setImageURI(Uri.parse(photoChosen));
-                    Log.d("myApp","glide, bb");
                     Glide.with(this.getContext()).load(uri).into(imageView);
                 }
-                else{
-                    //imageView.setImageURI(null);
-                    //imageView.setBackground(getApplicationContext().getDrawable(iconCoralId));
-                }
+
                 //Name
                 TextView nameText = (TextView) fishView.findViewById(R.id.coralViewNameText);
                 nameText.setText(name);
@@ -269,7 +232,6 @@ public class InvertsList extends AppCompatActivity {
         }
         else{
             Gson gson = new Gson();
-            //String datax = "";
             try{
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -289,50 +251,28 @@ public class InvertsList extends AppCompatActivity {
                 }
 
                 FileInputStream filein = openFileInput("invertsData.txt");
-                Log.d("MyApp","1");
                 InputStreamReader isr = new InputStreamReader ( filein ) ;
-                Log.d("MyApp","2");
                 BufferedReader buffreader = new BufferedReader ( isr ) ;
-                Log.d("MyApp","3");
 
                 String readString = buffreader.readLine ( ) ;
-                Log.d("MyApp","4");
-
 
                 isr.close ( ) ;
                 buffreader.close();
                 filein.close();
 
-
                 if(!readString.isEmpty()){
-                    Log.d("MyApp","start");
                     invertsProfileArrayList = gson.fromJson(readString,  new TypeToken<Collection<InvertsProfile>>(){}.getType());
                     for(InvertsProfile cp : invertsProfileArrayList){
                         invertsNumbers.add(Boolean.FALSE);
                     }
-                    Log.d("MyApp","read in " + readString);
-                    //coralArrayAdapter.notifyDataSetChanged();
-                    //populateListView();
-
                     populateListView();
-                    Log.d("MyApp","finished");
-                }
-                else{
-                    Log.d("MyApp", "readString is empty");
                 }
 
             }catch(Exception ex){
-                Log.d("MyApp","blown up");
-                Log.d("MyApp", ex.getLocalizedMessage());
-
-                Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Could not read data", Toast.LENGTH_LONG).show();
             }
         }
-
-
-
     }
-
 
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.coralListView);
@@ -360,13 +300,11 @@ public class InvertsList extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
-                        Log.d("MyApp","yes");
                         invertsNumbers.remove(position);
                         invertsProfileArrayList.remove(position);
                         curNumber--;
                         updateCounter();
                         refreshListings();
-
 
                         dialog.dismiss();
                     }
@@ -376,8 +314,6 @@ public class InvertsList extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d("MyApp","no");
-
                         // Do nothing
                         dialog.dismiss();
                     }
