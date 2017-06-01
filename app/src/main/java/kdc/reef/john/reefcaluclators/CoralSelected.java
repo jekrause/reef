@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,14 +108,10 @@ public class CoralSelected extends AppCompatActivity {
             }
 
             FileInputStream filein = openFileInput("defaultData.txt");
-            Log.d("MyApp","1");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
-            Log.d("MyApp","2");
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-            Log.d("MyApp","3");
 
             String readString = buffreader.readLine ( ) ;
-            Log.d("MyApp","4");
 
 
             isr.close ( ) ;
@@ -123,25 +121,14 @@ public class CoralSelected extends AppCompatActivity {
 
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
-
-                Log.d("MyApp", readString+ " defaults!!!");
-
-                Toast.makeText(this, d.isPurchasedUpgrade()+" "+ d.getCurrency() + " "+ d.getMeasurement(), Toast.LENGTH_SHORT).show();
-
-                Log.d("MyApp","read in " + readString);
-
-                Log.d("MyApp","finished");
             }
             else{
-                Log.d("MyApp", "readString is empty");
                 d = new Defaults();
             }
 
         }catch(Exception ex){
             d = new Defaults();
-            Log.d("MyApp","blown up");
             Log.d("MyApp", ex.getLocalizedMessage());
-
         }
 
         if(d.isPurchasedUpgrade()){
@@ -150,13 +137,11 @@ public class CoralSelected extends AppCompatActivity {
 
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
-        Log.d("myApp",coralNumbers.size()+"");
         int index =0;
         while(index<coralNumbers.size()){
             if(coralNumbers.get(index)){
                 //invertsNumbers[index] = false;
                 coralNumbers.set(index,false);
-                Log.d("myApp", index+"");
                 break;
             }
             index++;
@@ -391,12 +376,21 @@ public class CoralSelected extends AppCompatActivity {
 //        }
         //photo chosen is already set
 
-        for(int i=0; i<numberOfImages; i++){
-            ImageList o =  (ImageList) twv.getItemAtPosition(i);
-
-            EditText ed = (EditText) twv.getChildAt(i).findViewById(R.id.scrollImageDate);
-            o.setDateOfImage(ed.getText().toString() );
-        }
+//        for(int i=0; i<numberOfImages; i++){
+//            ImageList o =  (ImageList) twv.getItemAtPosition(i);
+//
+//            Log.d("MyApp", i + " image number");
+//
+//            if(twv.getChildAt(i)!=null){
+//                EditText ed = (EditText) twv.getChildAt(i).findViewById(R.id.scrollImageDate);
+//                o.setDateOfImage(ed.getText().toString() );
+//            }
+//            else{
+//                Log.d("MyApp","no child");
+//            }
+//
+//
+//        }
     }
 
     public class UsersAdapter extends ArrayAdapter<ImageList> {
@@ -481,6 +475,23 @@ public class CoralSelected extends AppCompatActivity {
             else{
                 edt.setText(user.getDateOfImage());
             }
+
+            edt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    user.setDateOfImage(s.toString());
+                }
+            });
 
             //else{
                 //tempImage.setImageDrawable(null);
