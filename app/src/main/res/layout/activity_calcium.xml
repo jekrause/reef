@@ -65,13 +65,14 @@
             android:text="Tank Size (G):"
             android:layout_weight="2"
             />
+
         <EditText
+            android:id="@+id/alkalinityGallons"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/alkalinityGallons"
             android:hint="Gallons"
-            android:inputType="number"/>
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
     <LinearLayout
@@ -90,13 +91,14 @@
             android:text="Current Level:"
             android:layout_weight="2"
             />
+
         <EditText
+            android:id="@+id/currentLvl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/currentLvl"
             android:hint="units"
-            android:inputType="number"/>
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
     <LinearLayout
@@ -115,13 +117,14 @@
             android:text="Desired Level:"
             android:layout_weight="2"
             />
+
         <EditText
+            android:id="@+id/desiredLvl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/desiredLvl"
             android:hint="units"
-            android:inputType="number"/>
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
 
