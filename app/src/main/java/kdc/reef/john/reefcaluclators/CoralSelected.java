@@ -210,7 +210,7 @@ public class CoralSelected extends AppCompatActivity {
 
     private void updateCounter(){
         if(MAX_NUMBER_OF_IMAGES==3){
-            tv.setText(numberOfImages+ " of 10");
+            tv.setText(numberOfImages+ " of 3");
         }
         else{
             tv.setText(numberOfImages+"");

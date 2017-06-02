@@ -269,7 +269,7 @@ public class InvertsList extends AppCompatActivity {
                 }
 
             }catch(Exception ex){
-                Toast.makeText(this, "Could not read data", Toast.LENGTH_LONG).show();
+
             }
         }
     }

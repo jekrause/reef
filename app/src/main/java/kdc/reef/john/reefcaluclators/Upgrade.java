@@ -28,11 +28,13 @@ public class Upgrade extends AppCompatActivity implements BillingProcessor.IBill
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade);
 
-        bp = new BillingProcessor(this, null, this);
+//        bp = new BillingProcessor(this, null, this);
+
+        bp = new BillingProcessor(this,"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArLcLXZmJfZAJEWi6vynifI2uT5OTLrBqzsNgM4aijqsFNG9OHPKaJrgi9PSVUiLPaI2aRKtEnrGBRG9QnoBhaIjq3f8Fpi11Cvh40OAOV3zDdeTI93pyD60zZU8SLq1q1U0sQUjDDCp9r5yAg38XWo9AoAFd7h2S224STWLG6npwPZhkMpMg6ZyLGbVbKPwmNoMMEqug7Zxj7Pq3NRAOBYwv9XT2y+NKnOw5W7fJ53J8edaMHyirfHKBDQ2eJWQwzfk0a1LJlcEhIvOr+LtljgSVtaqy5IF7orFCcKJiBd+mbpMAn/pQ2N6OpsH2SVDHHi1s3Fb/8bvB1jjVFAMkAQIDAQAB",this);
     }
 
     public void doUpgradeClick(View view){
-        bp.purchase(Upgrade.this, "android.test.purchased");
+        bp.purchase(Upgrade.this, "unlock_all_features");
     }
 
     @Override

@@ -3,11 +3,8 @@
     package="kdc.reef.john.reefcaluclators">
 
     <uses-sdk android:minSdkVersion="23" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application

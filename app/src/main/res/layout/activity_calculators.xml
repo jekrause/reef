@@ -65,6 +65,7 @@
             android:layout_height="match_parent"
             android:text="Alkalinity"
             android:layout_weight="1"
+            android:layout_marginRight="2.5dp"
             android:background="@android:color/holo_blue_light"
             android:onClick="alkalinityClick"
             android:id="@+id/alkalinityButton"
@@ -72,6 +73,7 @@
         <Button
             android:layout_width="0dp"
             android:background="@android:color/holo_blue_light"
+            android:layout_marginLeft="2.5dp"
             android:layout_height="match_parent"
             android:text="Calcium"
             android:layout_weight="1"

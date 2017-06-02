@@ -275,7 +275,6 @@ public class FishList extends AppCompatActivity {
                 }
 
             }catch(Exception ex){
-                Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
 
