@@ -41,12 +41,21 @@
         android:layout_height="wrap_content"
         android:text="Tank Inhabitants"
         android:onClick="tankInhabitants"
-        android:id="@+id/button"
+        android:id="@+id/buttonTankInhabitants"
         android:layout_below="@+id/calculators"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@android:color/darker_gray"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/buttonTankInhabitants"
+        android:background="@android:color/darker_gray"
+        android:text="Aquarium Test Data"
+        android:onClick="reefTestsClick"/>
 
 </RelativeLayout>

@@ -52,5 +52,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void reefTestsClick (View view){
+        Intent intent = new Intent(MainActivity.this, ReefTests.class);
+        startActivity(intent);
+    }
 
 }
