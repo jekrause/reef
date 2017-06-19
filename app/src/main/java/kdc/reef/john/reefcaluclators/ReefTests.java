@@ -1,68 +1,114 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReefTests extends AppCompatActivity {
-
-    GraphView graph;
-    EditText dateEdit;
-    EditText valueEdit;
-
-
-    DataPoint [] x = new DataPoint[100];
-    static int cursor =0;
+    ArrayAdapter <TestData>arrayAdapter;
+    List<TestData> test;
+    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reef_tests);
-        //find views
-        graph =  (GraphView) findViewById(R.id.graph);
-        dateEdit = (EditText) findViewById(R.id.dateEdit);
-        valueEdit = (EditText) findViewById(R.id.valueEdit);
+        test   = new ArrayList();
+        arrayAdapter = new MyListAdapter();
 
-        dateEdit.setHint(todaysDate());
-
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-//                new DataPoint(0,1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//        });
-
-
-
-
-
-        graph.setTitle("TestName");
-        //graph.addSeries(series);
+        list = (ListView) findViewById(R.id.coralListView);
+        list.setAdapter(arrayAdapter);
+        listenForClicks();
     }
 
-    public void submitDataClick(View view){
-        double value = Double.parseDouble(valueEdit.getText().toString());
-        int i = cursor;
-        x[i] = new DataPoint(i, value);
-        cursor++;
+    public void addButton(View view){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Enter Test Name");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().toString().length()!=0){
+                    test.add(new TestData(input.getText().toString()));
+                    arrayAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(ReefTests.this, "Please type a name for the test", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //do nothing
+            }
+        });
+
+        alert.show();
     }
 
-    public  void graphItClick(View view){
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(x);
-        graph.addSeries(series);
+    public class MyListAdapter extends ArrayAdapter<TestData>{
+        public MyListAdapter(){
+            super(ReefTests.this, R.layout.test_view, test);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            //make sure we have a view to work with
+            View testView = convertView;
+            if(testView == null){
+                testView = getLayoutInflater().inflate(R.layout.test_view,parent,false);
+            }
+            TestData currentPosition = test.get(position);
+
+            if(currentPosition!=null){
+                TextView tvName = (TextView) testView.findViewById(R.id.testID);
+                tvName.setText(currentPosition.getName());
+                if(currentPosition.getMostRecentDate()!=null){
+                    TextView tvDate = (TextView) testView.findViewById(R.id.testDate);
+                    tvDate.setText(currentPosition.getMostRecentDate());
+                }
+            }
+
+            return testView;
+
+        }
     }
 
-    private String todaysDate(){
-        String x = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
-        return x;
+    private void listenForClicks(){
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
+
 }

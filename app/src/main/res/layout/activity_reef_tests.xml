@@ -15,79 +15,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test Name"
+        android:text="Tests"
         android:textSize="50sp"
         android:textColor="#555555"
         android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
-
-    <com.jjoe64.graphview.GraphView
-        android:layout_below="@id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/graph">
-
-    </com.jjoe64.graphview.GraphView>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/graph"
-        android:id="@+id/reefTestsRelativeLayout"
-        android:layout_centerHorizontal="true"
-        >
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="Date"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dateEdit"
-            android:layout_below="@+id/date"
-            android:hint="date"/>
-
-        <TextView
-            android:id="@+id/value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Value"
-            android:layout_toEndOf="@+id/date"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/value"
-            android:layout_toRightOf="@+id/date"
-            android:hint="value"
-            android:id="@+id/valueEdit"
-            android:layout_marginLeft="20dp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/value"
-            android:layout_alignBottom="@id/valueEdit"
-            android:layout_alignTop="@id/value"
-            android:text="Submit Data Point"
-            android:onClick="submitDataClick"/>
-    </RelativeLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Graph It"
-        android:onClick="graphItClick"
-        android:layout_below="@+id/reefTestsRelativeLayout"
-        android:layout_centerHorizontal="true" />
+        android:text="Add"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="addButton"
+        android:id="@+id/button2" />
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coralListView"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:fastScrollEnabled="true"
+        android:persistentDrawingCache="scrolling"
+        android:scrollingCache="false"
+        android:choiceMode="singleChoice" />
 
 
 </RelativeLayout>
