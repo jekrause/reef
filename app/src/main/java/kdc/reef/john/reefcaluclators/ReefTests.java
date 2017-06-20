@@ -1,8 +1,10 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,27 +19,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 public class ReefTests extends AppCompatActivity {
     ArrayAdapter <TestData>arrayAdapter;
-    List<TestData> test;
+    static List<TestData> test;
     ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reef_tests);
-        test   = new ArrayList();
+        loadData();
         arrayAdapter = new MyListAdapter();
 
         list = (ListView) findViewById(R.id.coralListView);
@@ -58,6 +68,7 @@ public class ReefTests extends AppCompatActivity {
                 if(input.getText().toString().length()!=0){
                     test.add(new TestData(input.getText().toString()));
                     arrayAdapter.notifyDataSetChanged();
+
                 }
                 else{
                     Toast.makeText(ReefTests.this, "Please type a name for the test", Toast.LENGTH_SHORT).show();
@@ -72,6 +83,7 @@ public class ReefTests extends AppCompatActivity {
         });
 
         alert.show();
+
     }
 
     public class MyListAdapter extends ArrayAdapter<TestData>{
@@ -110,5 +122,81 @@ public class ReefTests extends AppCompatActivity {
             }
         });
     }
+
+    public List<TestData> getTestArray(){
+        return test;
+    }
+
+    private void saveData(){
+        Gson gson = new Gson();
+        String str = gson.toJson(test);
+
+        try{
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Explain to the user why we need to read the contacts
+                }
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+                return;
+            }
+            FileOutputStream fileout = openFileOutput("tests.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+        }catch(Exception ex){
+
+        }
+        super.onBackPressed();
+    }
+
+    private void loadData() {
+        Gson gson = new Gson();
+        try {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+
+            FileInputStream filein = openFileInput("tests.txt");
+            InputStreamReader isr = new InputStreamReader(filein);
+            BufferedReader buffreader = new BufferedReader(isr);
+
+            String readString = buffreader.readLine();
+
+            isr.close();
+            buffreader.close();
+            filein.close();
+
+            if (!readString.isEmpty()) {
+                test = gson.fromJson(readString,new TypeToken<Collection<TestData>>(){}.getType() );
+            }
+
+            }catch(Exception ex){
+                test = new ArrayList();
+            }
+    }
+
+    @Override
+    public void onBackPressed(){
+        saveData();
+    }
+
 
 }
