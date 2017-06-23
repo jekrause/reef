@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="#7BB0ED"
+    android:paddingTop="0dp"
+    tools:context="kdc.reef.john.reefcaluclators.Graph">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Name"
+        android:textSize="50sp"
+        android:textColor="#555555"
+        android:textStyle="bold"
+        android:id="@+id/testTitle"
+        tools:layout_editor_absoluteY="61dp"
+        tools:layout_editor_absoluteX="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/graph"
+        android:layout_below="@id/testTitle"/>
+
+
+
+
+
+
+
+    <ListView
+        android:id="@+id/testScrollList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:choiceMode="singleChoice"
+        android:fastScrollEnabled="true"
+        android:persistentDrawingCache="scrolling"
+        android:scrollingCache="false"
+        android:layout_below="@+id/graph"
+        android:layout_above="@+id/linearButton"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearButton"
+        android:orientation="horizontal"
+        android:baselineAligned="true"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+
+            android:text="Add Test"
+            android:background="@android:color/darker_gray"
+            android:onClick="addTestClick"
+            android:id="@+id/addTestButton" />
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:onClick="changeLabelClick"
+            android:text="Change label"/>
+    </LinearLayout>
+
+</RelativeLayout>

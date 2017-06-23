@@ -2,9 +2,13 @@ package kdc.reef.john.reefcaluclators;
 
 import android.support.annotation.NonNull;
 
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +20,21 @@ import java.util.Set;
 
 public class TestData {
     private String name;
-    List<String> dates;
-    List<Integer> values;
+    List<DataPoints> dataPoints;
+    private String label = "ppm";
 
     public TestData(String name){
         this.name = name;
-        values = new ArrayList<>();
-        dates = new ArrayList<>();
+        dataPoints = new ArrayList<>();
+        label = "ppm";
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void  setName(String name){
@@ -33,11 +45,15 @@ public class TestData {
         return name;
     }
 
-    public String getMostRecentDate(){
-        if(dates.size()==0){
+    public Date getMostRecentDate(){
+        if(dataPoints.size()==0){
             return null;
         }
-        return dates.get(dates.size()-1);
+        return dataPoints.get(dataPoints.size()-1).getDate();
+    }
+
+    public void addSet(DataPoints dp){
+        dataPoints.add(dp);
     }
 
 }

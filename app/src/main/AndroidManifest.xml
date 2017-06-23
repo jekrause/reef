@@ -37,7 +37,8 @@
         <activity android:name=".InvertsSelected" />
         <activity android:name=".Upgrade" />
         <activity android:name=".ReefTests" />
-        <activity android:name=".SelectedTest"></activity>
+        <activity android:name=".SelectedTest" />
+        <activity android:name=".Graph"></activity>
     </application>
 
 </manifest>

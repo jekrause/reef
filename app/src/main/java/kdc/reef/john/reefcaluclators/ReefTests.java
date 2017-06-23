@@ -3,6 +3,7 @@ package kdc.reef.john.reefcaluclators;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ReefTests extends AppCompatActivity {
+
     ArrayAdapter <TestData>arrayAdapter;
     static List<TestData> test;
     ListView list;
@@ -105,7 +107,7 @@ public class ReefTests extends AppCompatActivity {
                 tvName.setText(currentPosition.getName());
                 if(currentPosition.getMostRecentDate()!=null){
                     TextView tvDate = (TextView) testView.findViewById(R.id.testDate);
-                    tvDate.setText(currentPosition.getMostRecentDate());
+                    tvDate.setText(currentPosition.getMostRecentDate().toString());
                 }
             }
 
@@ -118,7 +120,45 @@ public class ReefTests extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ReefTests.this, Graph.class);
+                Gson gson = new Gson();
+                String str = gson.toJson(test.get(position));
+                intent.putExtra("DATA", str);
+                startActivity(intent);
+            }
+        });
 
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ReefTests.this);
+
+                builder.setTitle("Confirm Deletion");
+                builder.setMessage("Are you sure you want to delete this profile?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                        test.remove(position);
+                        arrayAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
             }
         });
     }
@@ -191,6 +231,10 @@ public class ReefTests extends AppCompatActivity {
             }catch(Exception ex){
                 test = new ArrayList();
             }
+    }
+
+    public List<TestData> getData(){
+        return test;
     }
 
     @Override
