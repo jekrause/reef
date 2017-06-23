@@ -50,6 +50,8 @@ public class Graph extends AppCompatActivity {
     ArrayAdapter<DataPoints> dataPointsArrayAdapter;
     ArrayAdapter<CharSequence> adapterSpinner;
 
+    static List<Boolean> testBoolNumbers;
+
     TextView nameTV;
     GraphView graph;
     ListView list;
@@ -62,26 +64,17 @@ public class Graph extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
 
-        String str;
-        if(savedInstanceState==null){
-            Bundle extras = getIntent().getExtras();
-            if(extras == null){
-                str = null;
+        testBoolNumbers = ReefTests.getTestBoolArray();
+        int index =0;
+        while(index< testBoolNumbers.size()){
+            if(testBoolNumbers.get(index)){
+                testBoolNumbers.set(index,false);
+                break;
             }
-            else{
-                str = extras.getString("DATA");
-            }
-        }
-        else{
-            str = (String) savedInstanceState.getSerializable("DATA");
-        }
-        try{
-            Gson gson = new Gson();
-            testData = gson.fromJson(str, TestData.class);
-        }catch (Exception ex){
-            testData = new TestData("Error");
+            index++;
         }
 
+        testData = ReefTests.getTestArray().get(index);
 
 
         nameTV = (TextView) findViewById(R.id.testTitle);
@@ -93,7 +86,7 @@ public class Graph extends AppCompatActivity {
         list.setAdapter(dataPointsArrayAdapter);
 
 
-        //series = new LineGraphSeries<>();
+        series = new LineGraphSeries<>();
         //graph.addSeries(series);
         updateGraph();
     }
@@ -228,21 +221,23 @@ public class Graph extends AppCompatActivity {
             i++;
         }
         series.resetData(dpArr);
-
-        graph.addSeries(series);
-
-// set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+        if(dpArr.length!=0){
+            // set date label formatter
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+            graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
 // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(dpArr[0].getX());
-        graph.getViewport().setMaxX(dpArr[i].getX());
-        graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMinX(dpArr[0].getX());
+            graph.getViewport().setMaxX(dpArr[i-1].getX());
+            graph.getViewport().setXAxisBoundsManual(true);
 
 // as we use dates as labels, the human rounding to nice readable numbers
 // is not necessary
-        graph.getGridLabelRenderer().setHumanRounding(false);
+            graph.getGridLabelRenderer().setHumanRounding(false);
+        }
+        //graph.addSeries(series);
+
+
 
 //        // set manual X bounds
 //        graph.getViewport().setYAxisBoundsManual(true);
@@ -257,7 +252,7 @@ public class Graph extends AppCompatActivity {
 //        graph.getViewport().setScalable(true);
 //        graph.getViewport().setScalableY(true);
 
-        graph.addSeries(series);
+        //graph.addSeries(series);
         dataPointsArrayAdapter.notifyDataSetChanged();
 
     }

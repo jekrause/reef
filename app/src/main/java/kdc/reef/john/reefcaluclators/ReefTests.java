@@ -43,6 +43,7 @@ public class ReefTests extends AppCompatActivity {
 
     ArrayAdapter <TestData>arrayAdapter;
     static List<TestData> test;
+    static List<Boolean> testBoolArray = new ArrayList<>();
     ListView list;
 
     @Override
@@ -70,6 +71,7 @@ public class ReefTests extends AppCompatActivity {
                 if(input.getText().toString().length()!=0){
                     test.add(new TestData(input.getText().toString()));
                     arrayAdapter.notifyDataSetChanged();
+                    testBoolArray.add(Boolean.FALSE);
 
                 }
                 else{
@@ -107,7 +109,11 @@ public class ReefTests extends AppCompatActivity {
                 tvName.setText(currentPosition.getName());
                 if(currentPosition.getMostRecentDate()!=null){
                     TextView tvDate = (TextView) testView.findViewById(R.id.testDate);
-                    tvDate.setText(currentPosition.getMostRecentDate().toString());
+                    tvDate.setText(new SimpleDateFormat("MM/dd/yyy").format(currentPosition.getMostRecentDate()));
+                }
+                else{
+                    TextView tvDate = (TextView) testView.findViewById(R.id.testDate);
+                    tvDate.setText("Date");
                 }
             }
 
@@ -121,9 +127,7 @@ public class ReefTests extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ReefTests.this, Graph.class);
-                Gson gson = new Gson();
-                String str = gson.toJson(test.get(position));
-                intent.putExtra("DATA", str);
+                testBoolArray.set(position,true);
                 startActivity(intent);
             }
         });
@@ -142,6 +146,7 @@ public class ReefTests extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Do nothing but close the dialog
                         test.remove(position);
+                        testBoolArray.remove(position);
                         arrayAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
@@ -163,9 +168,10 @@ public class ReefTests extends AppCompatActivity {
         });
     }
 
-    public List<TestData> getTestArray(){
+    public static List<TestData> getTestArray(){
         return test;
     }
+    public static List<Boolean> getTestBoolArray(){return testBoolArray;}
 
     private void saveData(){
         Gson gson = new Gson();
@@ -226,6 +232,9 @@ public class ReefTests extends AppCompatActivity {
 
             if (!readString.isEmpty()) {
                 test = gson.fromJson(readString,new TypeToken<Collection<TestData>>(){}.getType() );
+                for(TestData t: test){
+                    testBoolArray.add(Boolean.FALSE);
+                }
             }
 
             }catch(Exception ex){
@@ -240,6 +249,12 @@ public class ReefTests extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         saveData();
+    }
+
+    @Override
+    public void onResume(){
+        arrayAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 
 
