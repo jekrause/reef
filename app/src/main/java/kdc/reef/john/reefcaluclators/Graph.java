@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.nfc.FormatException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -85,6 +89,8 @@ public class Graph extends AppCompatActivity {
         list = (ListView) findViewById(R.id.testScrollList);
         list.setAdapter(dataPointsArrayAdapter);
 
+        listenForClicks();
+
 
         series = new LineGraphSeries<>();
         //graph.addSeries(series);
@@ -111,8 +117,9 @@ public class Graph extends AppCompatActivity {
 
         final EditText descriptionBox = new EditText(context);
         descriptionBox.setHint("Value");
-        layout.addView(descriptionBox);
 
+        layout.addView(descriptionBox);
+        descriptionBox.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
 
         alert.setView(layout);
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -136,6 +143,7 @@ public class Graph extends AppCompatActivity {
                         //testData.addSet(System.currentTimeMillis(), Double.parseDouble(v));
                         DataPoints dps = new DataPoints(date,Double.parseDouble(v));
                         testData.addSet(dps);
+                        Collections.sort(testData.dataPoints, new DateComparator());
                         updateGraph();
                     }catch (RuntimeException ex){
                         //don't add it
@@ -221,6 +229,7 @@ public class Graph extends AppCompatActivity {
             i++;
         }
         series.resetData(dpArr);
+
         if(dpArr.length!=0){
             // set date label formatter
             graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
@@ -235,24 +244,7 @@ public class Graph extends AppCompatActivity {
 // is not necessary
             graph.getGridLabelRenderer().setHumanRounding(false);
         }
-        //graph.addSeries(series);
 
-
-
-//        // set manual X bounds
-//        graph.getViewport().setYAxisBoundsManual(true);
-//        graph.getViewport().setMinY(0);
-//        graph.getViewport().setMaxY(150);
-//
-//        graph.getViewport().setXAxisBoundsManual(true);
-//        graph.getViewport().setMinX(0);
-//        graph.getViewport().setMaxX(-80);
-//
-//        // enable scaling and scrolling
-//        graph.getViewport().setScalable(true);
-//        graph.getViewport().setScalableY(true);
-
-        //graph.addSeries(series);
         dataPointsArrayAdapter.notifyDataSetChanged();
 
     }
@@ -284,6 +276,46 @@ public class Graph extends AppCompatActivity {
         }
     }
 
+    private void listenForClicks(){
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Graph.this);
+
+                builder.setTitle("Confirm Deletion");
+                builder.setMessage("Are you sure you want to delete this profile?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                        testData.dataPoints.remove(position);
+                        Collections.sort(testData.dataPoints, new DateComparator());
+                        dataPointsArrayAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            }
+        });
+    }
+
+
+
     private void saveData(){
         Gson gson = new Gson();
         String str = gson.toJson(ReefTests.test);
@@ -311,6 +343,16 @@ public class Graph extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public class DateComparator implements Comparator<DataPoints> {
+        public int compare(DataPoints p, DataPoints q) {
+            if(p.getDate().after(q.getDate()))
+                return 1;
+            if(p.getDate().before(q.getDate()))
+                return -1;
+            else
+                return 0;
+        }
+    }
 
     private String todaysDate(){
         String x = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));

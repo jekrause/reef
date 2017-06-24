@@ -2,6 +2,7 @@ package kdc.reef.john.reefcaluclators;
 
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -29,4 +30,6 @@ public class DataPoints {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
 }
