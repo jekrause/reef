@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,22 +21,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".tankVolume" />
-        <activity android:name=".Calculators" />
-        <activity android:name=".PartDosing" />
-        <activity android:name=".TankInhabitants" />
-        <activity android:name=".FishList" />
-        <activity android:name=".CoralList" />
-        <activity android:name=".InvertsList" />
-        <activity android:name=".CoralSelected" />
-        <activity android:name=".Alkalinity" />
-        <activity android:name=".Calcium" />
-        <activity android:name=".ChangeDefaults" />
-        <activity android:name=".FishSelected" />
-        <activity android:name=".InvertsSelected" />
-        <activity android:name=".Upgrade" />
-        <activity android:name=".ReefTests" />
-        <activity android:name=".SelectedTest" />
+        <activity android:name=".tankVolume"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Calculators"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PartDosing"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TankInhabitants"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FishList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CoralList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InvertsList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CoralSelected"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Alkalinity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Calcium"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ChangeDefaults"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FishSelected"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InvertsSelected"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Upgrade"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ReefTests"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SelectedTest"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Graph"></activity>
     </application>
 

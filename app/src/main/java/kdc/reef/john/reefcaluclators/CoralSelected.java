@@ -357,8 +357,14 @@ public class CoralSelected extends AppCompatActivity {
                 public void onClick(View v) {
                     //TODO
                     temporaryScrollImageList = user;
-                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, SELECTED_PICTURE_SCROLL);
+                    if(tempImage.getDrawable() != getApplicationContext().getDrawable(R.drawable.coral)){
+
+                    }
+                    else{
+                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
+                    }
+
                 }
             });
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Reef Calculators</string>
+    <string name="app_name">Reef</string>
     <string name="title_activity_part_dosing">PartDosing</string>
     <string name="title_activity_tank_inhabitants">TankInhabitants</string>
     <string name="currency_prompt">Choose Default Currency</string>
