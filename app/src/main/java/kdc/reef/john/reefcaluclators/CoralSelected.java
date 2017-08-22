@@ -59,7 +59,6 @@ public class CoralSelected extends AppCompatActivity {
 
     private static final int SELECTED_PICTURE =1;
     private static final int SELECTED_PICTURE_SCROLL = 2;
-
     private String name;
     private String datePurchased;
     private Drawable iconCoralId;
@@ -94,42 +93,29 @@ public class CoralSelected extends AppCompatActivity {
                 // Should we show an explanation?
                 if (shouldShowRequestPermissionRationale(
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    // Explain to the user why we need to read the contacts
                 }
-
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
-
-                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                // app-defined int constant that should be quite unique
-
                 return;
             }
-
             FileInputStream filein = openFileInput("defaultData.txt");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-
             String readString = buffreader.readLine ( ) ;
-
             isr.close ( ) ;
             buffreader.close();
             filein.close();
-
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
             }
             else{
                 d = new Defaults();
             }
-
         }catch(Exception ex){
             d = new Defaults();
         }
-
         if(d.isPurchasedUpgrade()){
             MAX_NUMBER_OF_IMAGES = Integer.MAX_VALUE;
         }
-
         //find coral profile
         coralNumbers= CoralList.getCoralNumbers();
         int index =0;
@@ -175,26 +161,25 @@ public class CoralSelected extends AppCompatActivity {
             coral1imageView = (ImageView) findViewById(R.id.coral1imageView);
             coral1imageView.setBackground(iconCoralId);
         }
-
+        //Name
         coral1NametextView = (EditText) findViewById(R.id.coral1NametextView);
-
         coral1NametextView.setText(name);
-
+        //Price
         coral1PricetextView = (EditText) findViewById(R.id.coral1CosttextView);
         coral1PricetextView.setText(String.format("%.2f",price));
-
+        //Date Purchased
         coral1DPtextView = (EditText) findViewById(R.id.coral1DPtextView);
         coral1DPtextView.setText(datePurchased);
-
+        //Seller
         coral1PFtextView = (EditText) findViewById(R.id.coral1PFtextView);
         coral1PFtextView.setText(seller);
-
+        //Size
         coral1SizetextView = (EditText) findViewById(R.id.coral1SizetextView);
         coral1SizetextView.setText(Double.toString(size));
-
+        //Cost
         costLabel = (TextView) findViewById(R.id.sizeLabel);
         costLabel.setText(ChangeDefaults.measurement);
-
+        //Currency
         sizeLabel = (TextView) findViewById(R.id.costLabel);
         sizeLabel.setText(ChangeDefaults.currency);
     }
@@ -254,7 +239,6 @@ public class CoralSelected extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
                 break;
-
         }
     }
 
@@ -326,7 +310,6 @@ public class CoralSelected extends AppCompatActivity {
         else{
             coralProfile.setPurchasedFrom(coral1PFtextView.getText().toString());
         }
-
         temp = coral1SizetextView.getText().toString();
         if(temp.equals("")){
             coralProfile.setSize(0);
@@ -342,7 +325,7 @@ public class CoralSelected extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             final ImageList user = imageListList.get(position);
 
@@ -355,28 +338,19 @@ public class CoralSelected extends AppCompatActivity {
             tempImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO
                     temporaryScrollImageList = user;
-                    if(tempImage.getDrawable() != getApplicationContext().getDrawable(R.drawable.coral)){
-
-                    }
-                    else{
-                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(i, SELECTED_PICTURE_SCROLL);
-                    }
-
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, SELECTED_PICTURE_SCROLL);
+                    Log.d("MyApp", "ScrollImageClick");
                 }
             });
-
             tempImage.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelected.this);
-
-                    builder.setTitle("Confirm Deletion");
-                    builder.setMessage("Are you sure you want to delete this profile image?");
-
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    builder.setTitle("MENU");
+                    builder.setMessage("Photo Options Menu");
+                    builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
                             // Do nothing but close the dialog
@@ -387,29 +361,36 @@ public class CoralSelected extends AppCompatActivity {
                             updateCounter();
                             //refreshListings();
                             adapter.notifyDataSetChanged();
-
-
                             dialog.dismiss();
                         }
                     });
-
-                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
+                    builder.setNegativeButton("VIEW", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("MyApp","no");
-
-                            // Do nothing
+                            Log.d("MyApp","view_full_screen");
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            if(imageListList.get(position).get().equals("default")){
+                                //TODO
+                            }
+                            else {
+                                intent.setDataAndType(Uri.parse(imageListList.get(position).get()), "image/*");
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                    builder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("MyApp","cancel");
                             dialog.dismiss();
                         }
                     });
-
                     AlertDialog alert = builder.create();
                     alert.show();
                     return true;
                 }
             });
-
             EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
             String tempDate = user.getDateOfImage();
             if(tempDate == null){
@@ -466,8 +447,6 @@ public class CoralSelected extends AppCompatActivity {
                         numberOfImages--;
                         updateCounter();
                         adapter.notifyDataSetChanged();
-
-
                         dialog.dismiss();
                     }
                 });

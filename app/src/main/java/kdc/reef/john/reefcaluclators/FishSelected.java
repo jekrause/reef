@@ -345,7 +345,7 @@ public class FishSelected extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             final ImageList user = imageListList.get(position);
 
@@ -369,11 +369,10 @@ public class FishSelected extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(FishSelected.this);
+                    builder.setTitle("MENU");
+                    builder.setMessage("Photo Options Menu");
 
-                    builder.setTitle("Confirm Deletion");
-                    builder.setMessage("Are you sure you want to delete this profile image?");
-
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
                             // Do nothing but close the dialog
@@ -390,11 +389,26 @@ public class FishSelected extends AppCompatActivity {
                         }
                     });
 
-                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
+                    builder.setNegativeButton("VIEW", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Do nothing
+                            Log.d("MyApp","view_full_screen");
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            if(imageListList.get(position).get().equals("default")){
+                                //TODO
+                            }
+                            else {
+                                intent.setDataAndType(Uri.parse(imageListList.get(position).get()), "image/*");
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+                    builder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("MyApp","cancel");
                             dialog.dismiss();
                         }
                     });
@@ -406,11 +420,6 @@ public class FishSelected extends AppCompatActivity {
             });
 
             EditText edt = (EditText) convertView.findViewById(R.id.scrollImageDate);
-            // Populate the data into the template view using the data object
-//            if(user.get()!=null){
-//                tempImage.setImageURI(null);
-//                tempImage.setImageURI(Uri.parse(user.get()));
-//            }
             String tempDate = user.getDateOfImage();
             if(tempDate == null){
                 edt.setText("NO DATE");
@@ -430,7 +439,6 @@ public class FishSelected extends AppCompatActivity {
             return convertView;
         }
     }
-
     //click listeners
     private void registerClickCallback(){
 
@@ -453,8 +461,6 @@ public class FishSelected extends AppCompatActivity {
                         updateCounter();
                         //refreshListings();
                         adapter.notifyDataSetChanged();
-
-
                         dialog.dismiss();
                     }
                 });
