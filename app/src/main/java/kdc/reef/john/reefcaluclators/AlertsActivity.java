@@ -26,4 +26,8 @@ public class AlertsActivity extends AppCompatActivity {
         });
     }
 
+    private void addNewAlarm(){
+
+    }
+
 }
