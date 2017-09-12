@@ -42,8 +42,8 @@ public class AlertsActivity extends AppCompatActivity {
             }
         });
         oAlertsArrayAdapter = new AlertsActivity.MyListAdapter();
-        lsAlerts = lsAlerts == null? new ArrayList<Alert>() : lsAlerts;
-        viewListView = (ListView) findViewById(R.id.coralListView);
+        lsAlerts = new ArrayList<>();
+        viewListView = (ListView) findViewById(R.id.listViewAlarms);
         //curNumber = coralProfileArrayList.size();
         viewListView.setCacheColorHint(Color.TRANSPARENT); // not sure if this is required for you.
         viewListView.setFastScrollEnabled(true);

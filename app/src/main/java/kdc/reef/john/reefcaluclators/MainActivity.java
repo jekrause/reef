@@ -57,4 +57,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void alertsClick(View view){
+        Intent intent = new Intent(MainActivity.this, AlertsActivity.class);
+        startActivity(intent);
+    }
 }

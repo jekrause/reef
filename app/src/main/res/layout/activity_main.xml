@@ -24,38 +24,45 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Calculators"
-        android:id="@+id/calculators"
-        android:onClick="calculators"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:text="Alerts"
+        android:onClick="alertsClick"
+        android:id="@+id/buttonAlerts"
         android:background="@android:color/darker_gray"
-        />
+        android:layout_below="@id/textView"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:text="Aquarium Test Data"
+        android:onClick="reefTestsClick"
+        android:id="@+id/buttonTest"
+        android:layout_below="@+id/buttonAlerts"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculators"
+        android:id="@+id/buttonCalculators"
+        android:onClick="calculators"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/buttonTest"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp" />
+
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Tank Inhabitants"
         android:onClick="tankInhabitants"
         android:id="@+id/buttonTankInhabitants"
-        android:layout_below="@+id/calculators"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/darker_gray"/>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/buttonTankInhabitants"
         android:background="@android:color/darker_gray"
-        android:text="Aquarium Test Data"
-        android:onClick="reefTestsClick"/>
+        android:layout_below="@+id/buttonCalculators"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

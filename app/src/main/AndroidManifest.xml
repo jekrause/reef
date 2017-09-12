@@ -53,7 +53,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".SelectedTest"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Graph"></activity>
+        <activity android:name=".Graph"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AlertsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
