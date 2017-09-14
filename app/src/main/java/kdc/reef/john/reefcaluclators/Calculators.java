@@ -14,22 +14,22 @@ public class Calculators extends AppCompatActivity {
     }
 
     public void tankVolumeButton(View view){
-        Intent intent = new Intent(Calculators.this, tankVolume.class);
+        Intent intent = new Intent(Calculators.this, tankVolumeActivity.class);
         startActivity(intent);
     }
 
     public void twoPartDosing(View view){
-        Intent intent = new Intent(Calculators.this, PartDosing.class);
+        Intent intent = new Intent(Calculators.this, PartDosingActivity.class);
         startActivity(intent);
     }
 
     public void calciumClick(View view){
-        Intent intent = new Intent(Calculators.this, Calcium.class);
+        Intent intent = new Intent(Calculators.this, CalciumActivity.class);
         startActivity(intent);
     }
 
     public void alkalinityClick(View view){
-        Intent intent = new Intent(Calculators.this, Alkalinity.class);
+        Intent intent = new Intent(Calculators.this, AlkalinityActivity.class);
         startActivity(intent);
     }
 

@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tankInhabitants(View view){
-        Intent intent = new Intent(MainActivity.this, TankInhabitants.class);
+        Intent intent = new Intent(MainActivity.this, TankInhabitantsActivity.class);
         startActivity(intent);
     }
 
     public void reefTestsClick (View view){
-        Intent intent = new Intent(MainActivity.this, ReefTests.class);
+        Intent intent = new Intent(MainActivity.this, ReefTestsActivity.class);
         startActivity(intent);
     }
 

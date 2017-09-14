@@ -61,18 +61,6 @@
         android:layout_alignRight="@+id/fishButton"
         android:layout_alignEnd="@+id/fishButton" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UPGRADE"
-        android:onClick="upgradeClick"
-        android:id="@+id/upgradeButton"
-        android:background="@android:color/darker_gray"
-        android:layout_above="@+id/tankInhabitantsWrapper"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
