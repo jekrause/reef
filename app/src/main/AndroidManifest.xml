@@ -23,11 +23,7 @@
         </activity>
         <activity android:name=".tankVolumeActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Calculators"
-            android:screenOrientation="portrait"/>
         <activity android:name=".PartDosingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ChangeDefaults"
             android:screenOrientation="portrait"/>
         <activity android:name=".FishSelectedActivity"
             android:screenOrientation="portrait"/>
