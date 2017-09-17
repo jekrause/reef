@@ -15,14 +15,17 @@ import java.util.List;
 
 public class Alert {
     Boolean bRepeats;
-    Drawable oIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
+    int iIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
     Time oCreationTime;
     Time oAlertTime;
     Calendar oRepeatSchedule;
     Switch oSwitch;
+    String sName;
 
-    public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats, Drawable poIcon){
+    public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats){
         //// TODO: 9/7/2017
+        iIcon = R.drawable.alarm_clock_black;
         bRepeats = pbRepeats == null ? false : pbRepeats;
+        sName = "Alert (Tap to edit)";
     }
 }

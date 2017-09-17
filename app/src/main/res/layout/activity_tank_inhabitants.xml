@@ -35,18 +35,16 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
     <Button
-        android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Coral"
+        android:layout_marginTop="5dp"
         android:onClick="coralButton"
         android:id="@+id/coralButton"
         android:layout_below="@+id/invertsButton"
-        android:layout_alignLeft="@+id/invertsButton"
-        android:layout_alignStart="@+id/invertsButton"
-        android:layout_alignRight="@+id/invertsButton"
-        android:layout_alignEnd="@+id/invertsButton" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
     <Button
         android:layout_marginTop="5dp"
         android:background="@android:color/darker_gray"

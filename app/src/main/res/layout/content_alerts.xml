@@ -42,30 +42,18 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 of 1"
-        android:textSize="25sp"
-        android:textColor="@android:color/white"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="0 of 2"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/listViewAlarms"
-        app:layout_constraintRight_toLeftOf="@+id/txtAlertsTitle"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:onClick="addAlert"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/txtAlertsTitle"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/txtAlertsTitle" />
 
 </android.support.constraint.ConstraintLayout>
