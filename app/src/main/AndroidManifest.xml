@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,34 +22,49 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".tankVolumeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".PartDosingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FishSelectedActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".InvertsSelectedActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".UpgradeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ReefTestsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SelectedTestActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".GraphActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AlertsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TankInhabitantsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CoralListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FishListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".InvertsListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CoralSelectedActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".tankVolumeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PartDosingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FishSelectedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InvertsSelectedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UpgradeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReefTestsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SelectedTestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GraphActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AlertsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TankInhabitantsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CoralListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FishListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InvertsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CoralSelectedActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ViewAlertActivity"></activity>
     </application>
 
 </manifest>

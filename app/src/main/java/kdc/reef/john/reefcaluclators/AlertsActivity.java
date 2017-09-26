@@ -2,6 +2,7 @@ package kdc.reef.john.reefcaluclators;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -125,7 +126,7 @@ public class AlertsActivity extends AppCompatActivity {
 
     //sets on click listeners
     private void registerClickCallBack(){
-        viewListView = (ListView) findViewById(R.id.listViewAlarms);
+        //viewListView = (ListView) findViewById(R.id.listViewAlarms);
         viewListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -155,7 +156,8 @@ public class AlertsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO
-                Toast.makeText(AlertsActivity.this, "Edit Popup", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
+                startActivity(intent);
             }
         });
     }
