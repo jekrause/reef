@@ -16,10 +16,10 @@ import java.util.List;
 public class Alert {
     Boolean bRepeats;
     int iIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
-    Time oCreationTime;
-    Time oAlertTime;
-    Calendar oRepeatSchedule;
-    Switch oSwitch;
+    //Time oCreationTime;
+    //Time oAlertTime;
+    //Calendar oRepeatSchedule;
+    //Switch oSwitch;
     String sName;
 
     public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats){

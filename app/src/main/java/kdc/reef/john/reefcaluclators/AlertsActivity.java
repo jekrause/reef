@@ -1,8 +1,10 @@
 package kdc.reef.john.reefcaluclators;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +28,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class AlertsActivity extends AppCompatActivity {
 
-    public static List<Alert> lsAlerts;
+    public static List<Alert> lsAlerts = new ArrayList<>();
     ArrayAdapter<Alert> oAlertsArrayAdapter;
     int iMaxNumber = 2;
     int iCurrentNumber = 0;
@@ -56,15 +67,13 @@ public class AlertsActivity extends AppCompatActivity {
                 }
             }
         });
-        lsAlerts = new ArrayList<>();
-        viewListView = (ListView) findViewById(R.id.listViewAlarms);
+        Log.d("MyApp","new Arraylist");
         txtCounter = (TextView) findViewById(R.id.txtCounter);
-        oAlertsArrayAdapter = new AlertsActivity.MyListAdapter();
-        //curNumber = coralProfileArrayList.size();
-        viewListView.setCacheColorHint(Color.TRANSPARENT); // not sure if this is required for you.
-        viewListView.setFastScrollEnabled(true);
-        viewListView.setScrollingCacheEnabled(false);
-        viewListView.setAdapter(oAlertsArrayAdapter);
+        Log.d("MyApp","Refresh Listings");
+        refreshListings();
+        Log.d("MyApp","RegisterClickCallBack");
+        registerClickCallBack();
+        Log.d("MyApp","End of onCreate");
     }
 
     public class MyListAdapter extends ArrayAdapter<Alert>{
@@ -98,17 +107,85 @@ public class AlertsActivity extends AppCompatActivity {
                     oAlertsArrayAdapter.notifyDataSetChanged();
                 }
             });
+            registerClickCallBack();
             return alertView;
         }
+    }
+
+    private void refreshListings(){
+        Log.d("MyApp","RefreshListingsStart");
+        if(oAlertsArrayAdapter!=null){
+            oAlertsArrayAdapter.notifyDataSetChanged();
+        }
+        else{
+            Gson gson = new Gson();
+            try{
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Should we show an explanation?
+                    if (shouldShowRequestPermissionRationale(
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        // Explain to the user why we need to read the contacts
+                    }
+
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                    // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                    // app-defined int constant that should be quite unique
+
+                    return;
+                }
+
+                FileInputStream filein = openFileInput("alertData.txt");
+                InputStreamReader isr = new InputStreamReader ( filein ) ;
+                BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+                String readString = buffreader.readLine ( ) ;
+
+                isr.close ( ) ;
+                buffreader.close();
+                filein.close();
+
+                if(!readString.isEmpty()){
+                    Log.d("MyApp","Read string not empty");
+                    lsAlerts = gson.fromJson(readString,  new TypeToken<Collection<Alert>>(){}.getType());
+                }
+                else{
+                    Log.d("MyApp","Read String empty");
+                    lsAlerts = new ArrayList<>();
+                }
+                if(oAlertsArrayAdapter==null){
+                    Log.d("MyApp","Populate ListView");
+                    populateListView();
+                    updateCounter();
+                }
+
+            }catch(Exception ex){
+            }
+        }
+        Log.d("MyApp","RefreshListings End");
+    }
+
+    public void populateListView(){
+        Log.d("MyApp","PopulateListView Start");
+        oAlertsArrayAdapter = new MyListAdapter();
+        viewListView = (ListView) findViewById(R.id.listViewAlarms);
+        iCurrentNumber = lsAlerts.size();
+        viewListView.setCacheColorHint(Color.TRANSPARENT); // not sure if this is required for you.
+        viewListView.setFastScrollEnabled(true);
+        viewListView.setScrollingCacheEnabled(false);
+        viewListView.setAdapter(oAlertsArrayAdapter);
+        Log.d("MyApp","PopulateListView End");
     }
 
     public boolean addAlert(){
         if(iCurrentNumber<iMaxNumber){
             lsAlerts.add(new Alert(null,null,true));
             iCurrentNumber ++;
-            oAlertsArrayAdapter.notifyDataSetChanged();
+            if(oAlertsArrayAdapter != null){
+                oAlertsArrayAdapter.notifyDataSetChanged();
+            }
+            populateListView();
             updateCounter();
-            registerClickCallBack();
             return true;
         }
         return false;
@@ -126,10 +203,12 @@ public class AlertsActivity extends AppCompatActivity {
 
     //sets on click listeners
     private void registerClickCallBack(){
-        //viewListView = (ListView) findViewById(R.id.listViewAlarms);
+        viewListView = (ListView) findViewById(R.id.listViewAlarms);
+        Log.d("MyApp","RegisterClickCallBack Start");
         viewListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("MyApp", "Setting LongClick Listener");
                 AlertDialog.Builder builder = new AlertDialog.Builder(AlertsActivity.this);
                 builder.setTitle("Confirm Deletion");
                 builder.setMessage("Are you sure you want to delete this profile?");
@@ -156,9 +235,45 @@ public class AlertsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO
+                Log.d("MyApp", "Setting ClickListener");
                 Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        Gson gson = new Gson();
+        String str = gson.toJson(lsAlerts);
+
+        try{
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+            FileOutputStream fileout = openFileOutput("alertData.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+            fileout.close();
+            Log.d("MyApp", "Data Saved: " + str);
+        }catch (Exception ex){
+            Log.d("MyApp", ex.toString());
+        }
+        super.onBackPressed();
     }
 }

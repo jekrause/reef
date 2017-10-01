@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/txtAlertItemTitle"
-        android:text="OFF" />
+        android:text="OFF"
+        android:focusable="false"/>
 
 </RelativeLayout>

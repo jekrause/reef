@@ -82,39 +82,29 @@ public class FishListActivity extends AppCompatActivity {
 
                 return;
             }
-
             FileInputStream filein = openFileInput("defaultData.txt");
             InputStreamReader isr = new InputStreamReader ( filein ) ;
             BufferedReader buffreader = new BufferedReader ( isr ) ;
-
             String readString = buffreader.readLine ( ) ;
-
             isr.close ( ) ;
             buffreader.close();
             filein.close();
-
-
             if(!readString.isEmpty()){
                 d  = gson.fromJson(readString, Defaults.class);
             }
             else{
                 d = new Defaults();
             }
-
         }catch(Exception ex){
             d = new Defaults();
         }
-
         if(d.isPurchasedUpgrade()){
             maxNumber = Integer.MAX_VALUE;
         }
-
         tv = (TextView) findViewById(R.id.textView4);
-
         refreshListings();
         populateListView();
         registerClickCallback();
-
         updateCounter();
     }
 
