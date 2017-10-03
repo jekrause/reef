@@ -62,7 +62,6 @@ public class ReefTestsActivity extends AppCompatActivity {
                     test.add(new TestData(input.getText().toString()));
                     arrayAdapter.notifyDataSetChanged();
                     testBoolArray.add(Boolean.FALSE);
-
                 }
                 else{
                     Toast.makeText(ReefTestsActivity.this, "Please type a name for the test", Toast.LENGTH_SHORT).show();
@@ -75,9 +74,7 @@ public class ReefTestsActivity extends AppCompatActivity {
                 //do nothing
             }
         });
-
         alert.show();
-
     }
 
     public class MyListAdapter extends ArrayAdapter<TestData>{

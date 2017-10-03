@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/txtAlertSelectedTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Alert Name"
@@ -20,38 +20,40 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:onClick="changeAlertTitle"/>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/txtTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Alert Time:"
         android:layout_marginLeft="6dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="41dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAlertSelectedTitle" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/txtAlertSelectedTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="--:--a.m."
-        app:layout_constraintLeft_toRightOf="@+id/textView11"
+        app:layout_constraintLeft_toRightOf="@+id/txtTimeLabel"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="41dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAlertSelectedTitle" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="50dp"
         android:layout_height="36dp"
-        android:text="Edit"
-        android:textSize="10sp"
-        app:layout_constraintLeft_toRightOf="@+id/textView12"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="41dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        android:onClick="changeAlertTime"
+        android:text="Edit"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toRightOf="@+id/txtAlertSelectedTime"
+        app:layout_constraintTop_toBottomOf="@+id/txtAlertSelectedTitle" />
 
     <TextView
         android:id="@+id/textView13"
@@ -61,17 +63,17 @@
         android:layout_marginLeft="6dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTimeLabel" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/txtAlertSelectedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="--/--/----"
         app:layout_constraintLeft_toRightOf="@+id/textView13"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAlertSelectedTime" />
 
     <Button
         android:id="@+id/button8"
@@ -81,8 +83,9 @@
         android:textSize="10sp"
         android:layout_marginTop="26dp"
         app:layout_constraintTop_toBottomOf="@+id/button6"
-        app:layout_constraintLeft_toRightOf="@+id/textView14"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintLeft_toRightOf="@+id/txtAlertSelectedDate"
+        android:layout_marginLeft="8dp"
+        android:onClick="changeAlertDate"/>
 
     <TextView
         android:id="@+id/textView15"
@@ -105,71 +108,86 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnWED"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="27dp"
         android:text="WED"
-        app:layout_constraintLeft_toRightOf="@+id/toggleButton5"
+        android:textOff="WED"
+        android:textOn="WED"
+        app:layout_constraintLeft_toRightOf="@+id/toggleBtnTUES"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <ToggleButton
-        android:id="@+id/toggleButton8"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnTHUR"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginTop="11dp"
-        android:text="FRI"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton3"
+        android:text="THUR"
+        android:textOff="THUR"
+        android:textOn="THUR"
+        app:layout_constraintTop_toBottomOf="@+id/toggleBtnSUN"
         tools:layout_editor_absoluteX="77dp" />
 
     <ToggleButton
-        android:id="@+id/toggleButton7"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnSAT"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="11dp"
         android:text="SAT"
-        app:layout_constraintLeft_toRightOf="@+id/toggleButton6"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton5" />
+        android:textOff="SAT"
+        android:textOn="SAT"
+        app:layout_constraintLeft_toRightOf="@+id/toggleBtnFRI"
+        app:layout_constraintTop_toBottomOf="@+id/toggleBtnTUES" />
 
     <ToggleButton
-        android:id="@+id/toggleButton6"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnFRI"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="11dp"
         android:text="FRI"
-        app:layout_constraintLeft_toRightOf="@+id/toggleButton8"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton4" />
+        android:textOff="FRI"
+        android:textOn="FRI"
+        app:layout_constraintLeft_toRightOf="@+id/toggleBtnTHUR"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButtonMON" />
 
     <ToggleButton
-        android:id="@+id/toggleButton4"
-        android:layout_width="53dp"
+        android:id="@+id/toggleButtonMON"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:text="MON"
-        app:layout_constraintLeft_toRightOf="@+id/toggleButton3"
+        android:textOff="MON"
+        android:textOn="MON"
+        app:layout_constraintLeft_toRightOf="@+id/toggleBtnSUN"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <ToggleButton
-        android:id="@+id/toggleButton5"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnTUES"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
         android:text="TUES"
-        app:layout_constraintLeft_toRightOf="@+id/toggleButton4"
+        android:textOff="TUES"
+        android:textOn="TUES"
+        app:layout_constraintLeft_toRightOf="@+id/toggleButtonMON"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <ToggleButton
-        android:id="@+id/toggleButton3"
-        android:layout_width="53dp"
+        android:id="@+id/toggleBtnSUN"
+        android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="14dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="29dp"
+        android:checked="false"
         android:text="SUN"
+        android:textOff="SUN"
+        android:textOn="SUN"
         app:layout_constraintLeft_toRightOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
