@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -25,6 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+
+import static android.R.attr.breadCrumbShortTitle;
+import static android.R.attr.button;
 
 public class ViewAlertActivity extends AppCompatActivity implements View.OnClickListener {
     Alert alert;
@@ -169,10 +173,39 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
         time.setText(alert.getTime());
         name.setText(alert.getName());
         date.setText(alert.getDate());
+        btnSUN.setChecked(alert.getDay(0));
+        btnMON.setChecked(alert.getDay(1));
+        btnTUES.setChecked(alert.getDay(2));
+        btnWED.setChecked(alert.getDay(3));
+        btnTHUR.setChecked(alert.getDay(4));
+        btnFRI.setChecked(alert.getDay(5));
+        btnSAT.setChecked(alert.getDay(6));
     }
 
     @Override
     public void onClick(View view){
-        //TODO listener for toggle buttons
+        switch (view.getId()){
+            case R.id.toggleBtnSUN:
+                alert.setDay(0);
+                break;
+            case R.id.toggleButtonMON:
+                alert.setDay(1);
+                break;
+            case R.id.toggleBtnTUES:
+                alert.setDay(2);
+                break;
+            case R.id.toggleBtnWED:
+                alert.setDay(3);
+                break;
+            case R.id.toggleBtnTHUR:
+                alert.setDay(4);
+                break;
+            case R.id.toggleBtnFRI:
+                alert.setDay(5);
+                break;
+            case R.id.toggleBtnSAT:
+                alert.setDay(6);
+                break;
+        }
     }
 }

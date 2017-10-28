@@ -1,18 +1,27 @@
 package kdc.reef.john.reefcaluclators;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.DragEvent;
@@ -36,15 +45,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class AlertsActivity extends AppCompatActivity {
 
+    NotificationCompat.Builder oNotification;
     public static List<Alert> lsAlerts = new ArrayList<>();
     ArrayAdapter<Alert> oAlertsArrayAdapter;
     int iMaxNumber = 2;
+    private static final int iUniqueID = 493940594;
+    public static final int DAILY_REMINDER_REQUEST_CODE=100;
 
     ListView viewListView;
     TextView txtCounter;
@@ -73,6 +87,7 @@ public class AlertsActivity extends AppCompatActivity {
         Log.d("MyApp","RegisterClickCallBack");
         registerClickCallBack();
         Log.d("MyApp","End of onCreate");
+
     }
 
     public class MyListAdapter extends ArrayAdapter<Alert>{
@@ -99,14 +114,22 @@ public class AlertsActivity extends AppCompatActivity {
                         switch1.setText("ON ");
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
                         lsAlerts.get(position).bActive = true;
+                        Toast.makeText(AlertsActivity.this, "Alarm set", Toast.LENGTH_SHORT).show();
+                        //buildNotification(position);
+                        setReminder(AlertsActivity.this, AlarmReceiver.class, position);
                     }
                     else{
                         switch1.setText("OFF");
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
                         lsAlerts.get(position).bActive = false;
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class);
                     }
                 }
             });
+            //Check if alarm has passed.
+            if(convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis()){
+                lsAlerts.get(position).bActive = false;
+            }
             switch1.setChecked(lsAlerts.get(position).bActive);
             oAlertsArrayAdapter.notifyDataSetChanged();
             registerClickCallBack();
@@ -162,6 +185,7 @@ public class AlertsActivity extends AppCompatActivity {
                 }
 
             }catch(Exception ex){
+                ex.printStackTrace();
             }
         }
         Log.d("MyApp","RefreshListings End");
@@ -235,7 +259,6 @@ public class AlertsActivity extends AppCompatActivity {
         viewListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO
                 Log.d("MyApp", "Setting ClickListener");
                 Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
                 intent.putExtra("iPosition", position);
@@ -276,5 +299,78 @@ public class AlertsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public static void setReminder(Context context, Class<?> cls, int piposition)
+    {
+        // Enable a receiver
+        ComponentName receiver = new ComponentName(context, cls);
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
 
+        Intent intent1 = new Intent(context, cls);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                DAILY_REMINDER_REQUEST_CODE, intent1,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    public static void cancelReminder(Context context,Class<?> cls)
+    {
+        // Disable a receiver
+        ComponentName receiver = new ComponentName(context, cls);
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+
+        Intent intent1 = new Intent(context, cls);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        am.cancel(pendingIntent);
+        pendingIntent.cancel();
+    }
+
+    public static void showNotification(Context context,Class<?> cls,String title,String content)
+    {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        Intent notificationIntent = new Intent(context, cls);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(cls);
+        stackBuilder.addNextIntent(notificationIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(
+                DAILY_REMINDER_REQUEST_CODE,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        android.support.v4.app.NotificationCompat.Builder builder = new android.support.v4.app.NotificationCompat.Builder(context);
+        Notification notification = builder.setContentTitle(title)
+                .setContentText(content).setAutoCancel(true)
+                .setSound(alarmSound).setSmallIcon(R.drawable.alarm_clock_black)
+                .setContentIntent(pendingIntent).build();
+
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification);
+    }
+
+    private static long convertToMillis(String poDate, String poTime) {
+        long i = -1;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+        Log.d("MyApp", "x "+poDate + " " + poTime);
+        try{
+            Date tempDate = sdf.parse(poDate + " " + poTime);
+            Log.d("MyApp", "xx "+tempDate + "");
+            return tempDate.getTime();
+        }catch (Exception ex){
+            Log.d("MyApp", "Failed...");
+            ex.printStackTrace();
+        }
+        return i;
+    }
 }

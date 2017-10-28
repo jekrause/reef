@@ -22,10 +22,6 @@ public class Alert {
     private String sName;
     private String sTime;
     private boolean[] lsDaysOfWeek = new boolean[7];
-    //Time oCreationTime;
-    //Time oAlertTime;
-    //Calendar oRepeatSchedule;
-    //Switch oSwitch;
 
     public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats) {
         //// TODO: 9/7/2017
@@ -33,6 +29,16 @@ public class Alert {
         bRepeats = pbRepeats == null ? false : pbRepeats;
         sName = "Alert (Tap to edit)";
         bActive = false;
+    }
+
+    private void checkRepeats(){
+        for(int i=0; i<lsDaysOfWeek.length; i++){
+            if(lsDaysOfWeek[i]){
+                bRepeats = true;
+                return;
+            }
+        }
+        bRepeats = false;
     }
 
     public String getName() {
@@ -68,7 +74,9 @@ public class Alert {
     public boolean getDay(int piDay) {
         return lsDaysOfWeek[piDay];
     }
-    public void setDay(int piDay, boolean pbVal){
-        lsDaysOfWeek[piDay] = pbVal;
+    public void setDay(int piDay){
+        lsDaysOfWeek[piDay] = !lsDaysOfWeek[piDay];
+        checkRepeats();
     }
+
 }
