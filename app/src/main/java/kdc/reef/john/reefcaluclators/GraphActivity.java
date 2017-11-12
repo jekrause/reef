@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.nfc.FormatException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -23,16 +26,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -68,11 +77,11 @@ public class GraphActivity extends AppCompatActivity {
         }
 
         testData = ReefTestsActivity.getTestArray().get(index);
-
-
         nameTV = (TextView) findViewById(R.id.testTitle);
         nameTV.setText(testData.getName());
         graph  = (GraphView) findViewById(R.id.graph);
+        //graph.getGridLabelRenderer().setHumanRounding(false);
+
 
         dataPointsArrayAdapter = new MyListAdapter();
         list = (ListView) findViewById(R.id.testScrollList);
@@ -88,7 +97,6 @@ public class GraphActivity extends AppCompatActivity {
 
     public void addTestClick(View view){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Enter Test Name");
 
 // Set an EditText view to get user input
         Context context = this.getApplicationContext();
@@ -96,10 +104,10 @@ public class GraphActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
 
+
 //        final EditText titleBox = new EditText(context);
 //        titleBox.setHint(todaysDate());
 //        layout.addView(titleBox);
-
         final DatePicker picker = new DatePicker(this);
         picker.setCalendarViewShown(false);
         layout.addView(picker);
@@ -173,8 +181,7 @@ public class GraphActivity extends AppCompatActivity {
 //            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //
 //            }
-//
-//            @Override
+        //@Override
 //            public void onNothingSelected(AdapterView<?> parent) {
 //
 //            }
@@ -210,32 +217,51 @@ public class GraphActivity extends AppCompatActivity {
         //graph.removeAllSeries();
         int i=0;
 
-        Log.d("www", testData.dataPoints+"");
 
+        Log.d("www", testData.dataPoints+"");
+        //clear out graph
+        graph.removeAllSeries();
+
+        //generate new data
         DataPoint[] dpArr = new DataPoint[testData.dataPoints.size()];
         for(DataPoints x : testData.dataPoints){
             dpArr[i] = new DataPoint(x.getDate(), x.getV());
             i++;
         }
-        series.resetData(dpArr);
+//        series.resetData(dpArr);
+        series = new LineGraphSeries<>(dpArr);
+        series.setDrawBackground(true);
+        series.setBackgroundColor(Color.argb(43,255,66,129));
+        series.setDrawDataPoints(true);
 
-        if(dpArr.length!=0){
+        series.setColor(getColor(R.color.colorAccent));
+
+        graph.setBackgroundColor(Color.argb(100,24,67,89));
+
+        graph.addSeries(series);
+
+        //graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.argb(0,24,67,89));
+        graph.setPadding(0,0,0,5);
+        graph.getGridLabelRenderer().setPadding(32);
+        if(dpArr.length>1){
             // set date label formatter
-            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
-            graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-// set manual x bounds to have nice steps
+            //graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+//            graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+//
+//// set manual x bounds to have nice steps
+            graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(dpArr[0].getX());
             graph.getViewport().setMaxX(dpArr[i-1].getX());
             graph.getViewport().setXAxisBoundsManual(true);
 
-// as we use dates as labels, the human rounding to nice readable numbers
-// is not necessary
-            graph.getGridLabelRenderer().setHumanRounding(false);
+//
+//// as we use dates as labels, the human rounding to nice readable numbers
+//// is not necessary
+
         }
-
         dataPointsArrayAdapter.notifyDataSetChanged();
-
+        saveData();
     }
 
     public class MyListAdapter extends ArrayAdapter<DataPoints>{
@@ -282,7 +308,7 @@ public class GraphActivity extends AppCompatActivity {
                         // Do nothing but close the dialog
                         testData.dataPoints.remove(position);
                         Collections.sort(testData.dataPoints, new DateComparator());
-                        dataPointsArrayAdapter.notifyDataSetChanged();
+                        updateGraph();
                         dialog.dismiss();
                     }
                 });
@@ -302,8 +328,6 @@ public class GraphActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void saveData(){
         Gson gson = new Gson();
@@ -329,7 +353,6 @@ public class GraphActivity extends AppCompatActivity {
         }catch(Exception ex){
 
         }
-        super.onBackPressed();
     }
 
     public class DateComparator implements Comparator<DataPoints> {
@@ -351,7 +374,6 @@ public class GraphActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         saveData();
+        super.onBackPressed();
     }
-
-
 }
