@@ -340,7 +340,7 @@ public class CoralSelectedActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             final ImageList user = imageListList.get(position);
 
@@ -364,38 +364,44 @@ public class CoralSelectedActivity extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CoralSelectedActivity.this);
-
-                    builder.setTitle("Confirm Deletion");
-                    builder.setMessage("Are you sure you want to delete this profile image?");
-
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    builder.setTitle("MENU");
+                    builder.setMessage("Photo Options Menu");
+                    builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int which) {
                             // Do nothing but close the dialog
                             Log.d("MyApp","yes");
                             imageListList.remove(user);
-                            coralProfileArrayList.remove(user);
+                            //coralProfileArrayList.remove(user);
                             numberOfImages--;
                             updateCounter();
                             //refreshListings();
                             adapter.notifyDataSetChanged();
-
-
                             dialog.dismiss();
                         }
                     });
-
-                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
+                    builder.setNegativeButton("VIEW", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("MyApp","no");
-
-                            // Do nothing
+                            Log.d("MyApp","view_full_screen");
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            if(imageListList.get(position).get().equals("default")){
+                                //TODO
+                            }
+                            else {
+                                intent.setDataAndType(Uri.parse(imageListList.get(position).get()), "image/*");
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                    builder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("MyApp","cancel");
                             dialog.dismiss();
                         }
                     });
-
                     AlertDialog alert = builder.create();
                     alert.show();
                     return true;
