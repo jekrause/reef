@@ -104,9 +104,23 @@ public class AlertsActivity extends AppCompatActivity {
             }
             final ImageView imageViewIcon = (ImageView) alertView.findViewById(R.id.itemIcon);
             imageViewIcon.setBackgroundResource(lsAlerts.get(position).iIcon);
+            //set name
             TextView txtName = (TextView) alertView.findViewById(R.id.txtAlertItemTitle);
             txtName.setText(lsAlerts.get(position).getName());
+            //set date
+            TextView txtDate = (TextView) alertView.findViewById(R.id.txtAlertItemDate);
+            txtDate.setText(lsAlerts.get(position).getDate());
+            //set time
+            TextView txtTime = (TextView) alertView.findViewById(R.id.txtAlertItemTime);
+            txtTime.setText(lsAlerts.get(position).getTime());
+            //set repeats
+            //TODO set repeat
             final Switch switch1 = (Switch) alertView.findViewById(R.id.switch1);
+            if(lsAlerts.get(position).getTime()==null || (convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis() && (!lsAlerts.get(position).bRepeats && lsAlerts.get(position).bActive))){
+                lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
+                lsAlerts.get(position).bActive = false;
+                switch1.setChecked(false);
+            }
             switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -114,9 +128,16 @@ public class AlertsActivity extends AppCompatActivity {
                         switch1.setText("ON ");
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
                         lsAlerts.get(position).bActive = true;
-                        Toast.makeText(AlertsActivity.this, "Alarm set", Toast.LENGTH_SHORT).show();
-                        //buildNotification(position);
-                        setReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                        if(lsAlerts.get(position).getTime() == null){
+                            //there is no date so we should have the user set one
+                            Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
+                            intent.putExtra("iPosition", position);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
+                            setReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                        }
                     }
                     else{
                         switch1.setText("OFF");
@@ -126,11 +147,7 @@ public class AlertsActivity extends AppCompatActivity {
                     }
                 }
             });
-            //Check if alarm has passed.
-            if(convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis()){
-                lsAlerts.get(position).bActive = false;
-            }
-            switch1.setChecked(lsAlerts.get(position).bActive);
+            //switch1.setChecked(lsAlerts.get(position).bActive);
             oAlertsArrayAdapter.notifyDataSetChanged();
             registerClickCallBack();
             return alertView;

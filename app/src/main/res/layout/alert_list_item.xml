@@ -30,4 +30,28 @@
         android:text="OFF"
         android:focusable="false"/>
 
+    <TextView
+        android:id="@+id/txtAlertItemDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAlertItemTitle"
+        android:layout_toEndOf="@+id/itemIcon"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/txtAlertItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAlertItemDate"
+        android:layout_toEndOf="@+id/itemIcon"
+        android:text="Time" />
+
+    <TextView
+        android:id="@+id/txtAlertItemRepeats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/itemIcon"
+        android:layout_alignParentEnd="true"
+        android:text="Does not repeat" />
+
 </RelativeLayout>

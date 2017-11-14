@@ -63,6 +63,18 @@
             android:name=".InvertsListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ChangeDefaultsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CalculatorsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CalciumActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AlkalinityActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".CoralSelectedActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ViewAlertActivity"></activity>
