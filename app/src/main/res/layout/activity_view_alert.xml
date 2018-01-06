@@ -88,54 +88,47 @@
         android:onClick="changeAlertDate"/>
 
     <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OR"
-        android:layout_marginLeft="57dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="88dp"
         android:text="Repeats:"
-        android:layout_marginTop="29dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView15"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <ToggleButton
         android:id="@+id/toggleBtnWED"
         android:layout_width="60dp"
         android:layout_height="41dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="8dp"
         android:text="WED"
         android:textOff="WED"
         android:textOn="WED"
+        app:layout_constraintBottom_toTopOf="@+id/toggleBtnSAT"
         app:layout_constraintLeft_toRightOf="@+id/toggleBtnTUES"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/button8"
+        app:layout_constraintVertical_bias="0.945" />
 
     <ToggleButton
         android:id="@+id/toggleBtnTHUR"
         android:layout_width="60dp"
         android:layout_height="41dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
         android:text="THUR"
         android:textOff="THUR"
         android:textOn="THUR"
-        app:layout_constraintTop_toBottomOf="@+id/toggleBtnSUN"
-        tools:layout_editor_absoluteX="77dp" />
+        app:layout_constraintStart_toStartOf="@+id/toggleBtnSUN"
+        app:layout_constraintTop_toBottomOf="@+id/toggleBtnSUN" />
 
     <ToggleButton
         android:id="@+id/toggleBtnSAT"
         android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
         android:text="SAT"
         android:textOff="SAT"
         android:textOn="SAT"
@@ -147,7 +140,7 @@
         android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="8dp"
         android:text="FRI"
         android:textOff="FRI"
         android:textOn="FRI"
@@ -159,36 +152,81 @@
         android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="60dp"
         android:text="MON"
         android:textOff="MON"
         android:textOn="MON"
         app:layout_constraintLeft_toRightOf="@+id/toggleBtnSUN"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/button8" />
 
     <ToggleButton
         android:id="@+id/toggleBtnTUES"
         android:layout_width="60dp"
         android:layout_height="41dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="60dp"
         android:text="TUES"
         android:textOff="TUES"
         android:textOn="TUES"
         app:layout_constraintLeft_toRightOf="@+id/toggleButtonMON"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/button8" />
 
     <ToggleButton
         android:id="@+id/toggleBtnSUN"
         android:layout_width="60dp"
         android:layout_height="41dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="76dp"
         android:checked="false"
         android:text="SUN"
         android:textOff="SUN"
         android:textOn="SUN"
         app:layout_constraintLeft_toRightOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="16dp"
+        android:text="OR"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleBtnFRI" />
+
+    <ToggleButton
+        android:id="@+id/toggleBtnBiweekly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="BIWEEKLY"
+        android:textOff="BIWEEKLY"
+        android:textOn="BIWEEKLY"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ToggleButton
+        android:id="@+id/toggleBtnMonthly"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="MONTHLY"
+        android:textOff="MONTHLY"
+        android:textOn="MONTHLY"
+        app:layout_constraintStart_toEndOf="@+id/toggleBtnBiweekly"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ToggleButton
+        android:id="@+id/toggleBtnYearly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="YEARLY"
+        android:textOff="YEARLY"
+        android:textOn="YEARLY"
+        app:layout_constraintStart_toEndOf="@+id/toggleBtnMonthly"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 </android.support.constraint.ConstraintLayout>

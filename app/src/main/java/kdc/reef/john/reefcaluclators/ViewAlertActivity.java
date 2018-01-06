@@ -29,12 +29,14 @@ import java.util.Date;
 
 import static android.R.attr.breadCrumbShortTitle;
 import static android.R.attr.button;
+import static android.R.attr.data;
+import static android.R.attr.fingerprintAuthDrawable;
 
 public class ViewAlertActivity extends AppCompatActivity implements View.OnClickListener {
     Alert alert;
 
     TextView name, date, time;
-    ToggleButton btnSUN, btnMON, btnTUES, btnWED, btnTHUR, btnFRI, btnSAT;
+    ToggleButton btnSUN, btnMON, btnTUES, btnWED, btnTHUR, btnFRI, btnSAT, btnBiweekly, btnMonthly, btnYearly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
         btnTHUR = (ToggleButton) findViewById(R.id.toggleBtnTHUR);
         btnFRI = (ToggleButton) findViewById(R.id.toggleBtnFRI);
         btnSAT = (ToggleButton) findViewById(R.id.toggleBtnSAT);
+        btnBiweekly = (ToggleButton) findViewById(R.id.toggleBtnBiweekly);
+        btnMonthly = (ToggleButton) findViewById(R.id.toggleBtnMonthly);
+        btnYearly = (ToggleButton) findViewById(R.id.toggleBtnYearly);
         btnSUN.setOnClickListener(this);
         btnMON.setOnClickListener(this);
         btnTUES.setOnClickListener(this);
@@ -57,6 +62,9 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
         btnTHUR.setOnClickListener(this);
         btnFRI.setOnClickListener(this);
         btnSAT.setOnClickListener(this);
+        btnBiweekly.setOnClickListener(this);
+        btnMonthly.setOnClickListener(this);
+        btnYearly.setOnClickListener(this);
         alert = AlertsActivity.lsAlerts.get(getIntent().getIntExtra("iPosition", 0));
         dataChanged();
     }
@@ -180,6 +188,9 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
         btnTHUR.setChecked(alert.getDay(4));
         btnFRI.setChecked(alert.getDay(5));
         btnSAT.setChecked(alert.getDay(6));
+        btnBiweekly.setChecked(alert.bBiweekly);
+        btnMonthly.setChecked(alert.bMonthly);
+        btnYearly.setChecked(alert.bYearly);
     }
 
     @Override
@@ -206,6 +217,19 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
             case R.id.toggleBtnSAT:
                 alert.setDay(6);
                 break;
+            case R.id.toggleBtnBiweekly:
+                //all days of week will now be false
+                alert.setBiweekly();
+                break;
+            case R.id.toggleBtnMonthly:
+                //all days of week will now be false
+                alert.setMonthly();
+                break;
+            case R.id.toggleBtnYearly:
+                //all days of week will now be false
+                alert.setYearly();
+                break;
         }
+        dataChanged();
     }
 }

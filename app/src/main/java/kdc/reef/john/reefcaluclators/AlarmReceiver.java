@@ -33,17 +33,19 @@ public class AlarmReceiver extends BroadcastReceiver {
     String TAG = "AlarmReceiver";
 
     @Override
-    public void onReceive(Context context, Intent intent){
+    public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null && context != null) {
             if (intent.getAction().equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
                 // Set the alarm here.
                 Log.d(TAG, "onReceive: BOOT_COMPLETED");
                 lsAlerts = AlertsActivity.lsAlerts;
-                for(int i = 0; i<lsAlerts.size(); i++){
+                for (int i = 0; i < lsAlerts.size(); i++) {
                     AlertsActivity.setReminder(context, AlarmReceiver.class, i);
                 }
             }
+        } else {
+            AlertsActivity.showNotification(context, MainActivity.class, intent.getStringExtra("Name"), "Eventually this will be a custom message");
+            AlertsActivity.checkAlarms();
         }
-        AlertsActivity.showNotification(context, MainActivity.class, "Alarm test", "test now");
     }
 }

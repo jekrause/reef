@@ -352,17 +352,15 @@ public class AlertsActivity extends AppCompatActivity {
                 PackageManager.DONT_KILL_APP);
 
         Intent intent1 = new Intent(context, cls);
+        intent1.putExtra("Name", lsAlerts.get(piposition).getName());
+        intent1.putExtra("Position", piposition);
+        //intent1.putExtra("Message", lsAlerts.get(piposition).getMessage());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 DAILY_REMINDER_REQUEST_CODE, intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        if(lsAlerts.get(piposition).bRepeats){
-            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),
-                    AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-        else{
-            am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),pendingIntent);
-        }
+        //not using repeat reminder anymore because that should be handled when the alarm wakes the device.
+        am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),pendingIntent);
     }
 
     public static void cancelReminder(Context context,Class<?> cls)
@@ -422,13 +420,17 @@ public class AlertsActivity extends AppCompatActivity {
         return i;
     }
 
-    public void resetAlarms(){
+    public static void checkAlarms(){
         //TODO
-        refreshListings();
+        Log.d("MyApp", "(checkAlarms) start of method");
         for(Alert alert:lsAlerts){
             alert.checkRepeats();
-            if(alert.bRepeats){
+            //Check if the alarm is repeating and the time has passed.
+            if(alert.bRepeats && convertToMillis(alert.getDate(), alert.getTime()) < System.currentTimeMillis()){
+                //set new date and time for it.
                 alert.computeNextAlarm();
+                //TODO set next alarm
+
             }
         }
     }
