@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
@@ -113,8 +114,26 @@ public class AlertsActivity extends AppCompatActivity {
             //set time
             TextView txtTime = (TextView) alertView.findViewById(R.id.txtAlertItemTime);
             txtTime.setText(lsAlerts.get(position).getTime());
-            //set repeats
-            //TODO set repeat
+            //set repeats text
+            TextView txtRepeats = (TextView) alertView.findViewById(R.id.txtAlertItemRepeats);
+            String tempText = "";
+            if(lsAlerts.get(position).getDay(0))
+                tempText += "Su ";
+            if(lsAlerts.get(position).getDay(1))
+                tempText += "M ";
+            if(lsAlerts.get(position).getDay(2))
+                tempText += "Tu ";
+            if(lsAlerts.get(position).getDay(3))
+                tempText += "W ";
+            if(lsAlerts.get(position).getDay(4))
+                tempText += "Th ";
+            if(lsAlerts.get(position).getDay(5))
+                tempText += "F ";
+            if(lsAlerts.get(position).getDay(6))
+                tempText += "Sa ";
+            if(tempText.length()==0)
+                tempText = "Does not repeat";
+            txtRepeats.setText(tempText);
             final Switch switch1 = (Switch) alertView.findViewById(R.id.switch1);
             if(lsAlerts.get(position).getTime()==null || (convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis() && (!lsAlerts.get(position).bRepeats && lsAlerts.get(position).bActive))){
                 lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
@@ -125,18 +144,25 @@ public class AlertsActivity extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        switch1.setText("ON ");
-                        lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
-                        lsAlerts.get(position).bActive = true;
-                        if(lsAlerts.get(position).getTime() == null){
-                            //there is no date so we should have the user set one
-                            Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
-                            intent.putExtra("iPosition", position);
-                            startActivity(intent);
+                        //TODO check if time has passed before doing anything
+                        if((lsAlerts.get(position).getTime() == null || lsAlerts.get(position).getDate()=="00-00-0000") || convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) > System.currentTimeMillis()){
+                            switch1.setText("ON ");
+                            lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
+                            lsAlerts.get(position).bActive = true;
+                            if(lsAlerts.get(position).getTime() == null){
+                                //there is no date so we should have the user set one
+                                Intent intent = new Intent(AlertsActivity.this, ViewAlertActivity.class);
+                                intent.putExtra("iPosition", position);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
+                                setReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                            }
                         }
                         else{
-                            Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
-                            setReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                            Toast.makeText(AlertsActivity.this,"Time has passed.", Toast.LENGTH_SHORT).show();
+                            switch1.setChecked(false);
                         }
                     }
                     else{
@@ -330,8 +356,13 @@ public class AlertsActivity extends AppCompatActivity {
                 DAILY_REMINDER_REQUEST_CODE, intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+        if(lsAlerts.get(piposition).bRepeats){
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+        else{
+            am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),pendingIntent);
+        }
     }
 
     public static void cancelReminder(Context context,Class<?> cls)
@@ -389,5 +420,23 @@ public class AlertsActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         return i;
+    }
+
+    public void resetAlarms(){
+        //TODO
+        refreshListings();
+        for(Alert alert:lsAlerts){
+            alert.checkRepeats();
+            if(alert.bRepeats){
+                alert.computeNextAlarm();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        refreshListings();
+        registerClickCallBack();
+        super.onResume();
     }
 }

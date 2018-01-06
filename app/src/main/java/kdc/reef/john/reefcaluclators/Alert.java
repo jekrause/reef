@@ -31,7 +31,7 @@ public class Alert {
         bActive = false;
     }
 
-    private void checkRepeats(){
+    public void checkRepeats(){
         for(int i=0; i<lsDaysOfWeek.length; i++){
             if(lsDaysOfWeek[i]){
                 bRepeats = true;
@@ -39,6 +39,10 @@ public class Alert {
             }
         }
         bRepeats = false;
+    }
+
+    public void computeNextAlarm(){
+        //TODO
     }
 
     public String getName() {

@@ -46,6 +46,4 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         AlertsActivity.showNotification(context, MainActivity.class, "Alarm test", "test now");
     }
-
-
 }
