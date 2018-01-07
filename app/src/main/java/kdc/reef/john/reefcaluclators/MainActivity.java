@@ -26,6 +26,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadData();
+    }
+
+    public void calculators(View view){
+        Intent intent = new Intent(MainActivity.this, CalculatorsActivity.class);
+        startActivity(intent);
+    }
+
+    public void tankInhabitants(View view){
+        Intent intent = new Intent(MainActivity.this, TankInhabitantsActivity.class);
+        startActivity(intent);
+    }
+
+    public void reefTestsClick (View view){
+        Intent intent = new Intent(MainActivity.this, ReefTestsActivity.class);
+        startActivity(intent);
+    }
+
+    public void alertsClick(View view){
+        Intent intent = new Intent(MainActivity.this, AlertsActivity.class);
+        startActivity(intent);
+    }
+
+    public void upgradeClick(View view){
+        Intent intent = new Intent(MainActivity.this, UpgradeActivity.class);
+        startActivity(intent);
+    }
+
+    private void loadData(){
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -67,28 +96,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void calculators(View view){
-        Intent intent = new Intent(MainActivity.this, CalculatorsActivity.class);
-        startActivity(intent);
-    }
-
-    public void tankInhabitants(View view){
-        Intent intent = new Intent(MainActivity.this, TankInhabitantsActivity.class);
-        startActivity(intent);
-    }
-
-    public void reefTestsClick (View view){
-        Intent intent = new Intent(MainActivity.this, ReefTestsActivity.class);
-        startActivity(intent);
-    }
-
-    public void alertsClick(View view){
-        Intent intent = new Intent(MainActivity.this, AlertsActivity.class);
-        startActivity(intent);
-    }
-
-    public void upgradeClick(View view){
-        Intent intent = new Intent(MainActivity.this, UpgradeActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 }

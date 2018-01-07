@@ -7,6 +7,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Alert {
     boolean bYearly;
     int iIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
     private String sDate = "00-00-00";
+    private String sMessage;
     private String sName;
     private String sTime;
     private boolean[] lsDaysOfWeek = new boolean[7];
@@ -37,6 +39,11 @@ public class Alert {
     }
 
     public void checkRepeats(){
+        if(bBiweekly||bMonthly||bYearly){
+            bRepeats = true;
+            return;
+        }
+
         for(int i=0; i<lsDaysOfWeek.length; i++){
             if(lsDaysOfWeek[i]){
                 bRepeats = true;
@@ -50,19 +57,23 @@ public class Alert {
 
     public void computeNextAlarm(){
         Log.d("MyApp", "(computeNextAlarm) start of method");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         //Math for getting next time.
         if(bBiweekly){
-
+            calendar.add(Calendar.WEEK_OF_MONTH, 2);
+            sDate = sdf.format(calendar.getTime());
         }
         else if(bMonthly){
-
+            calendar.add(Calendar.MONTH,1);
+            sDate = sdf.format(calendar.getTime());
         }
         else if(bYearly){
-
+            calendar.add(Calendar.YEAR, 1);
+            sDate = sdf.format(calendar.getTime());
         }
         else{
             //First find next day.
-            Calendar calendar = Calendar.getInstance();
             int todayDay = calendar.get(Calendar.DAY_OF_WEEK)-1;
             int index;
             for(index = 1; index < 7; index++){
@@ -71,12 +82,18 @@ public class Alert {
                     break;
                 }
             }
-            //Get next alarm day|time - cur time
-            calendar.add(Calendar.DATE, index);
-            Log.d("MyApp", "(computeNextAlarm) next date is " + calendar.getTime());
+            calendar.add(Calendar.DATE, index+1);
+            sDate = sdf.format(calendar.getTime());
         }
+        Log.d("MyApp", "(computeNextAlarm) next date is " + sDate);
     }
 
+    public String getMessage(){
+        return sMessage;
+    }
+    public void setMessage(String psMessage){
+        sMessage = psMessage;
+    }
     public String getName() {
         return sName;
     }

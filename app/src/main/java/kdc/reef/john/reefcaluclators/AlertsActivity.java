@@ -59,7 +59,7 @@ public class AlertsActivity extends AppCompatActivity {
     ArrayAdapter<Alert> oAlertsArrayAdapter;
     int iMaxNumber = 2;
     private static final int iUniqueID = 493940594;
-    public static final int DAILY_REMINDER_REQUEST_CODE=100;
+    //TODO public static final int DAILY_REMINDER_REQUEST_CODE=100;
 
     ListView viewListView;
     TextView txtCounter;
@@ -131,6 +131,12 @@ public class AlertsActivity extends AppCompatActivity {
                 tempText += "F ";
             if(lsAlerts.get(position).getDay(6))
                 tempText += "Sa ";
+            if(lsAlerts.get(position).bBiweekly)
+                tempText = "Biweekly";
+            else if(lsAlerts.get(position).bMonthly)
+                tempText = "Monthly";
+            else if(lsAlerts.get(position).bYearly)
+                tempText = "Yearly";
             if(tempText.length()==0)
                 tempText = "Does not repeat";
             txtRepeats.setText(tempText);
@@ -284,6 +290,8 @@ public class AlertsActivity extends AppCompatActivity {
                         lsAlerts.remove(position);
                         updateCounter();
                         oAlertsArrayAdapter.notifyDataSetChanged();
+                        //TODO Probably need to specify which alert we are cancelling.
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class);
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -354,7 +362,7 @@ public class AlertsActivity extends AppCompatActivity {
         Intent intent1 = new Intent(context, cls);
         intent1.putExtra("Name", lsAlerts.get(piposition).getName());
         intent1.putExtra("Position", piposition);
-        //intent1.putExtra("Message", lsAlerts.get(piposition).getMessage());
+        intent1.putExtra("Message", lsAlerts.get(piposition).getMessage());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 DAILY_REMINDER_REQUEST_CODE, intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);

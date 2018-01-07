@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context="kdc.reef.john.reefcaluclators.ViewAlertActivity">
 
+    <!--This dummy edit text gains autofocus instead of the actual editText-->
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
     <TextView
         android:id="@+id/txtAlertSelectedTitle"
@@ -228,5 +232,26 @@
         android:textOn="YEARLY"
         app:layout_constraintStart_toEndOf="@+id/toggleBtnMonthly"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/editTxtMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:maxLength="38"
+        android:hint="(No Message [character limit = 30])"
+        app:layout_constraintStart_toStartOf="@+id/toggleBtnBiweekly"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Custom Message"
+        app:layout_constraintStart_toStartOf="@+id/toggleBtnMonthly"
+        app:layout_constraintTop_toBottomOf="@+id/toggleBtnMonthly" />
 
 </android.support.constraint.ConstraintLayout>

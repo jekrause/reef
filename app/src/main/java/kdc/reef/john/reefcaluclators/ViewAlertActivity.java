@@ -35,6 +35,7 @@ import static android.R.attr.fingerprintAuthDrawable;
 public class ViewAlertActivity extends AppCompatActivity implements View.OnClickListener {
     Alert alert;
 
+    EditText edtMessage;
     TextView name, date, time;
     ToggleButton btnSUN, btnMON, btnTUES, btnWED, btnTHUR, btnFRI, btnSAT, btnBiweekly, btnMonthly, btnYearly;
 
@@ -42,6 +43,7 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_alert);
+        edtMessage = (EditText) findViewById(R.id.editTxtMessage);
         name = (TextView) findViewById(R.id.txtAlertSelectedTitle);
         time = (TextView) findViewById(R.id.txtAlertSelectedTime);
         date = (TextView) findViewById(R.id.txtAlertSelectedDate);
@@ -148,6 +150,8 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onBackPressed(){
         Gson gson = new Gson();
+        //save edit text for custom message
+        alert.setMessage(edtMessage.getText().toString());
         String str = gson.toJson(AlertsActivity.lsAlerts);
         try{
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -181,6 +185,7 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
         time.setText(alert.getTime());
         name.setText(alert.getName());
         date.setText(alert.getDate());
+        edtMessage.setText(alert.getMessage());
         btnSUN.setChecked(alert.getDay(0));
         btnMON.setChecked(alert.getDay(1));
         btnTUES.setChecked(alert.getDay(2));
