@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
         } else {
-            AlertsActivity.showNotification(context, MainActivity.class, intent.getStringExtra("Name"), intent.getStringExtra("Message"));
+            AlertsActivity.showNotification(context, MainActivity.class, intent.getStringExtra("Name"), intent.getStringExtra("Message"), intent.getIntExtra("RequestCode", -1));
             AlertsActivity.checkAlarms();
         }
     }

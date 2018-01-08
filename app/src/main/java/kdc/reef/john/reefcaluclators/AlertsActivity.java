@@ -59,7 +59,7 @@ public class AlertsActivity extends AppCompatActivity {
     ArrayAdapter<Alert> oAlertsArrayAdapter;
     int iMaxNumber = 2;
     private static final int iUniqueID = 493940594;
-    //TODO public static final int DAILY_REMINDER_REQUEST_CODE=100;
+    Defaults d;
 
     ListView viewListView;
     TextView txtCounter;
@@ -68,7 +68,7 @@ public class AlertsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerts);
-
+        loadDefaults();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +175,7 @@ public class AlertsActivity extends AppCompatActivity {
                         switch1.setText("OFF");
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
                         lsAlerts.get(position).bActive = false;
-                        cancelReminder(AlertsActivity.this, AlarmReceiver.class);
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position);
                     }
                 }
             });
@@ -253,7 +253,7 @@ public class AlertsActivity extends AppCompatActivity {
 
     public boolean addAlert(){
         if(lsAlerts.size()<iMaxNumber){
-            lsAlerts.add(new Alert(null,null,true));
+            lsAlerts.add(new Alert(null,null,true, d.addAndGetAlertCode()));
             if(oAlertsArrayAdapter != null){
                 oAlertsArrayAdapter.notifyDataSetChanged();
             }
@@ -291,7 +291,7 @@ public class AlertsActivity extends AppCompatActivity {
                         updateCounter();
                         oAlertsArrayAdapter.notifyDataSetChanged();
                         //TODO Probably need to specify which alert we are cancelling.
-                        cancelReminder(AlertsActivity.this, AlarmReceiver.class);
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position);
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -361,17 +361,18 @@ public class AlertsActivity extends AppCompatActivity {
 
         Intent intent1 = new Intent(context, cls);
         intent1.putExtra("Name", lsAlerts.get(piposition).getName());
-        intent1.putExtra("Position", piposition);
+        //intent1.putExtra("Position", piposition);
+        intent1.putExtra("RequestCode", lsAlerts.get(piposition).getRequestCode());
         intent1.putExtra("Message", lsAlerts.get(piposition).getMessage());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1,
+                lsAlerts.get(piposition).getRequestCode(), intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         //not using repeat reminder anymore because that should be handled when the alarm wakes the device.
         am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),pendingIntent);
     }
 
-    public static void cancelReminder(Context context,Class<?> cls)
+    public static void cancelReminder(Context context,Class<?> cls, int piPosition)
     {
         // Disable a receiver
         ComponentName receiver = new ComponentName(context, cls);
@@ -382,13 +383,13 @@ public class AlertsActivity extends AppCompatActivity {
 
         Intent intent1 = new Intent(context, cls);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                lsAlerts.get(piPosition).getRequestCode(), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         am.cancel(pendingIntent);
         pendingIntent.cancel();
     }
 
-    public static void showNotification(Context context,Class<?> cls,String title,String content)
+    public static void showNotification(Context context,Class<?> cls,String title,String content, int piRequestCode)
     {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -400,7 +401,7 @@ public class AlertsActivity extends AppCompatActivity {
         stackBuilder.addNextIntent(notificationIntent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(
-                DAILY_REMINDER_REQUEST_CODE,PendingIntent.FLAG_UPDATE_CURRENT);
+                piRequestCode,PendingIntent.FLAG_UPDATE_CURRENT);
 
         android.support.v4.app.NotificationCompat.Builder builder = new android.support.v4.app.NotificationCompat.Builder(context);
         Notification notification = builder.setContentTitle(title)
@@ -410,7 +411,7 @@ public class AlertsActivity extends AppCompatActivity {
 
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification);
+        notificationManager.notify(piRequestCode, notification);
     }
 
     private static long convertToMillis(String poDate, String poTime) {
@@ -440,6 +441,51 @@ public class AlertsActivity extends AppCompatActivity {
                 //TODO set next alarm
 
             }
+        }
+    }
+
+    private void loadDefaults(){
+        Gson gson = new Gson();
+        try{
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+                return;
+            }
+
+            FileInputStream filein = openFileInput("defaultData.txt");
+            InputStreamReader isr = new InputStreamReader ( filein ) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+            String readString = buffreader.readLine ( ) ;
+
+            isr.close ( ) ;
+            buffreader.close();
+            filein.close();
+
+            if(!readString.isEmpty()){
+                d  = gson.fromJson(readString, Defaults.class);
+            }
+            else{
+                d = new Defaults();
+            }
+
+        }catch(Exception ex){
+            d = new Defaults();
+        }
+
+        if(d.isPurchasedUpgrade()){
+            iMaxNumber = Integer.MAX_VALUE;
         }
     }
 

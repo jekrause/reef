@@ -24,18 +24,20 @@ public class Alert {
     boolean bMonthly;
     boolean bYearly;
     int iIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
+    private static int iRequestCode;
     private String sDate = "00-00-00";
     private String sMessage;
     private String sName;
     private String sTime;
     private boolean[] lsDaysOfWeek = new boolean[7];
 
-    public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats) {
+    public Alert(Time poAlertTime, Calendar poRepeatSchedule, Boolean pbRepeats, int piRequestCode) {
         //// TODO: 9/7/2017
         iIcon = R.drawable.alarm_clock_black;
         bRepeats = pbRepeats == null ? false : pbRepeats;
         sName = "Alert (Tap to edit)";
         bActive = false;
+        iRequestCode = piRequestCode;
     }
 
     public void checkRepeats(){
@@ -154,5 +156,9 @@ public class Alert {
         bMonthly = false;
         for(int i = 0; i <7; i++)
             lsDaysOfWeek[i] = false;
+    }
+
+    public int getRequestCode(){
+        return iRequestCode;
     }
 }
