@@ -107,6 +107,11 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alert.setTime(picker.getHour() + ":" +String.format("%02d",picker.getMinute()));
+                if(alert.bActive){
+                    //alarm is already set for a different time so we must cancel that alarm and set a new one
+                    AlertsActivity.cancelReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                }
                 dataChanged();
             }
         });
@@ -134,6 +139,11 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
 
                 SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
                 alert.setDate(sdf.format(new Date(year, month, day)));
+                if(alert.bActive){
+                    //alarm is already set for a different time so we must cancel that alarm and set a new one
+                    AlertsActivity.cancelReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                }
                 dataChanged();
             }
         });

@@ -163,7 +163,7 @@ public class AlertsActivity extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
-                                setReminder(getApplicationContext(), AlarmReceiver.class, position);
+                                setReminder(getApplicationContext(), AlarmReceiver.class, position, null);
                             }
                         }
                         else{
@@ -176,7 +176,7 @@ public class AlertsActivity extends AppCompatActivity {
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
                         lsAlerts.get(position).bActive = false;
                         d.removeAlertCode(lsAlerts.get(position).getRequestCode());
-                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position, null);
                     }
             }
             });
@@ -292,7 +292,7 @@ public class AlertsActivity extends AppCompatActivity {
                         updateCounter();
                         oAlertsArrayAdapter.notifyDataSetChanged();
                         //TODO Probably need to specify which alert we are cancelling.
-                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                        cancelReminder(AlertsActivity.this, AlarmReceiver.class, position, null);
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -325,9 +325,16 @@ public class AlertsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public static void setReminder(Context context, Class<?> cls, int piPosition)
+    public static void setReminder(Context context, Class<?> cls, int piPosition, Alert pAlert)
     {
+        Alert alert;
         // Enable a receiver
+        if(piPosition > -1){
+            alert = lsAlerts.get(piPosition);
+        }
+        else{
+            alert = pAlert;
+        }
         ComponentName receiver = new ComponentName(context, cls);
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(receiver,
@@ -335,24 +342,29 @@ public class AlertsActivity extends AppCompatActivity {
                 PackageManager.DONT_KILL_APP);
 
         Intent intent1 = new Intent(context, cls);
-        intent1.putExtra("Name", lsAlerts.get(piPosition).getName());
+        intent1.putExtra("Name", alert.getName());
         //intent1.putExtra("Position", piposition);
-        intent1.putExtra("RequestCode", lsAlerts.get(piPosition).getRequestCode());
-        intent1.putExtra("Message", lsAlerts.get(piPosition).getMessage());
-        Log.d("MyApp", "Setting Alarm: " + lsAlerts.get(piPosition).getName() + " - request code: " + lsAlerts.get(piPosition).getRequestCode());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                lsAlerts.get(piPosition).getRequestCode(), intent1,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        intent1.putExtra("RequestCode", alert.getRequestCode());
+        intent1.putExtra("Message", alert.getMessage());
+        Log.d("MyApp", "Setting Alarm: " + alert.getName() + " - request code: " + alert.getRequestCode());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alert.getRequestCode(), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         if(pendingIntent == null)
             Log.d("MyApp", "WTF is happening!!!!!!!!!!");
         //PendingIntent pendingIntent = PendingIntent.getActivity(context,lsAlerts.get(piPosition).getRequestCode(), intent1, PendingIntent.FLAG_ONE_SHOT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         //not using repeat reminder anymore because that should be handled when the alarm wakes the device.
-        am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piPosition).getDate(), lsAlerts.get(piPosition).getTime()),pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, convertToMillis(alert.getDate(), alert.getTime()),pendingIntent);
     }
 
-    public static void cancelReminder(Context context,Class<?> cls, int piPosition)
+    public static void cancelReminder(Context context,Class<?> cls, int piPosition, Alert pAlert)
     {
+        Alert alert;
+        if(piPosition > -1){
+            alert = lsAlerts.get(piPosition);
+        }
+        else{
+            alert = pAlert;
+        }
         // Disable a receiver
         ComponentName receiver = new ComponentName(context, cls);
         PackageManager pm = context.getPackageManager();
@@ -361,8 +373,7 @@ public class AlertsActivity extends AppCompatActivity {
                 PackageManager.DONT_KILL_APP);
 
         Intent intent1 = new Intent(context, cls);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                lsAlerts.get(piPosition).getRequestCode(), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,alert.getRequestCode(), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         am.cancel(pendingIntent);
         pendingIntent.cancel();
@@ -391,6 +402,8 @@ public class AlertsActivity extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(piRequestCode, notification);
+        //TODO Reevaluate alarm list
+
     }
 
     private static long convertToMillis(String poDate, String poTime) {
@@ -408,7 +421,11 @@ public class AlertsActivity extends AppCompatActivity {
         return i;
     }
 
-    public static void checkAlarms(){
+    public static void checkAlarmList(){
+
+    }
+
+    public static void checkAlarms(Context pContext){
         //TODO
         Log.d("MyApp", "(checkAlarms) start of method");
         for(Alert alert:lsAlerts){
@@ -417,8 +434,8 @@ public class AlertsActivity extends AppCompatActivity {
             if(alert.bRepeats && convertToMillis(alert.getDate(), alert.getTime()) < System.currentTimeMillis()){
                 //set new date and time for it.
                 alert.computeNextAlarm();
-                //TODO set next alarm
-
+                //TODO below
+                setReminder(pContext, AlarmReceiver.class, -1, alert);
             }
         }
     }

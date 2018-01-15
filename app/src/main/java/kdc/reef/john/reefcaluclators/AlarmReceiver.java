@@ -41,12 +41,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Log.d(TAG, "onReceive: BOOT_COMPLETED");
                 lsAlerts = AlertsActivity.lsAlerts;
                 for (int i = 0; i < lsAlerts.size(); i++) {
-                    AlertsActivity.setReminder(context, AlarmReceiver.class, i);
+                    AlertsActivity.setReminder(context, AlarmReceiver.class, i, null);
                 }
             }
         } else {
             AlertsActivity.showNotification(context, MainActivity.class, intent.getStringExtra("Name"), intent.getStringExtra("Message"), intent.getIntExtra("RequestCode", -1));
-            AlertsActivity.checkAlarms();
+            AlertsActivity.checkAlarms(context);
         }
     }
 }
