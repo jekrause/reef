@@ -24,7 +24,7 @@ public class Alert {
     boolean bMonthly;
     boolean bYearly;
     int iIcon; //Set icon that will show up for alert (water bucket, test tube, etc...)
-    private static int iRequestCode;
+    private int iRequestCode;
     private String sDate = "00-00-00";
     private String sMessage;
     private String sName;

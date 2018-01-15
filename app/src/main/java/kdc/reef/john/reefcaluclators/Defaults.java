@@ -72,6 +72,7 @@ public class Defaults implements Serializable{
                 return i;
             }
         }
+        Log.d("MyApp", "failed. Returning " + i);
         return i;
     }
     /*

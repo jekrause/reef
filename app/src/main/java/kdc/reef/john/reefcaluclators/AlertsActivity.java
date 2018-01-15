@@ -163,7 +163,7 @@ public class AlertsActivity extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
-                                setReminder(AlertsActivity.this, AlarmReceiver.class, position);
+                                setReminder(getApplicationContext(), AlarmReceiver.class, position);
                             }
                         }
                         else{
@@ -175,9 +175,10 @@ public class AlertsActivity extends AppCompatActivity {
                         switch1.setText("OFF");
                         lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
                         lsAlerts.get(position).bActive = false;
+                        d.removeAlertCode(lsAlerts.get(position).getRequestCode());
                         cancelReminder(AlertsActivity.this, AlarmReceiver.class, position);
                     }
-                }
+            }
             });
             //switch1.setChecked(lsAlerts.get(position).bActive);
             oAlertsArrayAdapter.notifyDataSetChanged();
@@ -320,37 +321,11 @@ public class AlertsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Gson gson = new Gson();
-        String str = gson.toJson(lsAlerts);
-        try{
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                    // Explain to the user why we need to read the contacts
-                }
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
-
-                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-                // app-defined int constant that should be quite unique
-                return;
-            }
-            FileOutputStream fileout = openFileOutput("alertData.txt", MODE_PRIVATE);
-            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
-            outputWriter.write(str);
-            outputWriter.close();
-            fileout.close();
-            Log.d("MyApp", "Data Saved: " + str);
-        }catch (Exception ex){
-            Log.d("MyApp", ex.toString());
-        }
+        saveData();
         super.onBackPressed();
     }
 
-    public static void setReminder(Context context, Class<?> cls, int piposition)
+    public static void setReminder(Context context, Class<?> cls, int piPosition)
     {
         // Enable a receiver
         ComponentName receiver = new ComponentName(context, cls);
@@ -360,16 +335,20 @@ public class AlertsActivity extends AppCompatActivity {
                 PackageManager.DONT_KILL_APP);
 
         Intent intent1 = new Intent(context, cls);
-        intent1.putExtra("Name", lsAlerts.get(piposition).getName());
+        intent1.putExtra("Name", lsAlerts.get(piPosition).getName());
         //intent1.putExtra("Position", piposition);
-        intent1.putExtra("RequestCode", lsAlerts.get(piposition).getRequestCode());
-        intent1.putExtra("Message", lsAlerts.get(piposition).getMessage());
+        intent1.putExtra("RequestCode", lsAlerts.get(piPosition).getRequestCode());
+        intent1.putExtra("Message", lsAlerts.get(piPosition).getMessage());
+        Log.d("MyApp", "Setting Alarm: " + lsAlerts.get(piPosition).getName() + " - request code: " + lsAlerts.get(piPosition).getRequestCode());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                lsAlerts.get(piposition).getRequestCode(), intent1,
+                lsAlerts.get(piPosition).getRequestCode(), intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);
+        if(pendingIntent == null)
+            Log.d("MyApp", "WTF is happening!!!!!!!!!!");
+        //PendingIntent pendingIntent = PendingIntent.getActivity(context,lsAlerts.get(piPosition).getRequestCode(), intent1, PendingIntent.FLAG_ONE_SHOT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         //not using repeat reminder anymore because that should be handled when the alarm wakes the device.
-        am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piposition).getDate(), lsAlerts.get(piposition).getTime()),pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, convertToMillis(lsAlerts.get(piPosition).getDate(), lsAlerts.get(piPosition).getTime()),pendingIntent);
     }
 
     public static void cancelReminder(Context context,Class<?> cls, int piPosition)
@@ -486,6 +465,36 @@ public class AlertsActivity extends AppCompatActivity {
 
         if(d.isPurchasedUpgrade()){
             iMaxNumber = Integer.MAX_VALUE;
+        }
+    }
+
+    private void saveData(){
+        Gson gson = new Gson();
+        String str = gson.toJson(lsAlerts);
+        try{
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Explain to the user why we need to read the contacts
+                }
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 80085);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+                return;
+            }
+            FileOutputStream fileout = openFileOutput("alertData.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(str);
+            outputWriter.close();
+            fileout.close();
+            Log.d("MyApp", "Data Saved: " + str);
+        }catch (Exception ex){
+            Log.d("MyApp", ex.toString());
         }
     }
 
