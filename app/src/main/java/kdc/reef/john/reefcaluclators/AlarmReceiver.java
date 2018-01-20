@@ -38,9 +38,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (intent.getAction() != null && context != null) {
             if (intent.getAction().equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
                 // Set the alarm here.
-                Log.d(TAG, "onReceive: BOOT_COMPLETED");
-                lsAlerts = AlertsActivity.lsAlerts;
+                Log.d(TAG, "AlarmReceiver (onReceive) BOOT_COMPLETED");
+                lsAlerts = AlertsActivity.loadAlerts();
+                Log.d(TAG, "AlarmReceiver (onReceive) Number of Alarms to set = " + lsAlerts.size());
                 for (int i = 0; i < lsAlerts.size(); i++) {
+                    Log.d(TAG, "AlarmReceiver (onReceive) Setting Alarm #" + i);
                     AlertsActivity.setReminder(context, AlarmReceiver.class, i, null);
                 }
             }

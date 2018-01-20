@@ -79,8 +79,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ViewAlertActivity"></activity>
         <!-- Register the Alarm Receiver -->
-        <receiver android:name=".AlarmReceiver"
-            android:enabled="false">
+        <receiver android:name=".AlarmReceiver" android:enabled="true" android:exported="false" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
