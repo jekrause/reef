@@ -163,7 +163,7 @@ public class AlertsActivity extends AppCompatActivity {
                             }
                             else{
                                 Toast.makeText(AlertsActivity.this, "Alarm set for " + lsAlerts.get(position).getDate() +" at "+lsAlerts.get(position).getTime(), Toast.LENGTH_SHORT).show();
-                                setReminder(getApplicationContext(), AlarmReceiver.class, position, null);
+                                setReminder(getApplicationContext(), AlarmReceiver.class, position, null, null);
                             }
                         }
                         else{
@@ -325,8 +325,11 @@ public class AlertsActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public static void setReminder(Context context, Class<?> cls, int piPosition, Alert pAlert)
+    public static void setReminder(Context context, Class<?> cls, int piPosition, Alert pAlert, List<Alert> plsAlerts)
     {
+        if(lsAlerts.size() == 0 && plsAlerts != null){
+            lsAlerts = plsAlerts;
+        }
         Alert alert;
         // Enable a receiver
         if(piPosition > -1){
@@ -435,7 +438,7 @@ public class AlertsActivity extends AppCompatActivity {
                 //set new date and time for it.
                 alert.computeNextAlarm();
                 //TODO below
-                setReminder(pContext, AlarmReceiver.class, -1, alert);
+                setReminder(pContext, AlarmReceiver.class, -1, alert, null);
             }
         }
     }

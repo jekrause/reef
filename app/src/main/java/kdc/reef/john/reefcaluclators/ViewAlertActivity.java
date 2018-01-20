@@ -110,7 +110,7 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
                 if(alert.bActive){
                     //alarm is already set for a different time so we must cancel that alarm and set a new one
                     AlertsActivity.cancelReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
-                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert, null);
                 }
                 dataChanged();
             }
@@ -142,7 +142,7 @@ public class ViewAlertActivity extends AppCompatActivity implements View.OnClick
                 if(alert.bActive){
                     //alarm is already set for a different time so we must cancel that alarm and set a new one
                     AlertsActivity.cancelReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
-                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert);
+                    AlertsActivity.setReminder(getApplicationContext(), AlarmReceiver.class, -1, alert, null);
                 }
                 dataChanged();
             }
