@@ -49,16 +49,16 @@ public class Alert {
         for(int i=0; i<lsDaysOfWeek.length; i++){
             if(lsDaysOfWeek[i]){
                 bRepeats = true;
-                Log.d("MyApp","(checkRepeats) setting bRepeats = true");
+                Log.d("MyApp","Alert (checkRepeats) setting bRepeats = true");
                 return;
             }
         }
-        Log.d("MyApp","(checkRepeats) setting bRepeats = true");
+        Log.d("MyApp","Alert (checkRepeats) setting bRepeats = true");
         bRepeats = false;
     }
 
     public void computeNextAlarm(){
-        Log.d("MyApp", "(computeNextAlarm) start of method");
+        Log.d("MyApp", "Alert (computeNextAlarm) start of method");
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         //Math for getting next time.
@@ -80,14 +80,14 @@ public class Alert {
             int index;
             for(index = 1; index < 7; index++){
                 if(lsDaysOfWeek[(index + todayDay)% 6]) {
-                    Log.d("MyApp", "(computeNextAlarm) next day of week is " + index);
+                    Log.d("MyApp", "Alert (computeNextAlarm) next day of week is " + index);
                     break;
                 }
             }
             calendar.add(Calendar.DATE, index+1);
             sDate = sdf.format(calendar.getTime());
         }
-        Log.d("MyApp", "(computeNextAlarm) next date is " + sDate);
+        Log.d("MyApp", "Alert (computeNextAlarm) next date is " + sDate);
     }
 
     public String getMessage(){

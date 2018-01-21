@@ -55,19 +55,23 @@ import java.util.List;
 public class AlertsActivity extends AppCompatActivity {
 
     NotificationCompat.Builder oNotification;
-    public static List<Alert> lsAlerts = new ArrayList<>();
-    ArrayAdapter<Alert> oAlertsArrayAdapter;
-    int iMaxNumber = 2;
+    public static List<Alert> lsAlerts;
+    static ArrayAdapter<Alert> oAlertsArrayAdapter;
+    int iMaxNumber;
     private static final int iUniqueID = 493940594;
     Defaults d;
 
     ListView viewListView;
     TextView txtCounter;
 
+    private final String TAG = "MyApp";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerts);
+        if (lsAlerts == null)
+            lsAlerts = new ArrayList<>();
         loadDefaults();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +87,7 @@ public class AlertsActivity extends AppCompatActivity {
         });
         Log.d("MyApp","new Arraylist");
         txtCounter = (TextView) findViewById(R.id.txtCounter);
+        updateCounter();
         Log.d("MyApp","Refresh Listings");
         refreshListings();
         Log.d("MyApp","RegisterClickCallBack");
@@ -98,6 +103,7 @@ public class AlertsActivity extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
+            Log.d(TAG, "AlertsActivity - MyListAdapter(getView) Setting up list adapter for " + lsAlerts.size() + " alerts.");
             //make sure we have a view to work with
             View alertView = convertView;
             if(alertView == null) {
@@ -141,16 +147,25 @@ public class AlertsActivity extends AppCompatActivity {
                 tempText = "Does not repeat";
             txtRepeats.setText(tempText);
             final Switch switch1 = (Switch) alertView.findViewById(R.id.switch1);
-            if(lsAlerts.get(position).getTime()==null || (convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis() && (!lsAlerts.get(position).bRepeats && lsAlerts.get(position).bActive))){
+            // if (time is not set) or (time has passed and not(repeats and active) or (not active)
+
+            if(lsAlerts.get(position).getTime()==null || (convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) < System.currentTimeMillis() && !(lsAlerts.get(position).bRepeats && lsAlerts.get(position).bActive)) || !lsAlerts.get(position).bActive){
+                Log.d(TAG, "AlertsActivity - MyListAdapter(getView) Setting alert graphics to off");
                 lsAlerts.get(position).iIcon = R.drawable.alarm_clock_black;
-                lsAlerts.get(position).bActive = false;
                 switch1.setChecked(false);
+            }
+            else{
+                Log.d(TAG, "AlertsActivity - MyListAdapter(getView) Setting alert graphics to on");
+                lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
+                switch1.setChecked(true);
             }
             switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Log.d(TAG, "AlertsActivity - MyListAdapter(setOnCheckedChangeListener) start of method.");
+
                     if(isChecked){
-                        //TODO check if time has passed before doing anything
+                        //check if time has passed before doing anything
                         if((lsAlerts.get(position).getTime() == null || lsAlerts.get(position).getDate()=="00-00-0000") || convertToMillis(lsAlerts.get(position).getDate(), lsAlerts.get(position).getTime()) > System.currentTimeMillis()){
                             switch1.setText("ON ");
                             lsAlerts.get(position).iIcon = R.drawable.alarm_clock_red;
@@ -291,7 +306,6 @@ public class AlertsActivity extends AppCompatActivity {
                         lsAlerts.remove(position);
                         updateCounter();
                         oAlertsArrayAdapter.notifyDataSetChanged();
-                        //TODO Probably need to specify which alert we are cancelling.
                         cancelReminder(AlertsActivity.this, AlarmReceiver.class, position, null);
                     }
                 });
@@ -406,7 +420,7 @@ public class AlertsActivity extends AppCompatActivity {
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(piRequestCode, notification);
         //TODO Reevaluate alarm list
-
+        checkAlarms(context);
     }
 
     private static long convertToMillis(String poDate, String poTime) {
@@ -424,20 +438,17 @@ public class AlertsActivity extends AppCompatActivity {
         return i;
     }
 
-    public static void checkAlarmList(){
-
-    }
-
     public static void checkAlarms(Context pContext){
         //TODO
         Log.d("MyApp", "(checkAlarms) start of method");
         for(Alert alert:lsAlerts){
+            //Check to see if the bRepeats variable should be updated.
             alert.checkRepeats();
             //Check if the alarm is repeating and the time has passed.
             if(alert.bRepeats && convertToMillis(alert.getDate(), alert.getTime()) < System.currentTimeMillis()){
                 //set new date and time for it.
                 alert.computeNextAlarm();
-                //TODO below
+                //set the new alarm
                 setReminder(pContext, AlarmReceiver.class, -1, alert, null);
             }
         }
@@ -485,6 +496,9 @@ public class AlertsActivity extends AppCompatActivity {
 
         if(d.isPurchasedUpgrade()){
             iMaxNumber = Integer.MAX_VALUE;
+        }
+        else{
+            iMaxNumber = 2;
         }
     }
 
